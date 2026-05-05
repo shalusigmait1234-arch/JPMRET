@@ -65,33 +65,39 @@ const HeroSection = () => {
   );
 
   return (
-    <div className="banner-area-two three">
+    <div className="relative overflow-hidden">
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 5000 }}
         loop={slides.length > 1}
-        className="banner-slider"
+        className="hero-slider"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="banner-slider-item" style={{ backgroundImage: `url(${getImageUrl(slide.img)})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-              <div className="d-table">
-                <div className="d-table-cell">
-                  <div className="container">
-                    <div className="banner-content">
-                      <h1 
-                        className="font-['DM_Serif_Display',serif]"
-                        dangerouslySetInnerHTML={{ __html: slide.title }}
-                      ></h1>
-                      <p dangerouslySetInnerHTML={{ __html: slide.desc }}></p>
-                      <div className="banner-btn-area">
-                        <a className="banner-btn" href={slide.link}>
-                          {slide.btnText || 'Explore More'} <i className="icofont-arrow-right"></i>
-                        </a>
-                      </div>
-                    </div>
+            <div 
+              className="relative min-h-[500px] md:min-h-[650px] lg:min-h-[800px] flex items-center bg-cover bg-center"
+              style={{ backgroundImage: `linear-gradient(rgba(0,30,56,0.7), rgba(0,30,56,0.7)), url(${getImageUrl(slide.img)})` }}
+            >
+              <div className="max-w-[1170px] mx-auto px-4 w-full">
+                <div className="max-w-3xl">
+                  <h1 
+                    className="text-white text-3xl md:text-5xl lg:text-6xl font-bold font-['DM_Serif_Display',serif] mb-6 leading-tight drop-shadow-lg"
+                    dangerouslySetInnerHTML={{ __html: slide.title }}
+                  ></h1>
+                  <p 
+                    className="text-white text-lg md:text-xl mb-10 leading-relaxed opacity-90 drop-shadow-md"
+                    dangerouslySetInnerHTML={{ __html: slide.desc }}
+                  ></p>
+                  <div className="flex flex-wrap gap-4">
+                    <a 
+                      href={slide.link}
+                      className="bg-white text-[#001e38] px-8 py-3 rounded-md font-semibold hover:bg-[#bd9143] hover:text-white transition-all duration-300 flex items-center gap-2 shadow-lg"
+                    >
+                      {slide.btnText || 'Explore More'} 
+                      <i className="icofont-arrow-right"></i>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -99,6 +105,33 @@ const HeroSection = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      
+      {/* Custom Slider Navigation Styles */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .swiper-button-next, .swiper-button-prev {
+          color: white !important;
+          background: rgba(255,255,255,0.1);
+          width: 50px !important;
+          height: 50px !important;
+          border-radius: 50%;
+          backdrop-filter: blur(4px);
+        }
+        .swiper-button-next:after, .swiper-button-prev:after {
+          font-size: 20px !important;
+        }
+        .swiper-pagination-bullet {
+          background: white !important;
+          opacity: 0.5;
+          width: 12px;
+          height: 12px;
+        }
+        .swiper-pagination-bullet-active {
+          background: #bd9143 !important;
+          opacity: 1;
+          width: 30px;
+          border-radius: 6px;
+        }
+      `}} />
     </div>
   );
 };

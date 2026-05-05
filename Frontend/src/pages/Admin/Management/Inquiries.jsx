@@ -1,7 +1,6 @@
 
 import { useGetInquiriesQuery, useUpdateInquiryStatusMutation } from '../../../store/api/adminApi';
-import { Mail, Phone, Calendar, Clock, CheckCircle, Eye } from 'lucide-react';
-
+import { Mail, Phone, Calendar, Clock, CheckCircle, Eye, ShieldCheck } from 'lucide-react';
 const Inquiries = () => {
   const { data: inquiries, isLoading } = useGetInquiriesQuery();
   const [updateStatus] = useUpdateInquiryStatusMutation();

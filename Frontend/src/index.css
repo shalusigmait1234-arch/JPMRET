@@ -4,124 +4,62 @@
   --color-primary: #001e38;
   --color-secondary: #bd9143;
   --color-heading: #013b6d;
+  --font-serif: "DM Serif Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-gray-800 font-sans leading-relaxed overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif leading-tight;
+  }
 }
 
 #root {
-  width: 100% !important;
-  min-height: 100vh;
+  @apply w-full min-h-screen flex flex-col;
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+  @apply max-w-full h-auto;
 }
 
-/* 
-  NAVBAR VISIBILITY FIX 
-*/
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
 
-/* 1. Desktop Nav Visibility */
-@media only screen and (min-width: 992px) {
-  .navbar-area .main-nav {
-    display: block !important;
-    background: #fff !important;
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #001e38;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bd9143;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  .navbar-area .main-nav .navbar-collapse {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  .navbar-area .main-nav .navbar-nav {
-    display: flex !important;
-    flex-direction: row !important;
-    margin-left: auto !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  /* Main Menu Links - Dark */
-  .navbar-area .main-nav .navbar-nav>.nav-item>.nav-link {
-    color: #302c51 !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    padding: 5px 15px !important;
-  }
-
-  .navbar-area .main-nav .navbar-nav>.nav-item>.nav-link.active {
-    color: #bd9143 !important;
-  }
-
-  /* Dropdown Links - White */
-  .main-nav nav .navbar-nav .nav-item .dropdown-menu li a {
-    color: #fff !important;
-    text-transform: capitalize !important;
-    font-weight: 500 !important;
-    font-size: 16px !important;
-    padding: 10px 20px !important;
-    display: block !important;
-  }
-
-  .main-nav nav .navbar-nav .nav-item .dropdown-menu li a:hover {
-    color: #bd9143 !important;
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  /* Hide mobile nav on desktop */
-  .mobile-nav {
-    display: none !important;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* 2. Mobile Nav Visibility */
-@media only screen and (max-width: 991px) {
-  .main-nav {
-    display: none !important;
-  }
-
-  .mobile-nav {
-    display: block !important;
-  }
-
-  .mobile-nav .mean-container .mean-nav ul li a {
-    color: #302c51 !important;
-  }
-}
-
-/* 3. Logo Sizing */
-.navbar-brand img {
-  width: 250px !important;
-  height: auto !important;
-}
-
-.navbar-brand, .navbar {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-/* 4. Dropdown Hover logic */
-.main-nav .nav-item {
-  position: relative;
-}
-
-.main-nav .nav-item:hover>.dropdown-menu {
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  top: 100% !important;
-}
-
-.main-nav .dropdown-menu {
-  background: #00618a !important;
-  /* Original dark blue background */
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out forwards;
 }

@@ -15,8 +15,7 @@ const TransformLives = () => {
 
   const breadcrumbs = [
     { label: 'Home', path: '/' },
-    { label: 'Coverage', path: '#' },
-    { label: 'Transform Lives', path: '/coverage/transform-lives' }
+    { label: 'Transform Lives' }
   ];
 
   const defaultData = {
@@ -40,74 +39,61 @@ const TransformLives = () => {
 
   const data = coverage || defaultData;
 
-  if (isLoading) return <div className="pt-100 pb-100 text-center">Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="py-20 flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#bd9143]"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white min-h-screen pb-12">
+    <div className="bg-white min-h-screen">
       <PageTitle title={data.title} breadcrumbs={breadcrumbs} />
-      
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="row items-start mb-10">
-            <div className="col-lg-7">
-              <div className="pr-lg-5">
-                <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#003060] mb-6">
-                  {data.title}
-                </h1>
-                <div className="space-y-6 text-[#444] text-lg leading-relaxed">
-                  {data.description.map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
+
+      <section className="py-20">
+        <div className="max-w-[1170px] mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+            <div className="w-full lg:w-7/12">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif] leading-tight">
+                {data.title}
+              </h2>
+              <div className="w-16 h-[2px] bg-[#f06f14] mb-8"></div>
+              
+              <div className="space-y-6 text-[#45443F] text-lg leading-relaxed font-medium mb-12">
+                {data.description.map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
               </div>
+
+              {data.features && data.features.length > 0 && (
+                <div className="bg-gray-50 p-8 rounded-2xl shadow-sm">
+                  <h3 className="text-2xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Key Features:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                    {data.features.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-3 group">
+                        <div className="w-6 h-6 rounded-full bg-[#bd9143]/10 flex items-center justify-center mt-1 group-hover:bg-[#bd9143] transition-colors">
+                          <i className="fa-solid fa-check text-[#bd9143] text-xs group-hover:text-white transition-colors"></i>
+                        </div>
+                        <span className="text-[#45443F] font-medium">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             
-            <div className="col-lg-5 mt-8 mt-lg-0">
-              <div className="relative">
+            <div className="w-full lg:w-5/12 sticky top-24">
+              <div className="relative group">
+                <div className="absolute -inset-4 bg-gray-50 rounded-2xl group-hover:bg-gray-100 transition-colors -z-10"></div>
                 <img 
                   src={getImageUrl(data.image)} 
+                  className="w-full h-auto rounded-lg shadow-xl transform group-hover:scale-[1.02] transition-transform duration-500" 
                   alt={data.title} 
-                  className="rounded-lg shadow-lg w-full object-cover"
                 />
               </div>
             </div>
           </div>
-
-          {data.features && data.features.length > 0 && (
-            <div className="mt-12">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#003060] mb-8">
-                Key Features:
-              </h2>
-              <div className="row">
-                <div className="col-md-6">
-                  {data.features.slice(0, Math.ceil(data.features.length / 2)).map((feature, index) => (
-                    <div key={index} className="flex items-start gap-3 mb-4">
-                      <div className="flex-shrink-0 mt-1">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="12" cy="12" r="10" fill="#BD9143" />
-                          <path d="M7 12L10 15L17 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </div>
-                      <span className="text-[#444] text-lg leading-snug">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="col-md-6">
-                  {data.features.slice(Math.ceil(data.features.length / 2)).map((feature, index) => (
-                    <div key={index} className="flex items-start gap-3 mb-4">
-                      <div className="flex-shrink-0 mt-1">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="12" cy="12" r="10" fill="#BD9143" />
-                          <path d="M7 12L10 15L17 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </div>
-                      <span className="text-[#444] text-lg leading-snug">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </section>
     </div>

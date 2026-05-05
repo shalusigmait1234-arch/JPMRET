@@ -9,11 +9,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsSticky(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -26,116 +22,126 @@ const Navbar = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
-  const toggleDropdown = (e, name) => {
-    if (window.innerWidth <= 991) {
-      e.preventDefault();
-      setActiveDropdown(activeDropdown === name ? null : name);
-    }
+  const toggleDropdown = (name) => {
+    setActiveDropdown(activeDropdown === name ? null : name);
   };
 
-  return (
-    <div className="navbar-area sticky-top">
-      {/* Mobile Nav */}
-      <div className="mobile-nav">
-        <Link to="/" className="logo">
-          <img src="/assets/img/logo/logo.jpg" alt="Logo" />
-        </Link>
-        
-        <div className="mean-container">
-          <div className="mean-bar">
-            <a 
-              href="#" 
-              className={`meanmenu-reveal ${isMenuOpen ? 'meanclose' : ''}`} 
-              onClick={(e) => { e.preventDefault(); toggleMenu(); }}
-              style={{ right: '0', left: 'auto', textAlign: 'center', textIndent: '0px', fontSize: '18px' }}
-            >
-              {isMenuOpen ? 'X' : (
-                <>
-                  <span></span><span></span><span></span>
-                </>
-              )}
-            </a>
-            
-            <nav className="mean-nav" style={{ display: isMenuOpen ? 'block' : 'none' }}>
-              <ul className="navbar-nav">
-                <li className="nav-item"><Link to="/" className="nav-link">Home</Link></li>
-                <li className="nav-item"><Link to="/about" className="nav-link">About Us</Link></li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link dropdown-toggle" onClick={(e) => toggleDropdown(e, 'coverage')}>
-                    Coverage <i className="icofont-simple-down"></i>
-                  </a>
-                  <ul className="dropdown-menu" style={{ display: activeDropdown === 'coverage' ? 'block' : 'none' }}>
-                    <li><Link to="/coverage/agriculture" className="nav-link">Agriculture Development</Link></li>
-                    <li><Link to="/coverage/local-participation" className="nav-link">Local participation</Link></li>
-                    <li><Link to="/coverage/transform-lives" className="nav-link">Transform lives</Link></li>
-                    <li><Link to="/coverage/water-management" className="nav-link">Water Management</Link></li>
-                  </ul>
-                  <a className="mean-expand" href="#" onClick={(e) => toggleDropdown(e, 'coverage')}>{activeDropdown === 'coverage' ? '-' : '+'}</a>
-                </li>
-                <li className="nav-item"><Link to="/reports" className="nav-link">Reports</Link></li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link dropdown-toggle" onClick={(e) => toggleDropdown(e, 'gallery')}>
-                    Gallery <i className="icofont-simple-down"></i>
-                  </a>
-                  <ul className="dropdown-menu" style={{ display: activeDropdown === 'gallery' ? 'block' : 'none' }}>
-                    <li><Link to="/gallery" className="nav-link">Photo Gallery</Link></li>
-                    <li><Link to="/print-media" className="nav-link">Print Media</Link></li>
-                  </ul>
-                  <a className="mean-expand" href="#" onClick={(e) => toggleDropdown(e, 'gallery')}>{activeDropdown === 'gallery' ? '-' : '+'}</a>
-                </li>
-                <li className="nav-item"><Link to="/downloads" className="nav-link">Downloads</Link></li>
-                <li className="nav-item last-child"><Link to="/contact" className="nav-link">Contact Us</Link></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { 
+      name: 'Coverage', 
+      dropdown: [
+        { name: 'Agriculture Development', path: '/coverage/agriculture' },
+        { name: 'Local participation', path: '/coverage/local-participation' },
+        { name: 'Transform lives', path: '/coverage/transform-lives' },
+        { name: 'Water Management', path: '/coverage/water-management' },
+      ]
+    },
+    { name: 'Reports', path: '/reports' },
+    { 
+      name: 'Gallery', 
+      dropdown: [
+        { name: 'Photo Gallery', path: '/gallery' },
+        { name: 'Print Media', path: '/print-media' },
+      ]
+    },
+    { name: 'Downloads', path: '/downloads' },
+    { name: 'Contact Us', path: '/contact' },
+  ];
 
-      {/* Main Nav */}
-      <div className={`main-nav five-color-border ${isSticky ? 'menu-shrink' : ''}`}>
-        <div className="container">
-          <nav className="navbar navbar-expand-md navbar-light">
-            <Link className="navbar-brand" to="/">
-              <img src="/assets/img/logo/logo.jpg" className="logo-one" alt="Logo" />
-              <img src="/assets/img/logo/logo.jpg" className="logo-two" alt="Logo" />
-            </Link>
-            
-            <div className="navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
+  return (
+    <div className={`w-full z-[9999] transition-all duration-500 ${isSticky ? 'fixed top-0 bg-white shadow-lg' : 'relative bg-white'}`}>
+      <div className="max-w-[1170px] mx-auto px-4">
+        <nav className="flex items-center justify-between py-2">
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0">
+            <img src="/assets/img/logo/logo.jpg" alt="Logo" className="w-[180px] md:w-[250px] h-auto" />
+          </Link>
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center">
+            <ul className="flex items-center">
+              {navLinks.map((link, idx) => (
+                <li key={idx} className="relative group px-4 py-6">
+                  {link.dropdown ? (
+                    <>
+                      <button className="flex items-center text-[#302c51] font-semibold text-sm uppercase hover:text-[#bd9143] transition-colors">
+                        {link.name} <i className="icofont-simple-down ml-1"></i>
+                      </button>
+                      <ul className="absolute left-0 top-full w-64 bg-[#00618a] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-xl z-50">
+                        {link.dropdown.map((sub, sIdx) => (
+                          <li key={sIdx} className="border-b border-white/10 last:border-0">
+                            <Link 
+                              to={sub.path} 
+                              className="block px-6 py-3 text-white font-medium hover:bg-white/10 hover:pl-8 transition-all duration-300"
+                            >
+                              {sub.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <Link 
+                      to={link.path} 
+                      className={`text-[#302c51] font-semibold text-sm uppercase hover:text-[#bd9143] transition-colors ${location.pathname === link.path ? 'text-[#bd9143]' : ''}`}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
-                <li className="nav-item">
-                  <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}>About Us</Link>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link dropdown-toggle">Coverage <i className="icofont-simple-down"></i></a>
-                  <ul className="dropdown-menu">
-                    <li className="nav-item"><Link to="/coverage/agriculture" className="nav-link">Agriculture Development</Link></li>
-                    <li className="nav-item"><Link to="/coverage/local-participation" className="nav-link">Local participation</Link></li>
-                    <li className="nav-item"><Link to="/coverage/transform-lives" className="nav-link">Transform lives</Link></li>
-                    <li className="nav-item"><Link to="/coverage/water-management" className="nav-link">Water Management</Link></li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <Link to="/reports" className={`nav-link ${location.pathname === '/reports' ? 'active' : ''}`}>Reports</Link>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link dropdown-toggle">Gallery <i className="icofont-simple-down"></i></a>
-                  <ul className="dropdown-menu">
-                    <li className="nav-item"><Link to="/gallery" className="nav-link">Photo Gallery</Link></li>
-                    <li className="nav-item"><Link to="/print-media" className="nav-link">Print Media</Link></li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <Link to="/downloads" className={`nav-link ${location.pathname === '/downloads' ? 'active' : ''}`}>Downloads</Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>Contact Us</Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
+              ))}
+            </ul>
+          </div>
+
+          {/* Mobile Toggle */}
+          <button 
+            className="lg:hidden text-[#302c51] p-2 focus:outline-none"
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? (
+              <i className="icofont-close text-3xl"></i>
+            ) : (
+              <i className="icofont-navigation-menu text-3xl"></i>
+            )}
+          </button>
+        </nav>
+
+        {/* Mobile Menu */}
+        <div className={`lg:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? 'max-h-[1000px] border-t border-gray-100' : 'max-h-0'}`}>
+          <ul className="py-4">
+            {navLinks.map((link, idx) => (
+              <li key={idx} className="border-b border-gray-50 last:border-0">
+                {link.dropdown ? (
+                  <div>
+                    <button 
+                      className="flex items-center justify-between w-full px-4 py-3 text-[#302c51] font-semibold"
+                      onClick={() => toggleDropdown(link.name)}
+                    >
+                      {link.name} <i className={`icofont-simple-down transition-transform duration-300 ${activeDropdown === link.name ? 'rotate-180' : ''}`}></i>
+                    </button>
+                    <ul className={`bg-gray-50 overflow-hidden transition-all duration-300 ${activeDropdown === link.name ? 'max-h-64' : 'max-h-0'}`}>
+                      {link.dropdown.map((sub, sIdx) => (
+                        <li key={sIdx}>
+                          <Link to={sub.path} className="block px-8 py-2 text-sm text-[#302c51] hover:text-[#bd9143]">
+                            {sub.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <Link 
+                    to={link.path} 
+                    className={`block px-4 py-3 text-[#302c51] font-semibold ${location.pathname === link.path ? 'text-[#bd9143]' : ''}`}
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

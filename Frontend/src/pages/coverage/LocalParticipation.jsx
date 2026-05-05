@@ -2,6 +2,8 @@ import React from 'react';
 import { useGetCoverageQuery } from '../../store/api/contentApi';
 import { API_BASE_URL } from '../../config';
 
+import PageTitle from '../../components/PageTitle';
+
 const LocalParticipation = () => {
   const { data: coverage, isLoading } = useGetCoverageQuery('local-participation');
 
@@ -33,71 +35,65 @@ const LocalParticipation = () => {
 
   const data = coverage || defaultData;
 
-  if (isLoading) return <div className="pt-100 pb-100 text-center">Loading...</div>;
+  const breadcrumbs = [
+    { label: 'Home', path: '/' },
+    { label: data.title }
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="py-20 flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#bd9143]"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="local-participation-page">
-      <div className="page-title-area title-bg-one">
-        <div className="d-table">
-          <div className="d-table-cell">
-            <div className="container">
-              <div className="title-item">
-                <h2>{data.title}</h2>
-                <ul>
-                  <li><a href="/">Home</a></li>
-                  <li><span>{data.title}</span></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="bg-white min-h-screen">
+      <PageTitle title={data.title} breadcrumbs={breadcrumbs} />
 
-      <section className="cta-layout3 presence-section pb-5 pt-100">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-7">
-              <h2 className="title mb-3">{data.title}</h2>
-              <div className="underline"></div>
-              <div className="about-right">
+      <section className="py-20">
+        <div className="max-w-[1170px] mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+            <div className="w-full lg:w-7/12">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif] leading-tight">
+                {data.title}
+              </h2>
+              <div className="w-16 h-[2px] bg-[#f06f14] mb-8"></div>
+              
+              <div className="space-y-6 text-[#45443F] text-lg leading-relaxed font-medium mb-12">
                 {data.description.map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
               </div>
-            </div>
-            <div className="col-lg-5">
-              <div className="about-img mb-4">
-                <img src={getImageUrl(data.image)} className="rounded-lg shadow-lg w-full object-cover mobimg" alt={data.title} />
-              </div>
-            </div>
-            
-            {data.features && data.features.length > 0 && (
-              <div className="col-12 mt-5">
-                <h3>Key Features:</h3>
-                <div className="row mt-3">
-                  <div className="col-lg-6">
-                    <ul className="service_list list-none p-0">
-                      {data.features.slice(0, Math.ceil(data.features.length / 2)).map((feature, i) => (
-                        <li key={i} className="mb-3 flex items-start gap-2">
-                          <i className="fa-solid fa-circle-check text-[#bd9143] mt-1"></i> 
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="col-lg-6">
-                    <ul className="service_list list-none p-0">
-                      {data.features.slice(Math.ceil(data.features.length / 2)).map((feature, i) => (
-                        <li key={i} className="mb-3 flex items-start gap-2">
-                          <i className="fa-solid fa-circle-check text-[#bd9143] mt-1"></i> 
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+
+              {data.features && data.features.length > 0 && (
+                <div className="bg-gray-50 p-8 rounded-2xl shadow-sm">
+                  <h3 className="text-2xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Key Features:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                    {data.features.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-3 group">
+                        <div className="w-6 h-6 rounded-full bg-[#bd9143]/10 flex items-center justify-center mt-1 group-hover:bg-[#bd9143] transition-colors">
+                          <i className="fa-solid fa-check text-[#bd9143] text-xs group-hover:text-white transition-colors"></i>
+                        </div>
+                        <span className="text-[#45443F] font-medium">{feature}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
+              )}
+            </div>
+            
+            <div className="w-full lg:w-5/12 sticky top-24">
+              <div className="relative group">
+                <div className="absolute -inset-4 bg-gray-50 rounded-2xl group-hover:bg-gray-100 transition-colors -z-10"></div>
+                <img 
+                  src={getImageUrl(data.image)} 
+                  className="w-full h-auto rounded-lg shadow-xl transform group-hover:scale-[1.02] transition-transform duration-500" 
+                  alt={data.title} 
+                />
               </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
