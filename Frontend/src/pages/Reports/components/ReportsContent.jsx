@@ -12,34 +12,7 @@ const ReportsContent = () => {
     return `${API_BASE_URL}${url}`;
   };
 
-  const hardcodedReports = [
-    { 
-      year: '2025 - 2026', 
-      label: 'Annual Progress Report - 2025-26', 
-      url: '/Annual-Progress-Reports/JPGGADF-APR-2025-26.pdf', 
-      accent: 'border-red-500', 
-      iconColor: 'text-red-500',
-      btnBg: 'bg-red-500 hover:bg-red-600'
-    },
-    { 
-      year: '2024 - 2025', 
-      label: 'Annual Progress Report - 2024-25', 
-      url: '/Annual-Progress-Reports/JPMRET-APR-2024-25.pdf', 
-      accent: 'border-green-500', 
-      iconColor: 'text-green-500',
-      btnBg: 'bg-green-500 hover:bg-green-600'
-    },
-    { 
-      year: '2023 - 2024', 
-      label: 'Annual Progress Report - 2023-24', 
-      url: '/Annual-Progress-Reports/JPMRET-APR-2023-24.pdf', 
-      accent: 'border-blue-500', 
-      iconColor: 'text-blue-500',
-      btnBg: 'bg-blue-500 hover:bg-blue-600'
-    },
-  ];
-
-  const reports = apiReports && apiReports.length > 0 ? apiReports : hardcodedReports;
+  const reports = apiReports || [];
 
   const getDynamicStyles = (index) => {
     const styles = [

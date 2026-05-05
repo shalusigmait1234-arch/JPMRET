@@ -111,8 +111,8 @@ const StatManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Type size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Label</label>
+                  {/* <Type size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm uppercase tracking-widest">Label</label>
                 </div>
                 <input
                   type="text"
@@ -126,8 +126,8 @@ const StatManagement = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <ArrowUpDown size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Display Order</label>
+                  {/* <ArrowUpDown size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm uppercase tracking-widest">Display Order</label>
                 </div>
                 <input
                   type="number"
@@ -142,8 +142,8 @@ const StatManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Hash size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Value</label>
+                  {/* <Hash size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm uppercase tracking-widest">Value</label>
                 </div>
                 <input
                   type="text"
@@ -156,8 +156,8 @@ const StatManagement = () => {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Type size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Suffix</label>
+                  {/* <Type size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm uppercase tracking-widest">Suffix</label>
                 </div>
                 <input
                   type="text"
@@ -185,7 +185,7 @@ const StatManagement = () => {
         </div>
 
         {/* Live Preview */}
-        <div className="space-y-4">
+        {/* <div className="space-y-4">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Homepage Preview</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -204,21 +204,21 @@ const StatManagement = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Existing Stats Table */}
       <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Existing Stats</h4>
+        <h4 className="text-xs uppercase tracking-[0.2em] mb-4">Existing Stats</h4>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-50">
-                <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">Order</th>
-                <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">Value</th>
-                <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">Label</th>
-                <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">Date Added</th>
-                <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                <th className="py-4 px-4 text-xs uppercase tracking-widest">Order</th>
+                <th className="py-4 px-4 text-xs uppercase tracking-widest">Value</th>
+                <th className="py-4 px-4 text-xs uppercase tracking-widest">Label</th>
+                <th className="py-4 px-4 text-xs uppercase tracking-widest">Date Added</th>
+                <th className="py-4 px-4 text-xs uppercase tracking-widest text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -226,14 +226,14 @@ const StatManagement = () => {
                 stats.map((stat) => (
                   <tr key={stat._id} className={`group hover:bg-gray-50/50 transition-all ${editingId === stat._id ? 'bg-[#bd9143]/5' : ''}`}>
                     <td className="py-4 px-4">
-                      <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">{stat.order}</span>
+                      <span className="text-xs bg-gray-100 px-2 py-1 rounded">{stat.order}</span>
                     </td>
                     <td className="py-4 px-4">
-                      <span className="text-xl font-bold text-[#013b6d]">{stat.value}<span className="text-sm text-[#bd9143]">{stat.target}</span></span>
+                      <span className="text-xl">{stat.value}<span className="text-sm text-[#bd9143]">{stat.target}</span></span>
                     </td>
-                    <td className="py-4 px-4 text-base text-gray-600 font-medium">{stat.label}</td>
+                    <td className="py-4 px-4 text-base">{stat.label}</td>
                     <td className="py-4 px-4">
-                      <span className="text-xs text-gray-400 font-medium">{stat.createdAt ? new Date(stat.createdAt).toLocaleDateString() : '—'}</span>
+                      <span className="text-xs">{stat.createdAt ? new Date(stat.createdAt).toLocaleDateString() : '—'}</span>
                     </td>
                     <td className="py-4 px-4 text-right">
                       <div className="flex justify-end space-x-2">

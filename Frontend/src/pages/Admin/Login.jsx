@@ -30,7 +30,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f4f7fa] font-['Inter',sans-serif]">
+    <div className="admin-panel min-h-screen flex items-center justify-center bg-[#f4f7fa] font-['Inter',sans-serif]">
       {/* Background Decor */}
       <div className="absolute inset-0 bg-[url('/assets/img/user-form-bg.jpg')] bg-cover bg-center opacity-10 pointer-events-none"></div>
 
@@ -51,7 +51,7 @@ const Login = () => {
           {/* Form Area */}
           <div className="p-8 sm:p-10">
             <div className="mb-8">
-              <h3 className="text-xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-2">Welcome Back</h3>
+              <h3 className="text-xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-2">Welcome</h3>
               <p className="text-sm text-gray-500">Authorized access for system administration.</p>
             </div>
 

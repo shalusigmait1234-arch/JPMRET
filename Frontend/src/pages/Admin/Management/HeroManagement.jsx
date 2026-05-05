@@ -8,11 +8,8 @@ import {
 } from '../../../store/api/adminApi';
 import {
   Save,
-  Image as ImageIcon,
-  Type,
-  AlignLeft,
-  ExternalLink,
-  Upload,
+  Image as ImageIcon,   // ← add alias here
+  Upload,               // ← now a separate import
   Check,
   Trash2,
   Edit2,
@@ -154,52 +151,54 @@ const HeroManagement = () => {
       </div>
 
       {message.text && (
-        <div className={`p-4 rounded-lg text-sm font-bold flex items-center ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'
+        <div className={`p-4 rounded-lg text-sm flex items-center ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'
           }`}>
           {message.text}
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Form Column */}
-        <div className="lg:col-span-7 bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+        <div className="lg:col-span-12 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 mb-2">
-                <Type size={14} className="text-[#bd9143]" />
-                <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Main Title</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  {/* <Type size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm text-gray-900 uppercase tracking-widest">Main Title</label>
+                </div>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  className="w-full"
+                  placeholder="Enter hero title"
+                  required
+                />
               </div>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-base font-medium focus:outline-none focus:border-[#bd9143] transition-all"
-                placeholder="Enter hero title"
-                required
-              />
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                  {/* <AlignLeft size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm text-gray-900 uppercase tracking-widest">Subtitle / Description</label>
+                </div>
+                <textarea
+                  name="subtitle"
+                  value={formData.subtitle}
+                  onChange={handleChange}
+                  rows="1"
+                  className="w-full resize-none"
+                  placeholder="Enter hero description"
+                  required
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center gap-2 mb-2">
-                <AlignLeft size={14} className="text-[#bd9143]" />
-                <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Subtitle / Description</label>
-              </div>
-              <textarea
-                name="subtitle"
-                value={formData.subtitle}
-                onChange={handleChange}
-                rows="2"
-                className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-base font-medium focus:outline-none focus:border-[#bd9143] transition-all resize-none"
-                placeholder="Enter hero description"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 mb-2">
-                <ImageIcon size={14} className="text-[#bd9143]" />
-                <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Background Image</label>
+                {/* <ImageIcon size={14} className="text-[#bd9143]" /> */}
+                <label className="text-sm text-gray-900 uppercase tracking-widest">Background Image</label>
               </div>
 
               <div className="flex items-center space-x-4">
@@ -213,7 +212,7 @@ const HeroManagement = () => {
                       ) : (
                         <Upload className="h-6 w-6 text-gray-400 group-hover:text-[#bd9143] transition-colors" />
                       )}
-                      <p className="mt-2 text-xs font-bold text-gray-500 uppercase tracking-widest">
+                      <p className="mt-2 text-xs  text-gray-500 uppercase tracking-widest">
                         {uploadStatus === 'uploading' ? 'Uploading...' : 'Click to Upload Image'}
                       </p>
                     </div>
@@ -228,7 +227,7 @@ const HeroManagement = () => {
                   name="image"
                   value={formData.image}
                   onChange={handleChange}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-xs font-mono text-gray-400 focus:outline-none"
+                  className="w-full font-mono"
                   placeholder="Image URL will appear here"
                 />
               </div>
@@ -237,28 +236,28 @@ const HeroManagement = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <MousePointer2 size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Button Text</label>
+                  {/* <MousePointer2 size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm text-gray-900 uppercase tracking-widest">Button Text</label>
                 </div>
                 <input
                   type="text"
                   name="buttonText"
                   value={formData.buttonText}
                   onChange={handleChange}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-base font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                  className="w-full"
                 />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Link2 size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Button Link</label>
+                  {/* <Link2 size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm text-gray-900 uppercase tracking-widest">Button Link</label>
                 </div>
                 <input
                   type="text"
                   name="buttonLink"
                   value={formData.buttonLink}
                   onChange={handleChange}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-base font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                  className="w-full"
                 />
               </div>
             </div>
@@ -269,7 +268,7 @@ const HeroManagement = () => {
               className="w-full flex items-center justify-center space-x-3 py-2.5 px-6 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
             >
               <Save size={18} />
-              <span className="text-sm font-bold uppercase tracking-widest">
+              <span className="text-sm uppercase tracking-widest">
                 {updateLoading || createLoading ? 'Saving...' : editingId ? 'Update Hero Section' : 'Create Hero Section'}
               </span>
             </button>
@@ -277,7 +276,7 @@ const HeroManagement = () => {
         </div>
 
         {/* Preview Column */}
-        <div className="lg:col-span-5 space-y-6">
+        {/* <div className="lg:col-span-5 space-y-6">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 sticky top-8">
             <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Live Preview</h4>
             <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-900 shadow-2xl group">
@@ -289,20 +288,20 @@ const HeroManagement = () => {
                   onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000'; }}
                 />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-gray-600 text-[10px] uppercase tracking-widest font-bold">
+                <div className="absolute inset-0 flex items-center justify-center text-gray-600 text-[10px] uppercase tracking-widest">
                   No Image Selected
                 </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-transparent"></div>
               <div className="absolute inset-x-0 bottom-0 p-6 space-y-2">
-                <h1 className="text-2xl font-bold text-black font-['DM_Serif_Display',serif] leading-tight">
+                <h1 className="text-2xl text-black font-['DM_Serif_Display',serif] leading-tight">
                   {formData.title || 'Your Title Here'}
                 </h1>
                 <p className="text-base text-gray-900 font-medium line-clamp-2 leading-relaxed">
                   {formData.subtitle || 'Your hero section description will appear here.'}
                 </p>
                 <div className="pt-2">
-                  <span className="inline-block px-4 py-2 bg-[#bd9143] text-white text-xs font-bold uppercase tracking-widest rounded shadow-lg">
+                  <span className="inline-block px-4 py-2 bg-[#bd9143] text-white text-xs uppercase tracking-widest rounded shadow-lg">
                     {formData.buttonText || 'Explore More'}
                   </span>
                 </div>
@@ -318,20 +317,20 @@ const HeroManagement = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="pt-8 border-t border-gray-100">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Existing Hero Banners</h4>
+          <h4 className="text-xs uppercase tracking-[0.2em] mb-4">Existing Hero Banners</h4>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-gray-50">
-                  <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">Preview</th>
-                  <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">Content</th>
-                  <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">Date Added</th>
-                  <th className="py-4 px-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                  <th className="py-4 px-4 text-xs uppercase tracking-widest">Preview</th>
+                  <th className="py-4 px-4 text-xs uppercase tracking-widest">Content</th>
+                  {/* <th className="py-4 px-4 text-xs uppercase tracking-widest"></th> */}
+                  <th className="py-4 px-4 text-xs uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -353,12 +352,12 @@ const HeroManagement = () => {
                         </div>
                       </td>
                       <td className="py-4 px-4 max-w-md">
-                        <h5 className="text-base font-bold text-[#013b6d] truncate">{hero.title}</h5>
+                        <h5 className="text-base text-[#013b6d] truncate">{hero.title}</h5>
                         <p className="text-xs text-gray-500 line-clamp-1 mt-1">{hero.subtitle}</p>
                       </td>
-                      <td className="py-4 px-4">
+                      {/* <td className="py-4 px-4">
                         <span className="text-xs text-gray-400 font-medium">{hero.createdAt ? new Date(hero.createdAt).toLocaleDateString() : '—'}</span>
-                      </td>
+                      </td> */}
                       <td className="py-4 px-4 text-right">
                         <div className="flex justify-end space-x-2">
                           <button
@@ -369,14 +368,14 @@ const HeroManagement = () => {
                               }`}
                           >
                             <Edit2 size={12} />
-                            <span>Edit</span>
+                            {/* <span>Edit</span> */}
                           </button>
                           <button
                             onClick={() => handleDelete(hero._id)}
                             className="flex items-center space-x-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
                           >
                             <Trash2 size={12} />
-                            <span>Delete</span>
+                            {/* <span>Delete</span> */}
                           </button>
                         </div>
                       </td>
@@ -385,7 +384,7 @@ const HeroManagement = () => {
                 ) : (
                   <tr>
                     <td colSpan="4" className="py-20 text-center">
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">No hero banners found</p>
+                      <p className="text-xs  text-gray-400 uppercase tracking-widest">No hero banners found</p>
                     </td>
                   </tr>
                 )}

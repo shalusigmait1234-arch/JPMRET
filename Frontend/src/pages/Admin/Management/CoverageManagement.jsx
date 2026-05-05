@@ -8,7 +8,6 @@ import {
   RefreshCw,
   Image as ImageIcon,
   Upload,
-  X,
   Plus,
   Trash2,
   FileText,

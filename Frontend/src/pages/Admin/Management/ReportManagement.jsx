@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { 
-  useGetReportsListQuery, 
-  useCreateReportMutation, 
-  useUpdateReportMutation, 
+import {
+  useGetReportsListQuery,
+  useCreateReportMutation,
+  useUpdateReportMutation,
   useDeleteReportMutation,
-  useUploadImageMutation 
+  useUploadImageMutation
 } from '../../../store/api/adminApi';
 import { API_BASE_URL } from '../../../config';
-import { 
-  Plus, 
-  Pencil, 
-  Trash2, 
-  Save, 
-  X, 
-  FileText, 
-  Upload, 
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Save,
+  X,
+  FileText,
+  Upload,
   RefreshCw,
   ExternalLink
 } from 'lucide-react';
@@ -281,8 +281,8 @@ const ReportManagement = () => {
       {!fetching && (!reports || reports.length === 0) && !isFormOpen && (
         <div className="py-20 text-center bg-white rounded-xl border-2 border-dashed border-gray-100">
           <FileText className="mx-auto h-12 w-12 text-gray-200 mb-4" />
-          <h3 className="text-lg font-bold text-[#013b6d] mb-1">No reports found</h3>
-          <p className="text-sm text-gray-400">Click the button above to add your first annual report.</p>
+          <h3 className="text-lg text-[#013b6d] mb-1">No reports found</h3>
+          <p className="text-sm">Click the button above to add your first annual report.</p>
         </div>
       )}
     </div>

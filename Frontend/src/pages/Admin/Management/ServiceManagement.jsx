@@ -141,8 +141,8 @@ const ServiceManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Type size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Title</label>
+                  {/* <Type size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm uppercase tracking-widest">Title</label>
                 </div>
                 <input
                   type="text"
@@ -156,14 +156,14 @@ const ServiceManagement = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Link2 size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Read More Link</label>
+                  {/* <Link2 size={14} className="text-[#bd9143]" /> */}
+                  <label className="text-sm uppercase tracking-widest">Read More Link</label>
                 </div>
                 <input
                   type="text"
                   value={formData.link}
                   onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-base font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                  className="w-full p-2.5 bg-gray-50 border rounded-lg text-base font-medium focus:outline-none focus:border-[#bd9143] transition-all"
                   placeholder="Enter URL (e.g., /services/details)"
                   required
                 />
@@ -172,8 +172,8 @@ const ServiceManagement = () => {
 
             <div className="space-y-2">
               <div className="flex items-center gap-2 mb-2">
-                <FileText size={14} className="text-[#bd9143]" />
-                <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Description</label>
+                {/* <FileText size={14} className="text-[#bd9143]" /> */}
+                <label className="text-sm uppercase tracking-widest">Description</label>
               </div>
               <textarea
                 value={formData.description}
@@ -187,7 +187,7 @@ const ServiceManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <ImageIcon size={14} className="text-[#bd9143]" />
+                  {/* <ImageIcon size={14} className="text-[#bd9143]" /> */}
                   <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Image</label>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -219,7 +219,7 @@ const ServiceManagement = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <ArrowUpDown size={14} className="text-[#bd9143]" />
+                  {/* <ArrowUpDown size={14} className="text-[#bd9143]" /> */}
                   <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Display Order</label>
                 </div>
                 <input
@@ -256,11 +256,11 @@ const ServiceManagement = () => {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-gray-50">
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest">Preview</th>
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest">Content</th>
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest">Order</th>
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest">Date Added</th>
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                  <th className="py-4 px-6 text-xs  uppercase tracking-widest">Preview</th>
+                  <th className="py-4 px-6 text-xs  uppercase tracking-widest">Content</th>
+                  <th className="py-4 px-6 text-xs  uppercase tracking-widest">Order</th>
+                  <th className="py-4 px-6 text-xs  uppercase tracking-widest">Date Added</th>
+                  <th className="py-4 px-6 text-xs  uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">

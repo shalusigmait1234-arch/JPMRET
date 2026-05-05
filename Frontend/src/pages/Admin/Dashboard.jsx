@@ -29,16 +29,18 @@ const Dashboard = () => {
   };
 
   const modules = [
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
-    { name: 'Hero Section', icon: ImageIcon, path: '/admin/hero' },
-    { name: 'Stats / Counters', icon: FileText, path: '/admin/stats' },
-    { name: 'Services', icon: FileText, path: '/admin/services' },
-    { name: 'Why Us', icon: FileText, path: '/admin/benefits' },
-    { name: 'Gallery', icon: ImageIcon, path: '/admin/gallery' },
-    { name: 'Testimonials', icon: Quote, path: '/admin/testimonials' },
+    { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard', activeClass: 'bg-blue-600 text-white', iconClass: 'text-white' },
+    { name: 'Hero Section', icon: ImageIcon, path: '/admin/hero', activeClass: 'bg-purple-600 text-white', iconClass: 'text-white' },
+    { name: 'Stats / Counters', icon: FileText, path: '/admin/stats', activeClass: 'bg-rose-600 text-white', iconClass: 'text-white' },
+    { name: 'Services', icon: FileText, path: '/admin/services', activeClass: 'bg-cyan-600 text-white', iconClass: 'text-white' },
+    { name: 'Why Us', icon: FileText, path: '/admin/benefits', activeClass: 'bg-amber-500 text-white', iconClass: 'text-white' },
+    { name: 'Gallery', icon: ImageIcon, path: '/admin/gallery', activeClass: 'bg-emerald-600 text-white', iconClass: 'text-white' },
+    { name: 'Testimonials', icon: Quote, path: '/admin/testimonials', activeClass: 'bg-pink-600 text-white', iconClass: 'text-white' },
     {
       name: 'Coverage',
       icon: Globe,
+      activeClass: 'bg-indigo-600 text-white',
+      iconClass: 'text-white',
       subItems: [
         { name: 'Agriculture Development', path: '/admin/agriculture' },
         { name: 'Local Participation', path: '/admin/local-participation' },
@@ -46,49 +48,52 @@ const Dashboard = () => {
         { name: 'Water Management', path: '/admin/water-management' },
       ]
     },
-    { name: 'Print Media', icon: ImageIcon, path: '/admin/print-media' },
-    { name: 'Reports', icon: FileText, path: '/admin/reports' },
-    { name: 'Inquiries', icon: FileText, path: '/admin/inquiries' },
+    { name: 'Print Media', icon: ImageIcon, path: '/admin/print-media', activeClass: 'bg-orange-500 text-white', iconClass: 'text-white' },
+    { name: 'Reports', icon: FileText, path: '/admin/reports', activeClass: 'bg-sky-600 text-white', iconClass: 'text-white' },
+    { name: 'Inquiries', icon: FileText, path: '/admin/inquiries', activeClass: 'bg-teal-600 text-white', iconClass: 'text-white' },
   ];
 
   return (
-    <div className="min-h-screen bg-[#f4f7fa] flex font-['Inter',sans-serif]">
+    <div className="admin-panel min-h-screen bg-slate-100 flex font-sans text-slate-900">
       {/* Sidebar */}
-      <aside className="w-72 bg-[#001e38] text-white flex flex-col shadow-2xl relative z-20">
-        <div className="p-3 border-b border-white/10">
-          <div className="text-center group cursor-pointer">
-            <div className="bg-white p-2 rounded-lg shadow-md inline-block transition-transform group-hover:scale-105">
-              <img src="/assets/img/logo/logo.jpg" alt="Logo" className="h-8 w-auto" />
-            </div>
+      <aside className="w-72 bg-white text-slate-900 flex flex-col shadow-lg">
+        <div className="p-4 border-b border-slate-200">
+          <div className="text-center">
+            <img src="/assets/img/logo/logo.jpg" alt="Logo" className="h-10 mx-auto" />
           </div>
         </div>
 
-        <nav className="flex-1 px-4 py-2 overflow-y-auto custom-scrollbar">
+        <nav className="flex-1 px-4 py-4 overflow-y-auto">
           <ul className="space-y-1">
             {modules.map((mod, i) => (
               <li key={i}>
                 {mod.subItems ? (
                   <div>
+                    {(() => {
+                      const isActive = mod.subItems.some(s => s.path === location.pathname);
+                      return (
                     <button
                       onClick={() => toggleMenu(mod.name)}
-                      className="w-full flex items-center justify-between p-3 rounded-md transition-all group hover:bg-white/10 text-white"
+                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-all ${isActive ? mod.activeClass : 'hover:bg-slate-100 text-slate-700'}`}
                     >
                       <div className="flex items-center space-x-3">
-                        <mod.icon size={18} />
-                        <span className="text-[13px] uppercase tracking-widest">{mod.name}</span>
+                        <mod.icon size={18} className={isActive ? mod.iconClass : 'text-slate-700'} />
+                        <span className="text-sm font-medium">{mod.name}</span>
                       </div>
                       {openMenus[mod.name] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                     </button>
+                      );
+                    })()}
                     {openMenus[mod.name] && (
-                      <ul className="mt-1 ml-4 space-y-1 border-l border-white/10 pl-4">
+                      <ul className="mt-1 ml-4 space-y-1 border-l border-slate-200 pl-4">
                         {mod.subItems.map((sub, j) => (
                           <li key={j}>
                             <Link
                               to={sub.path}
-                              className={`flex items-center space-x-3 p-2 rounded-md transition-all text-[11px] uppercase tracking-widest ${location.pathname === sub.path
-                                  ? 'bg-[#bd9143] text-white shadow-md'
-                                  : 'text-white hover:text-white hover:bg-white/5'
-                                }`}
+                              className={`flex items-center p-2 rounded-xl transition-all text-sm ${location.pathname === sub.path
+                                ? mod.activeClass
+                                : 'text-slate-700 hover:bg-slate-100'
+                              }`}
                             >
                               <span>{sub.name}</span>
                             </Link>
@@ -100,13 +105,13 @@ const Dashboard = () => {
                 ) : (
                   <Link
                     to={mod.path}
-                    className={`flex items-center space-x-3 p-3 rounded-md transition-all group ${location.pathname === mod.path
-                        ? 'bg-[#bd9143] text-white shadow-lg'
-                        : 'text-white hover:bg-white/10'
+                    className={`flex items-center space-x-3 p-3 rounded-xl transition-all ${location.pathname === mod.path
+                        ? mod.activeClass
+                        : 'text-slate-700 hover:bg-slate-100'
                       }`}
                   >
-                    <mod.icon size={18} className={location.pathname === mod.path ? 'text-white' : 'text-white group-hover:text-white'} />
-                    <span className="text-[13px] uppercase tracking-widest">{mod.name}</span>
+                    <mod.icon size={18} className={location.pathname === mod.path ? mod.iconClass : 'text-slate-700'} />
+                    <span className="text-sm font-medium">{mod.name}</span>
                   </Link>
                 )}
               </li>
@@ -114,48 +119,43 @@ const Dashboard = () => {
           </ul>
         </nav>
 
-        <div className="p-4 border-t border-white/10">
+        <div className="p-4 border-t border-slate-200">
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-3 p-3 w-full rounded-md bg-red-600/10 hover:bg-red-600 transition-all text-red-400 hover:text-white text-[13px] uppercase tracking-widest shadow-inner"
+            className="flex items-center justify-center gap-2 w-full rounded-xl bg-red-50 text-red-700 hover:bg-red-100 transition-all py-3 font-semibold"
           >
             <LogOut size={16} />
-            <span>Logout</span>
+            Logout
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col relative overflow-hidden">
-        <header className="bg-white px-8 py-3 flex justify-between items-center shadow-sm relative z-10 border-b border-gray-100">
-          <div className="flex items-center space-x-4">
-            <h2 className="text-xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] tracking-wide">
-              {modules.find(m => {
-                if (m.path === location.pathname) return true;
-                if (m.subItems) return m.subItems.some(s => s.path === location.pathname);
-                return false;
-              })?.name || 'Admin Panel'}
-            </h2>
-            <span className="h-6 w-[1px] bg-gray-200"></span>
-            <span className="text-[10px]  text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-1 rounded">System Live</span>
+      <div className="flex-1 flex flex-col">
+        <header className="bg-white px-6 py-4 flex items-center justify-between shadow-sm border-b border-slate-200">
+          <div>
+            <h2 className="text-lg font-semibold text-slate-900">{modules.find(m => {
+              if (m.path === location.pathname) return true;
+              if (m.subItems) return m.subItems.some(s => s.path === location.pathname);
+              return false;
+            })?.name || 'Admin Panel'}</h2>
+            {/* <p className="text-sm text-slate-500 mt-1">Manage content and monitor site activity from here.</p> */}
           </div>
 
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-4 px-4 py-1.5 bg-[#f4f7fa] rounded-lg border border-gray-100">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-2xl border border-slate-200">
               <div className="text-right">
-                <p className="text-[10px] font-black text-[#001e38] leading-none mb-1 uppercase tracking-tighter">{admin?.email}</p>
-                <p className="text-[9px] text-[#bd9143] uppercase tracking-widest text-right">Root Administrator</p>
+                <p className="text-sm font-semibold text-slate-900">{admin?.email}</p>
+                <p className="text-xs text-slate-500">Administrator</p>
               </div>
-              <div className="h-8 w-8 rounded-md bg-[#001e38] flex items-center justify-center text-white shadow-lg relative">
+              <div className="h-10 w-10 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
                 <User size={16} />
-                <span className="absolute bottom-[-1px] right-[-1px] h-2.5 w-2.5 bg-green-500 border-2 border-white rounded-full"></span>
               </div>
             </div>
           </div>
         </header>
 
-        {/* Dashboard Content */}
-        <main className="p-8 flex-1 overflow-y-auto relative z-0">
+        <main className="p-6 flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

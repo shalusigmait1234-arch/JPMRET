@@ -7,22 +7,7 @@ import { API_BASE_URL } from '../../../config';
 const TestimonialsSection = () => {
   const { data: apiTestimonials, isLoading } = useGetTestimonialsQuery();
 
-  const hardcodedTestimonials = [
-    {
-      name: "Mohini",
-      role: "Farmer",
-      img: "/assets/img/aboutus/test-1.jpg",
-      text: "Janki Prasad Memorial Research Educational Trust is implementing a program called “education” in partnership with Guru Krupa Foundation to bridge the digital literacy gap among students in rural India."
-    },
-    {
-      name: "Ashraf Raja",
-      role: "Teacher",
-      img: "/assets/img/aboutus/test-2.jpg",
-      text: "Ms. Sushmita Khandagle, an eighth-grade student at Zila Parishad Higher Primary School in a small village called Shirodi in Auragnabad district, Maharashtra."
-    }
-  ];
-
-  const displayTestimonials = apiTestimonials && apiTestimonials.length > 0 ? apiTestimonials : hardcodedTestimonials;
+  const displayTestimonials = apiTestimonials || [];
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return '';

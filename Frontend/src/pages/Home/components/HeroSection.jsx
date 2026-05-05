@@ -9,48 +9,26 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const HeroSection = () => {
-  const { data: dynamicHero, isLoading } = useGetHeroQuery();
-
-  const defaultSlides = [
-    {
-      title: "Transforming Lives One<br /> School at a Time",
-      desc: "Our educational initiatives aim to provide quality learning<br> and better opportunities for every child.",
-      img: "/assets/img/banner/banner-1.jpg",
-      link: "/about"
-    },
-    {
-      title: "Empowering Communities<br /> Through Agriculture",
-      desc: "Janki Prasad Memorial Research Educational Trust supports<br> agricultural development for a stronger and self-reliant future.",
-      img: "/assets/img/banner/banner-2.jpg",
-      link: "/contact"
-    },
-    {
-      title: "Saving Water,<br /> Securing Future",
-      desc: "We promote efficient water use and conservation<br> to secure resources for future generations.",
-      img: "/assets/img/banner/banner-4.jpg",
-      link: "/about"
-    }
-  ];
+  const { data: Hero, isLoading } = useGetHeroQuery();
 
   // If dynamic data is available and is an array with items, use it. Otherwise use defaults.
-  const slides = (dynamicHero && Array.isArray(dynamicHero) && dynamicHero.length > 0)
-    ? dynamicHero.map(hero => ({
+  const slides = (Hero && Array.isArray(Hero) && Hero.length > 0)
+    ? Hero.map(hero => ({
       title: hero.title,
       desc: hero.subtitle,
       img: hero.image,
       link: hero.buttonLink,
       btnText: hero.buttonText
     }))
-    : (dynamicHero && !Array.isArray(dynamicHero)) // Fallback for single object
+    : (Hero && !Array.isArray(Hero))
       ? [{
-        title: dynamicHero.title,
-        desc: dynamicHero.subtitle,
-        img: dynamicHero.image,
-        link: dynamicHero.buttonLink,
-        btnText: dynamicHero.buttonText
-      }]
-      : defaultSlides;
-
+        title: Hero.title,
+        desc: Hero.subtitle,
+        img: Hero.image,
+        link: Hero.buttonLink,
+        btnText: Hero.buttonText
+      }]:
+      [Hero]; 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return '';
     if (imagePath.startsWith('http')) return imagePath;

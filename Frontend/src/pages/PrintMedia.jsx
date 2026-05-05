@@ -18,12 +18,7 @@ const PrintMedia = () => {
     { label: 'Print Media' }
   ];
 
-  const hardcodedMedia = [
-    { title: "Organization Profile", url: "/PDF/Orgn-Profile.pdf" },
-    { title: "Financial Policy", url: "/PDF/Financial-Policy.pdf" }
-  ];
-
-  const mediaList = apiMedia && apiMedia.length > 0 ? apiMedia : hardcodedMedia;
+  const mediaList = apiMedia || [];
 
   if (isLoading) {
     return (

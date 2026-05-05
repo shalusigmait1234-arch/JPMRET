@@ -121,7 +121,7 @@ const BenefitManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Type size={14} className="text-[#bd9143]" />
+                  {/* <Type size={14} className="text-[#bd9143]" /> */}
                   <label className="text-sm  text-gray-900 uppercase tracking-widest">Title</label>
                 </div>
                 <input
@@ -136,7 +136,7 @@ const BenefitManagement = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <Heart size={14} className="text-[#bd9143]" />
+                  {/* <Heart size={14} className="text-[#bd9143]" /> */}
                   <label className="text-sm  text-gray-900 uppercase tracking-widest">Icon Class</label>
                 </div>
                 <input
@@ -153,7 +153,7 @@ const BenefitManagement = () => {
 
             <div className="space-y-2">
               <div className="flex items-center gap-2 mb-2">
-                <FileText size={14} className="text-[#bd9143]" />
+                {/* <FileText size={14} className="text-[#bd9143]" /> */}
                 <label className="text-sm  text-gray-900 uppercase tracking-widest">Description</label>
               </div>
               <textarea
@@ -168,7 +168,7 @@ const BenefitManagement = () => {
 
             <div className="space-y-2 w-full md:w-1/2 md:pr-3">
               <div className="flex items-center gap-2 mb-2">
-                <ArrowUpDown size={14} className="text-[#bd9143]" />
+                {/* <ArrowUpDown size={14} className="text-[#bd9143]" /> */}
                 <label className="text-sm  text-gray-900 uppercase tracking-widest">Display Order</label>
               </div>
               <input

@@ -113,3 +113,108 @@ img {
 .heading-xs {
   @apply text-base font-serif leading-tight text-heading;
 }
+
+/* Admin panel: keep management screens simple and readable. */
+.admin-panel {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+}
+
+.admin-panel h1,
+.admin-panel h2,
+.admin-panel h3,
+.admin-panel h4,
+.admin-panel h5,
+.admin-panel h6 {
+  font-family: var(--font-sans);
+  color: #0f172a;
+}
+
+.admin-panel h1 {
+  font-size: 1.25rem;
+}
+
+.admin-panel h2 {
+  font-size: 1.125rem;
+}
+
+.admin-panel h3 {
+  font-size: 1rem;
+}
+
+.admin-panel h4,
+.admin-panel h5,
+.admin-panel h6 {
+  font-size: 0.9375rem;
+}
+
+.admin-panel .uppercase {
+  text-transform: none;
+}
+
+.admin-panel [class*="tracking-"] {
+  letter-spacing: 0;
+}
+
+.admin-panel .rounded-lg,
+.admin-panel .rounded-xl,
+.admin-panel .rounded-2xl,
+.admin-panel .rounded-3xl {
+  border-radius: 0 !important;
+}
+
+.admin-panel .shadow-lg,
+.admin-panel .shadow-xl,
+.admin-panel .shadow-2xl {
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.08);
+}
+
+.admin-panel label {
+  display: inline-block;
+  margin-bottom: 0.375rem;
+  color: #334155;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.admin-panel input,
+.admin-panel textarea,
+.admin-panel select {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 0.375rem !important;
+  color: #111827;
+  font-size: 0.8125rem !important;
+  font-weight: 400 !important;
+  min-height: 2rem;
+  padding: 0.35rem 0.625rem;
+}
+
+.admin-panel input:focus,
+.admin-panel textarea:focus,
+.admin-panel select:focus {
+  border-color: #64748b !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+.admin-panel button,
+.admin-panel a {
+  letter-spacing: 0;
+  font-size: 0.8125rem;
+}
+
+.admin-panel p,
+.admin-panel span,
+.admin-panel td,
+.admin-panel li {
+  font-size: 0.8125rem;
+}
+
+.admin-panel table th {
+  color: #475569;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
