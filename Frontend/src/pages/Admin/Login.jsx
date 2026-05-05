@@ -92,12 +92,8 @@ const Login = () => {
                 </div>
               </div>
 
-              {error && (
-                <div className="flex items-center space-x-2 text-red-600 text-xs font-semibold bg-red-50 p-3 rounded-md border border-red-100">
-                  <ShieldCheck className="h-4 w-4" />
-                  <span>{error}</span>
-                </div>
-              )}
+              {/* The undefined 'error' variable was removed as toast.error is used for error handling */}
+
 
               <button
                 type="submit"
