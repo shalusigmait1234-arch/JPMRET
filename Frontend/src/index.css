@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #001e38;
+  --color-secondary: #bd9143;
+  --color-heading: #013b6d;
+}
+
+#root {
+  width: 100% !important;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 
+  NAVBAR VISIBILITY FIX 
+*/
+
+/* 1. Desktop Nav Visibility */
+@media only screen and (min-width: 992px) {
+  .navbar-area .main-nav {
+    display: block !important;
+    background: #fff !important;
+  }
+
+  .navbar-area .main-nav .navbar-collapse {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .navbar-area .main-nav .navbar-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    margin-left: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Main Menu Links - Dark */
+  .navbar-area .main-nav .navbar-nav>.nav-item>.nav-link {
+    color: #302c51 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    padding: 5px 15px !important;
+  }
+
+  .navbar-area .main-nav .navbar-nav>.nav-item>.nav-link.active {
+    color: #bd9143 !important;
+  }
+
+  /* Dropdown Links - White */
+  .main-nav nav .navbar-nav .nav-item .dropdown-menu li a {
+    color: #fff !important;
+    text-transform: capitalize !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    padding: 10px 20px !important;
+    display: block !important;
+  }
+
+  .main-nav nav .navbar-nav .nav-item .dropdown-menu li a:hover {
+    color: #bd9143 !important;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Hide mobile nav on desktop */
+  .mobile-nav {
+    display: none !important;
+  }
+}
+
+/* 2. Mobile Nav Visibility */
+@media only screen and (max-width: 991px) {
+  .main-nav {
+    display: none !important;
+  }
+
+  .mobile-nav {
+    display: block !important;
+  }
+
+  .mobile-nav .mean-container .mean-nav ul li a {
+    color: #302c51 !important;
+  }
+}
+
+/* 3. Logo Sizing */
+.navbar-brand img {
+  width: 250px !important;
+  height: auto !important;
+}
+
+.navbar-brand, .navbar {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* 4. Dropdown Hover logic */
+.main-nav .nav-item {
+  position: relative;
+}
+
+.main-nav .nav-item:hover>.dropdown-menu {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  top: 100% !important;
+}
+
+.main-nav .dropdown-menu {
+  background: #00618a !important;
+  /* Original dark blue background */
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}

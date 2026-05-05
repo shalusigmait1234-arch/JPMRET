@@ -1,0 +1,9 @@
+# Root .gitignore
+Frontend.zip
+reports_html.txt
+node_modules/
+.env
+*.log
+dist/
+build/
+.DS_Store
