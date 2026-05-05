@@ -17,7 +17,7 @@ const ServicesSection = () => {
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-[#bd9143] text-xl font-medium uppercase tracking-widest mb-4 block">Our Best Services</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Jal Jeevan Mission</h2>
+          <h2 className="text-4xl md:text-5xl text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Jal Jeevan Mission</h2>
           <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-8"></div>
           <p className="text-[#45443F] max-w-3xl mx-auto text-lg leading-relaxed">
             Our mission is to ensure safe and sustainable water access for every community.
@@ -30,10 +30,10 @@ const ServicesSection = () => {
           {services.map((service, i) => (
             <div key={service._id || i} className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col">
               <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={service.image || service.img} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                  alt={service.title} 
+                <img
+                  src={service.image || service.img}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  alt={service.title}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
@@ -45,7 +45,7 @@ const ServicesSection = () => {
                   {service.description || service.desc}
                 </p>
                 <div className="mt-auto">
-                  <a 
+                  <a
                     href={service.link}
                     className="inline-flex items-center gap-2 text-[#001e38] font-bold text-sm group-hover:text-[#bd9143] transition-colors"
                   >

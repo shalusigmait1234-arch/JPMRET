@@ -25,7 +25,7 @@ const WhyUsSection = () => {
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-[#bd9143] text-xl font-medium uppercase tracking-widest mb-4 block">What Drives Us</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Our Commitment to Society</h2>
+          <h2 className="text-4xl md:text-5xl text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Our Commitment to Society</h2>
           <div className="w-16 h-[2px] bg-[#f06f14] mx-auto"></div>
         </div>
 

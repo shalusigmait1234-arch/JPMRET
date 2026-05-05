@@ -109,7 +109,7 @@ const BenefitManagement = () => {
       </div>
 
       {message.text && (
-        <div className={`p-4 rounded-lg text-sm font-bold ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
+        <div className={`p-4 rounded-lg text-sm  ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
           {message.text}
         </div>
       )}
@@ -122,7 +122,7 @@ const BenefitManagement = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
                   <Type size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Title</label>
+                  <label className="text-sm  text-gray-900 uppercase tracking-widest">Title</label>
                 </div>
                 <input
                   type="text"
@@ -137,7 +137,7 @@ const BenefitManagement = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
                   <Heart size={14} className="text-[#bd9143]" />
-                  <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Icon Class</label>
+                  <label className="text-sm  text-gray-900 uppercase tracking-widest">Icon Class</label>
                 </div>
                 <input
                   type="text"
@@ -154,7 +154,7 @@ const BenefitManagement = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-2 mb-2">
                 <FileText size={14} className="text-[#bd9143]" />
-                <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Description</label>
+                <label className="text-sm  text-gray-900 uppercase tracking-widest">Description</label>
               </div>
               <textarea
                 value={formData.description}
@@ -169,7 +169,7 @@ const BenefitManagement = () => {
             <div className="space-y-2 w-full md:w-1/2 md:pr-3">
               <div className="flex items-center gap-2 mb-2">
                 <ArrowUpDown size={14} className="text-[#bd9143]" />
-                <label className="text-sm font-bold text-gray-900 uppercase tracking-widest">Display Order</label>
+                <label className="text-sm  text-gray-900 uppercase tracking-widest">Display Order</label>
               </div>
               <input
                 type="number"
@@ -187,7 +187,7 @@ const BenefitManagement = () => {
                 className="min-w-[200px] flex items-center justify-center space-x-3 py-2.5 px-6 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
               >
                 <Save size={18} />
-                <span className="text-sm font-bold uppercase tracking-widest">
+                <span className="text-sm uppercase tracking-widest">
                   {saving ? 'Saving...' : editingId ? 'Update' : 'Create'}
                 </span>
               </button>
@@ -240,17 +240,17 @@ const BenefitManagement = () => {
                         </div>
                       </td>
                       <td className="py-4 px-6 min-w-[200px]">
-                        <h5 className="text-base font-bold text-[#001e38]">{benefit.title}</h5>
+                        <h5 className="text-base  text-[#001e38]">{benefit.title}</h5>
                         <p className="text-[13px] text-gray-500 line-clamp-1 mt-1">{benefit.description}</p>
                       </td>
                       <td className="py-4 px-6">
-                        <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">{benefit.order}</span>
+                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">{benefit.order}</span>
                       </td>
                       <td className="py-4 px-6 text-right">
                         <div className="flex justify-end space-x-2">
                           <button
                             onClick={() => handleEdit(benefit)}
-                            className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${editingId === benefit._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
+                            className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs uppercase tracking-widest transition-all ${editingId === benefit._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
                           >
                             <Edit2 size={12} />
                             {/* <span>Edit</span> */}
@@ -268,7 +268,7 @@ const BenefitManagement = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className="py-20 text-center text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    <td colSpan="4" className="py-20 text-center text-xs text-gray-400 uppercase tracking-widest">
                       No benefits found. Add one above.
                     </td>
                   </tr>

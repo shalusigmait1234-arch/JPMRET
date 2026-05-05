@@ -21,6 +21,7 @@ import {
 
 const GalleryManagement = () => {
   const { data: galleryItems, isLoading } = useGetGalleryListQuery();
+  console.log('galleryItems:', galleryItems);
   const [createGalleryImage, { isLoading: creating }] = useCreateGalleryImageMutation();
   const [updateGalleryImage, { isLoading: updating }] = useUpdateGalleryImageMutation();
   const [deleteGalleryImage] = useDeleteGalleryImageMutation();

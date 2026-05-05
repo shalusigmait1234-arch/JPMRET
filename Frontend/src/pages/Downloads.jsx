@@ -37,7 +37,7 @@ const Downloads = () => {
                 <div className={`w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-500 ${doc.color}`}>
                   <i className={doc.icon}></i>
                 </div>
-                <h6 className="text-xl font-bold text-[#001e38] mb-8">{doc.name}</h6>
+                <h6 className="font-bold text-[#001e38] mb-8">{doc.name}</h6>
                 <div className="mt-auto w-full">
                   <a 
                     href={doc.path} 

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -18,7 +19,31 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif leading-tight;
+    @apply font-serif leading-tight text-heading;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-lg;
+  }
+
+  h6 {
+    @apply text-base;
   }
 }
 
@@ -62,4 +87,29 @@ img {
 
 .animate-fadeInUp {
   animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Global Typography Utility Classes */
+.heading-xl {
+  @apply text-4xl font-serif leading-tight text-heading;
+}
+
+.heading-lg {
+  @apply text-3xl font-serif leading-tight text-heading;
+}
+
+.heading-md {
+  @apply text-2xl font-serif leading-tight text-heading;
+}
+
+.heading-base {
+  @apply text-xl font-serif leading-tight text-heading;
+}
+
+.heading-sm {
+  @apply text-lg font-serif leading-tight text-heading;
+}
+
+.heading-xs {
+  @apply text-base font-serif leading-tight text-heading;
 }

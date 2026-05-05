@@ -30,7 +30,7 @@ const GallerySection = () => {
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-[#bd9143] text-xl font-medium uppercase tracking-widest mb-4 block">Our Gallery</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Discover the best things we do</h2>
+          <h2 className="text-4xl md:text-6xl text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Discover the best things we do</h2>
           <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-8"></div>
           <p className="text-[#45443F] max-w-3xl mx-auto text-lg leading-relaxed">
             We exist to support non-profits, social enterprises, community groups, activists, and individuals dedicated to creating positive change in society.
@@ -47,12 +47,12 @@ const GallerySection = () => {
               const imgUrl = getImageUrl(item.image);
               return (
                 <div key={i} className="group relative overflow-hidden rounded-xl aspect-square shadow-md">
-                  <img 
-                    src={imgUrl} 
-                    alt="Gallery Item" 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  <img
+                    src={imgUrl}
+                    alt="Gallery Item"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  <a 
+                  <a
                     href={imgUrl}
                     target="_blank"
                     rel="noopener noreferrer"

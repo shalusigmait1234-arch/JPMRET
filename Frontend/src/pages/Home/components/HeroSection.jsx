@@ -33,22 +33,22 @@ const HeroSection = () => {
   ];
 
   // If dynamic data is available and is an array with items, use it. Otherwise use defaults.
-  const slides = (dynamicHero && Array.isArray(dynamicHero) && dynamicHero.length > 0) 
+  const slides = (dynamicHero && Array.isArray(dynamicHero) && dynamicHero.length > 0)
     ? dynamicHero.map(hero => ({
-        title: hero.title,
-        desc: hero.subtitle,
-        img: hero.image,
-        link: hero.buttonLink,
-        btnText: hero.buttonText
-      }))
+      title: hero.title,
+      desc: hero.subtitle,
+      img: hero.image,
+      link: hero.buttonLink,
+      btnText: hero.buttonText
+    }))
     : (dynamicHero && !Array.isArray(dynamicHero)) // Fallback for single object
       ? [{
-          title: dynamicHero.title,
-          desc: dynamicHero.subtitle,
-          img: dynamicHero.image,
-          link: dynamicHero.buttonLink,
-          btnText: dynamicHero.buttonText
-        }]
+        title: dynamicHero.title,
+        desc: dynamicHero.subtitle,
+        img: dynamicHero.image,
+        link: dynamicHero.buttonLink,
+        btnText: dynamicHero.buttonText
+      }]
       : defaultSlides;
 
   const getImageUrl = (imagePath) => {
@@ -76,26 +76,26 @@ const HeroSection = () => {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div 
+            <div
               className="relative min-h-[500px] md:min-h-[650px] lg:min-h-[800px] flex items-center bg-cover bg-center"
               style={{ backgroundImage: `linear-gradient(rgba(0,30,56,0.7), rgba(0,30,56,0.7)), url(${getImageUrl(slide.img)})` }}
             >
               <div className="max-w-[1170px] mx-auto px-4 w-full">
                 <div className="max-w-3xl">
-                  <h1 
-                    className="text-white text-3xl md:text-5xl lg:text-6xl font-bold font-['DM_Serif_Display',serif] mb-6 leading-tight drop-shadow-lg"
+                  <h1
+                    className="text-white text-3xl md:text-5xl lg:text-6xl font-['DM_Serif_Display',serif] mb-6 leading-tight drop-shadow-lg"
                     dangerouslySetInnerHTML={{ __html: slide.title }}
                   ></h1>
-                  <p 
+                  <p
                     className="text-white text-lg md:text-xl mb-10 leading-relaxed opacity-90 drop-shadow-md"
                     dangerouslySetInnerHTML={{ __html: slide.desc }}
                   ></p>
                   <div className="flex flex-wrap gap-4">
-                    <a 
+                    <a
                       href={slide.link}
                       className="bg-white text-[#001e38] px-8 py-3 rounded-md font-semibold hover:bg-[#bd9143] hover:text-white transition-all duration-300 flex items-center gap-2 shadow-lg"
                     >
-                      {slide.btnText || 'Explore More'} 
+                      {slide.btnText || 'Explore More'}
                       <i className="icofont-arrow-right"></i>
                     </a>
                   </div>
@@ -105,9 +105,10 @@ const HeroSection = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      
+
       {/* Custom Slider Navigation Styles */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .swiper-button-next, .swiper-button-prev {
           color: white !important;
           background: rgba(255,255,255,0.1);

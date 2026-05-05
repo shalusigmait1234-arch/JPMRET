@@ -36,9 +36,9 @@ const Dashboard = () => {
     { name: 'Why Us', icon: FileText, path: '/admin/benefits' },
     { name: 'Gallery', icon: ImageIcon, path: '/admin/gallery' },
     { name: 'Testimonials', icon: Quote, path: '/admin/testimonials' },
-    { 
-      name: 'Coverage', 
-      icon: Globe, 
+    {
+      name: 'Coverage',
+      icon: Globe,
       subItems: [
         { name: 'Agriculture Development', path: '/admin/agriculture' },
         { name: 'Local Participation', path: '/admin/local-participation' },
@@ -75,7 +75,7 @@ const Dashboard = () => {
                     >
                       <div className="flex items-center space-x-3">
                         <mod.icon size={18} />
-                        <span className="text-[13px] font-bold uppercase tracking-widest">{mod.name}</span>
+                        <span className="text-[13px] uppercase tracking-widest">{mod.name}</span>
                       </div>
                       {openMenus[mod.name] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                     </button>
@@ -85,11 +85,10 @@ const Dashboard = () => {
                           <li key={j}>
                             <Link
                               to={sub.path}
-                              className={`flex items-center space-x-3 p-2 rounded-md transition-all text-[11px] font-bold uppercase tracking-widest ${
-                                location.pathname === sub.path
-                                ? 'bg-[#bd9143] text-white shadow-md'
-                                : 'text-white hover:text-white hover:bg-white/5'
-                              }`}
+                              className={`flex items-center space-x-3 p-2 rounded-md transition-all text-[11px] uppercase tracking-widest ${location.pathname === sub.path
+                                  ? 'bg-[#bd9143] text-white shadow-md'
+                                  : 'text-white hover:text-white hover:bg-white/5'
+                                }`}
                             >
                               <span>{sub.name}</span>
                             </Link>
@@ -99,16 +98,15 @@ const Dashboard = () => {
                     )}
                   </div>
                 ) : (
-                  <Link 
-                    to={mod.path} 
-                    className={`flex items-center space-x-3 p-3 rounded-md transition-all group ${
-                      location.pathname === mod.path 
-                      ? 'bg-[#bd9143] text-white shadow-lg' 
-                      : 'text-white hover:bg-white/10'
-                    }`}
+                  <Link
+                    to={mod.path}
+                    className={`flex items-center space-x-3 p-3 rounded-md transition-all group ${location.pathname === mod.path
+                        ? 'bg-[#bd9143] text-white shadow-lg'
+                        : 'text-white hover:bg-white/10'
+                      }`}
                   >
                     <mod.icon size={18} className={location.pathname === mod.path ? 'text-white' : 'text-white group-hover:text-white'} />
-                    <span className="text-[13px] font-bold uppercase tracking-widest">{mod.name}</span>
+                    <span className="text-[13px] uppercase tracking-widest">{mod.name}</span>
                   </Link>
                 )}
               </li>
@@ -119,7 +117,7 @@ const Dashboard = () => {
         <div className="p-4 border-t border-white/10">
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-3 p-3 w-full rounded-md bg-red-600/10 hover:bg-red-600 transition-all text-red-400 hover:text-white text-[13px] font-bold uppercase tracking-widest shadow-inner"
+            className="flex items-center space-x-3 p-3 w-full rounded-md bg-red-600/10 hover:bg-red-600 transition-all text-red-400 hover:text-white text-[13px] uppercase tracking-widest shadow-inner"
           >
             <LogOut size={16} />
             <span>Logout</span>
@@ -139,14 +137,14 @@ const Dashboard = () => {
               })?.name || 'Admin Panel'}
             </h2>
             <span className="h-6 w-[1px] bg-gray-200"></span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-1 rounded">System Live</span>
+            <span className="text-[10px]  text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-1 rounded">System Live</span>
           </div>
 
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-4 px-4 py-1.5 bg-[#f4f7fa] rounded-lg border border-gray-100">
               <div className="text-right">
                 <p className="text-[10px] font-black text-[#001e38] leading-none mb-1 uppercase tracking-tighter">{admin?.email}</p>
-                <p className="text-[9px] font-bold text-[#bd9143] uppercase tracking-widest text-right">Root Administrator</p>
+                <p className="text-[9px] text-[#bd9143] uppercase tracking-widest text-right">Root Administrator</p>
               </div>
               <div className="h-8 w-8 rounded-md bg-[#001e38] flex items-center justify-center text-white shadow-lg relative">
                 <User size={16} />

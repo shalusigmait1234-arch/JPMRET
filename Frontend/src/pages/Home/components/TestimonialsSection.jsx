@@ -36,7 +36,7 @@ const TestimonialsSection = () => {
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="text-center mb-16">
           <span className="text-[#bd9143] text-xl font-medium uppercase tracking-widest mb-4 block">What People Say</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Voices of Impact</h2>
+          <h2 className="text-4xl md:text-5xl text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Voices of Impact</h2>
           <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-8"></div>
           <p className="text-[#45443F] max-w-2xl mx-auto text-lg">Voices from communities where we have made a difference.</p>
         </div>
@@ -64,21 +64,21 @@ const TestimonialsSection = () => {
                   <div className="absolute top-8 right-8 text-4xl text-[#bd9143]/20 group-hover:text-[#bd9143]/40 transition-colors">
                     <i className="fa-solid fa-quote-right"></i>
                   </div>
-                  
+
                   <div className="flex items-center gap-4 mb-8">
                     <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#bd9143] shadow-md">
-                      <img 
-                        src={getImageUrl(test.img)} 
-                        alt={test.name} 
-                        className="w-full h-full object-cover" 
+                      <img
+                        src={getImageUrl(test.img)}
+                        alt={test.name}
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <div>
-                      <h5 className="text-lg font-bold text-[#001e38]">{test.name}</h5>
+                      <h5 className="text-xl text-[#001e38]">{test.name}</h5>
                       <span className="text-sm text-[#bd9143] font-medium uppercase tracking-wider">{test.role}</span>
                     </div>
                   </div>
-                  
+
                   <p className="text-[#45443F] italic leading-relaxed text-lg">
                     "{test.text}"
                   </p>
@@ -89,7 +89,8 @@ const TestimonialsSection = () => {
         )}
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .testimonial-swiper .swiper-pagination-bullet {
           width: 10px;
           height: 10px;
