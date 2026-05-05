@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   useGetStatsListQuery,
   useSaveStatMutation,
@@ -12,7 +13,8 @@ import {
   Hash,
   Type,
   ArrowUpDown,
-  Edit2
+  Edit2,
+  X
 } from 'lucide-react';
 
 const StatManagement = () => {
@@ -27,12 +29,11 @@ const StatManagement = () => {
     order: 0
   });
   const [editingId, setEditingId] = useState(null);
-  const [message, setMessage] = useState({ type: '', text: '' });
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const resetForm = () => {
     setFormData({ label: '', value: '', target: '+', order: 0 });
     setEditingId(null);
-    setMessage({ type: '', text: '' });
+    setIsModalOpen(false);
   };
 
   const handleEdit = (stat) => {
@@ -43,30 +44,30 @@ const StatManagement = () => {
       order: stat.order || 0
     });
     setEditingId(stat._id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this stat?')) {
       try {
         await deleteStat(id).unwrap();
-        setMessage({ type: 'success', text: 'Stat deleted successfully!' });
+        toast.success('Stat deleted successfully!');
         if (editingId === id) resetForm();
       } catch {
-        setMessage({ type: 'error', text: 'Failed to delete stat.' });
+        toast.error('Failed to delete stat.');
       }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage({ type: '', text: '' });
+    
     try {
       await saveStat({ id: editingId || undefined, ...formData }).unwrap();
-      setMessage({ type: 'success', text: editingId ? 'Stat updated!' : 'Stat created!' });
+      toast.success(editingId ? 'Stat updated!' : 'Stat created!');
       if (!editingId) resetForm();
     } catch {
-      setMessage({ type: 'error', text: 'Failed to save stat.' });
+      toast.error('Failed to save stat.');
     }
   };
 
@@ -79,35 +80,32 @@ const StatManagement = () => {
   return (
     <div className="w-full space-y-8">
       <div className="flex justify-between items-end">
-        {/* <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
-            Stats / Counter Management
-          </h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-            Manage the achievement counters on the homepage
-          </p>
-        </div> */}
-        {editingId && (
-          <button
-            onClick={resetForm}
-            className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all text-xs font-bold uppercase tracking-widest"
-          >
-            <Plus size={14} />
-            <span>Add New Instead</span>
-          </button>
-        )}
+        <button
+          onClick={() => { resetForm(); setIsModalOpen(true); }}
+          className="flex items-center space-x-2 px-4 py-2 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md"
+        >
+          <Plus size={14} />
+          <span>Create New Stat</span>
+        </button>
       </div>
 
-      {message.text && (
-        <div className={`p-4 rounded-lg text-sm font-bold ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
-          {message.text}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 gap-8">
-        {/* Form */}
-        <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-          <form onSubmit={handleSubmit} className="space-y-5">
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-lg font-black text-[#013b6d] uppercase tracking-widest">
+                {editingId ? 'Edit Stat' : 'Create New Stat'}
+              </h3>
+              <button 
+                onClick={() => { resetForm(); setIsModalOpen(false); }} 
+                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-1 shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto">
+              <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
@@ -173,16 +171,19 @@ const StatManagement = () => {
               <button
                 type="submit"
                 disabled={saving}
-                className="min-w-[200px] flex items-center justify-center space-x-3 py-2.5 px-6 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+                className={`min-w-[200px] flex items-center justify-center space-x-3 py-2.5 px-6 rounded-lg hover: transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 ${saving ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
               >
                 <Save size={18} />
                 <span className="text-sm font-bold uppercase tracking-widest">
-                  {saving ? 'Saving...' : editingId ? 'Update Stat' : 'Create Stat'}
+                  {saving ? 'Submitting...' : editingId ? 'Update Stat' : 'Create Stat'}
                 </span>
               </button>
             </div>
           </form>
         </div>
+      </div>
+      </div>
+      )}
 
         {/* Live Preview */}
         {/* <div className="space-y-4">
@@ -205,7 +206,7 @@ const StatManagement = () => {
             </div>
           </div>
         </div> */}
-      </div>
+      
 
       {/* Existing Stats Table */}
       <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">

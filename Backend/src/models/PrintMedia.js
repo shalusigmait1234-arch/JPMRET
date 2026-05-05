@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const printMediaSchema = new mongoose.Schema({
   title: {
@@ -18,4 +18,5 @@ const printMediaSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('PrintMedia', printMediaSchema);
+const PrintMedia = mongoose.model('PrintMedia', printMediaSchema);
+export default PrintMedia;

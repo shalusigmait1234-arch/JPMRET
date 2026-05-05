@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   useGetReportsListQuery,
   useCreateReportMutation,
@@ -35,13 +36,11 @@ const ReportManagement = () => {
     order: 0
   });
 
-  const [message, setMessage] = useState({ type: '', text: '' });
-
   const resetForm = () => {
     setFormData({ year: '', label: '', url: '', order: 0 });
     setEditId(null);
     setIsFormOpen(false);
-    setMessage({ type: '', text: '' });
+    
   };
 
   const handleEdit = (report) => {
@@ -60,7 +59,7 @@ const ReportManagement = () => {
     if (!file) return;
 
     if (file.type !== 'application/pdf') {
-      setMessage({ type: 'error', text: 'Please upload a PDF file only.' });
+      toast.error('Please upload a PDF file only.');
       return;
     }
 
@@ -71,9 +70,9 @@ const ReportManagement = () => {
     try {
       const response = await uploadFile(uploadData).unwrap();
       setFormData(prev => ({ ...prev, url: response.url }));
-      setMessage({ type: 'success', text: 'File uploaded successfully.' });
+      toast.success('File uploaded successfully.');
     } catch (err) {
-      setMessage({ type: 'error', text: 'Failed to upload file.' });
+      toast.error('Failed to upload file.');
     }
   };
 
@@ -82,14 +81,14 @@ const ReportManagement = () => {
     try {
       if (editId) {
         await updateReport({ id: editId, ...formData }).unwrap();
-        setMessage({ type: 'success', text: 'Report updated successfully.' });
+        toast.success('Report updated successfully.');
       } else {
         await createReport(formData).unwrap();
-        setMessage({ type: 'success', text: 'Report created successfully.' });
+        toast.success('Report created successfully.');
       }
       setTimeout(resetForm, 1500);
     } catch (err) {
-      setMessage({ type: 'error', text: 'Failed to save report.' });
+      toast.error('Failed to save report.');
     }
   };
 
@@ -97,9 +96,9 @@ const ReportManagement = () => {
     if (window.confirm('Are you sure you want to delete this report?')) {
       try {
         await deleteReport(id).unwrap();
-        setMessage({ type: 'success', text: 'Report deleted successfully.' });
+        toast.success('Report deleted successfully.');
       } catch (err) {
-        setMessage({ type: 'error', text: 'Failed to delete report.' });
+        toast.error('Failed to delete report.');
       }
     }
   };
@@ -140,17 +139,19 @@ const ReportManagement = () => {
       )}
 
       {!fetching && isFormOpen && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
-            <h4 className="text-xs font-black text-[#013b6d] uppercase tracking-[0.2em] flex items-center gap-2">
-              <FileText size={14} /> {editId ? 'Edit Report' : 'Add New Report'}
-            </h4>
-            <button onClick={resetForm} className="text-gray-400 hover:text-red-500 transition-colors">
-              <X size={20} />
-            </button>
-          </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
+              <h4 className="text-xs font-black text-[#013b6d] uppercase tracking-[0.2em] flex items-center gap-2">
+                <FileText size={14} /> {editId ? 'Edit Report' : 'Add New Report'}
+              </h4>
+              <button onClick={resetForm} className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm">
+                <X size={20} />
+              </button>
+            </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="p-8 overflow-y-auto">
+              <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Year</label>
@@ -217,22 +218,19 @@ const ReportManagement = () => {
               <button
                 type="submit"
                 disabled={creating || updating || uploading}
-                className="flex items-center space-x-2 px-8 py-2 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 disabled:opacity-50"
+                className={`flex items-center space-x-2 px-8 py-2 rounded-lg hover: transition-all font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 disabled:opacity-50 ${creating || updating || uploading ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
               >
                 {creating || updating ? <RefreshCw className="animate-spin" size={14} /> : <Save size={14} />}
-                <span>{editId ? 'Update Report' : 'Save Report'}</span>
+                <span>{creating || updating || uploading ? 'Submitting...' : editId ? 'Update Report' : 'Save Report'}</span>
               </button>
             </div>
           </form>
         </div>
+      </div>
+      </div>
       )}
 
-      {message.text && (
-        <div className={`p-4 rounded-lg text-sm font-bold ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
-          {message.text}
-        </div>
-      )}
-
+      
       {!fetching && (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {reports?.map((report) => (

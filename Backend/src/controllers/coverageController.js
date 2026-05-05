@@ -1,4 +1,4 @@
-const Coverage = require('../models/Coverage');
+import Coverage from '../models/Coverage.js';
 
 // @desc    Get coverage content by slug
 // @route   GET /api/content/coverage/:slug
@@ -43,7 +43,7 @@ const upsertCoverage = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getCoverageBySlug,
   upsertCoverage
 };

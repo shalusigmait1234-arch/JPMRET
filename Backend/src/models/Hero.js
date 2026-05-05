@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const HeroSchema = new mongoose.Schema({
   title: {
@@ -33,4 +33,5 @@ const HeroSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Hero', HeroSchema);
+const Hero = mongoose.model('Hero', HeroSchema);
+export default Hero;

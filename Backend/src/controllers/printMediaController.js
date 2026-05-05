@@ -1,4 +1,4 @@
-const PrintMedia = require('../models/PrintMedia');
+import PrintMedia from '../models/PrintMedia.js';
 
 // @desc    Get all print media
 // @route   GET /api/content/print-media
@@ -80,7 +80,7 @@ const deletePrintMedia = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getPrintMedia,
   createPrintMedia,
   updatePrintMedia,

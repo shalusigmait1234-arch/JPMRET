@@ -1,9 +1,21 @@
 
 import { useGetInquiriesQuery, useUpdateInquiryStatusMutation } from '../../../store/api/adminApi';
-import { Mail, Phone, Calendar, Clock, CheckCircle, Eye, ShieldCheck } from 'lucide-react';
+import { Mail, Phone, Calendar, Clock, CheckCircle, Eye, ShieldCheck, X, User, MessageSquare, Info } from 'lucide-react';
+import { useState } from 'react';
 const Inquiries = () => {
   const { data: inquiries, isLoading } = useGetInquiriesQuery();
   const [updateStatus] = useUpdateInquiryStatusMutation();
+  const [selectedInquiry, setSelectedInquiry] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewDetails = (inquiry) => {
+    setSelectedInquiry(inquiry);
+    setIsModalOpen(true);
+    // If it was new, mark it as read automatically when viewed?
+    if (inquiry.status === 'New') {
+      handleStatusChange(inquiry._id, 'Read');
+    }
+  };
 
   const handleStatusChange = async (id, status) => {
     try {
@@ -77,7 +89,10 @@ const Inquiries = () => {
                           <CheckCircle size={14} className="mr-1" /> Mark Read
                         </button>
                       )}
-                      <button className="flex-1 flex items-center justify-center p-2 border border-[#001e38] text-[#001e38] rounded-md hover:bg-gray-50 transition-all text-xs uppercase tracking-tighter">
+                      <button 
+                        onClick={() => handleViewDetails(inquiry)}
+                        className="flex-1 flex items-center justify-center p-2 border border-[#001e38] text-[#001e38] rounded-md hover:bg-gray-50 transition-all text-xs uppercase tracking-tighter"
+                      >
                         <Eye size={14} className="mr-1" /> View Details
                       </button>
                     </div>
@@ -95,6 +110,104 @@ const Inquiries = () => {
           </div>
         )}
       </div>
+
+      {isModalOpen && selectedInquiry && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
+              <div className="flex items-center gap-2 text-[#013b6d]">
+                <Info size={18} />
+                <h3 className="text-lg font-black uppercase tracking-widest">Inquiry Details</h3>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(false)} 
+                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="p-8 space-y-8 max-h-[80vh] overflow-y-auto">
+              {/* Contact Info Card */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-[#001e38]/5 flex items-center justify-center text-[#001e38]">
+                      <User size={18} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em]">Full Name</p>
+                      <p className="text-base font-bold text-[#001e38]">{selectedInquiry.name}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-[#001e38]/5 flex items-center justify-center text-[#001e38]">
+                      <Mail size={18} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em]">Email Address</p>
+                      <p className="text-base font-bold text-[#001e38] truncate">{selectedInquiry.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-[#001e38]/5 flex items-center justify-center text-[#001e38]">
+                      <Phone size={18} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em]">Phone Number</p>
+                      <p className="text-base font-bold text-[#001e38]">{selectedInquiry.phone || 'N/A'}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-[#001e38]/5 flex items-center justify-center text-[#001e38]">
+                      <Calendar size={18} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.1em]">Received On</p>
+                      <p className="text-base font-bold text-[#001e38]">
+                        {new Date(selectedInquiry.createdAt).toLocaleDateString()} at {new Date(selectedInquiry.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Message Section */}
+              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <div className="flex items-center gap-2 mb-4">
+                  <MessageSquare size={16} className="text-[#bd9143]" />
+                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">Message Content</p>
+                </div>
+                <div className="space-y-4">
+                   <div className="pb-3 border-b border-gray-200">
+                      <p className="text-xs font-bold text-[#bd9143] uppercase tracking-widest mb-1">Subject</p>
+                      <p className="text-lg font-bold text-[#001e38]">{selectedInquiry.subject}</p>
+                   </div>
+                   <div className="pt-2">
+                      <p className="text-base text-gray-600 leading-relaxed italic whitespace-pre-wrap">
+                        "{selectedInquiry.message}"
+                      </p>
+                   </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-6 bg-gray-50 border-t border-gray-100 flex justify-end">
+               <button 
+                 onClick={() => setIsModalOpen(false)}
+                 className="px-8 py-3 bg-[#001e38] text-white rounded-xl hover:bg-[#bd9143] transition-all font-bold text-xs uppercase tracking-widest shadow-md"
+               >
+                 Close Details
+               </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

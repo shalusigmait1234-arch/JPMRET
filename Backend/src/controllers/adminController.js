@@ -1,9 +1,9 @@
-const Admin = require('../models/Admin');
-const Hero = require('../models/Hero');
-const Contact = require('../models/Contact');
-const Stat = require('../models/Stat');
-const Service = require('../models/Service');
-const jwt = require('jsonwebtoken');
+import Admin from '../models/Admin.js';
+import Hero from '../models/Hero.js';
+import Contact from '../models/Contact.js';
+import Stat from '../models/Stat.js';
+import Service from '../models/Service.js';
+import jwt from 'jsonwebtoken';
 
 // Generate JWT
 const generateToken = (id) => {
@@ -68,7 +68,7 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   loginAdmin,
   getAdminProfile,
   getDashboardStats

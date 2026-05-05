@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const benefitSchema = new mongoose.Schema({
   title: {
@@ -23,4 +23,5 @@ const benefitSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Benefit', benefitSchema);
+const Benefit = mongoose.model('Benefit', benefitSchema);
+export default Benefit;

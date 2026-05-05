@@ -1,4 +1,4 @@
-const Benefit = require('../models/Benefit');
+import Benefit from '../models/Benefit.js';
 
  
 const getBenefits = async (req, res) => {
@@ -83,7 +83,7 @@ const deleteBenefit = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getBenefits,
   getAdminBenefits,
   createBenefit,

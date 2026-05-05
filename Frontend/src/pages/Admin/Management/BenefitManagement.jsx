@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   useGetBenefitsListQuery,
   useCreateBenefitMutation,
@@ -14,7 +15,8 @@ import {
   FileText,
   Heart,
   ArrowUpDown,
-  Edit2
+  Edit2,
+  X
 } from 'lucide-react';
 
 const BenefitManagement = () => {
@@ -30,12 +32,12 @@ const BenefitManagement = () => {
     order: 0
   });
   const [editingId, setEditingId] = useState(null);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const resetForm = () => {
     setFormData({ title: '', icon: 'fa fa-check', description: '', order: 0 });
     setEditingId(null);
-    setMessage({ type: '', text: '' });
+    setIsModalOpen(false);
   };
 
   const handleEdit = (benefit) => {
@@ -46,35 +48,35 @@ const BenefitManagement = () => {
       order: benefit.order || 0
     });
     setEditingId(benefit._id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this benefit?')) {
       try {
         await deleteBenefit(id).unwrap();
-        setMessage({ type: 'success', text: 'Benefit deleted successfully!' });
+        toast.success('Benefit deleted successfully!');
         if (editingId === id) resetForm();
       } catch {
-        setMessage({ type: 'error', text: 'Failed to delete benefit.' });
+        toast.error('Failed to delete benefit.');
       }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage({ type: '', text: '' });
+    
     try {
       if (editingId) {
         await updateBenefit({ id: editingId, ...formData }).unwrap();
-        setMessage({ type: 'success', text: 'Benefit updated successfully!' });
+        toast.success('Benefit updated successfully!');
       } else {
         await createBenefit(formData).unwrap();
-        setMessage({ type: 'success', text: 'Benefit created successfully!' });
+        toast.success('Benefit created successfully!');
         resetForm();
       }
     } catch {
-      setMessage({ type: 'error', text: 'Failed to save benefit.' });
+      toast.error('Failed to save benefit.');
     }
   };
 
@@ -88,36 +90,33 @@ const BenefitManagement = () => {
 
   return (
     <div className="w-full space-y-8">
-      <div className="flex justify-between items-end">
-        {/* <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
-            What Drives Us
-          </h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-            Manage the commitment/benefits section on the homepage
-          </p>
-        </div> */}
-        {editingId && (
-          <button
-            onClick={resetForm}
-            className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all text-xs font-bold uppercase tracking-widest"
-          >
-            <Plus size={14} />
-            <span>Add New Instead</span>
-          </button>
-        )}
+      <div className="flex justify-between items-center">
+        <button
+          onClick={() => { resetForm(); setIsModalOpen(true); }}
+          className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
+        >
+          <Plus size={16} />
+          <span>Create New Benefit</span>
+        </button>
       </div>
 
-      {message.text && (
-        <div className={`p-4 rounded-lg text-sm  ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
-          {message.text}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 gap-8">
-        {/* Form */}
-        <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-          <form onSubmit={handleSubmit} className="space-y-5">
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-lg font-black text-[#013b6d] uppercase tracking-widest">
+                {editingId ? 'Edit Benefit' : 'Create New Benefit'}
+              </h3>
+              <button 
+                onClick={() => { resetForm(); setIsModalOpen(false); }} 
+                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="p-8 overflow-y-auto">
+              <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
@@ -184,16 +183,19 @@ const BenefitManagement = () => {
               <button
                 type="submit"
                 disabled={saving}
-                className="min-w-[200px] flex items-center justify-center space-x-3 py-2.5 px-6 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+                className={`min-w-[200px] flex items-center justify-center space-x-3 py-2.5 px-6 rounded-lg hover: transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 ${saving ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
               >
                 <Save size={18} />
                 <span className="text-sm uppercase tracking-widest">
-                  {saving ? 'Saving...' : editingId ? 'Update' : 'Create'}
+                  {saving ? 'Submitting...' : editingId ? 'Update' : 'Create'}
                 </span>
               </button>
             </div>
           </form>
         </div>
+      </div>
+      </div>
+      )}
 
         {/* Live Preview */}
         {/* <div className="space-y-4">
@@ -277,7 +279,6 @@ const BenefitManagement = () => {
             </table>
           </div>
         </div>
-      </div>
     </div>
   );
 };

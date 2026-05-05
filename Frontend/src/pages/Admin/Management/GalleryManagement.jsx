@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import {
   useGetGalleryListQuery,
   useCreateGalleryImageMutation,
@@ -35,7 +36,7 @@ const GalleryManagement = () => {
   });
   
   const [editingId, setEditingId] = useState(null);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -49,7 +50,8 @@ const GalleryManagement = () => {
   const resetForm = () => {
     setFormData({ image: '', caption: '', category: 'General', order: 0 });
     setEditingId(null);
-    setMessage({ type: '', text: '' });
+    setIsModalOpen(false);
+    
     setPreviewImage(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
@@ -59,7 +61,7 @@ const GalleryManagement = () => {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      setMessage({ type: 'error', text: 'Please select an image file.' });
+      toast.error('Please select an image file.');
       return;
     }
 
@@ -78,7 +80,7 @@ const GalleryManagement = () => {
       // Removed auto-save. Let the user click 'Save Image' button below.
     } catch (err) {
       console.error('Upload failed:', err);
-      setMessage({ type: 'error', text: 'Failed to upload image.' });
+      toast.error('Failed to upload image.');
       setPreviewImage(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
@@ -99,41 +101,41 @@ const GalleryManagement = () => {
     });
     setEditingId(item._id);
     setPreviewImage(getImageUrl(item.image));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this image from the gallery?')) {
       try {
         await deleteGalleryImage(id).unwrap();
-        setMessage({ type: 'success', text: 'Image deleted successfully!' });
+        toast.success('Image deleted successfully!');
         if (editingId === id) resetForm();
       } catch {
-        setMessage({ type: 'error', text: 'Failed to delete image.' });
+        toast.error('Failed to delete image.');
       }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage({ type: '', text: '' });
+    
     
     if (!formData.image) {
-      setMessage({ type: 'error', text: 'Please upload an image.' });
+      toast.error('Please upload an image.');
       return;
     }
 
     try {
       if (editingId) {
         await updateGalleryImage({ id: editingId, ...formData }).unwrap();
-        setMessage({ type: 'success', text: 'Gallery updated successfully!' });
+        toast.success('Gallery updated successfully!');
       } else {
         await createGalleryImage(formData).unwrap();
-        setMessage({ type: 'success', text: 'Image added to gallery!' });
+        toast.success('Image added to gallery!');
         resetForm();
       }
     } catch {
-      setMessage({ type: 'error', text: 'Failed to save gallery item.' });
+      toast.error('Failed to save gallery item.');
     }
   };
 
@@ -147,40 +149,33 @@ const GalleryManagement = () => {
 
   return (
     <div className="w-full space-y-8">
-      <div className="flex justify-between items-end">
-        {/* <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
-            Photo Gallery
-          </h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-            Manage images displayed in the public gallery
-          </p>
-        </div> */}
-        {editingId && (
-          <button
-            onClick={resetForm}
-            className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all text-xs font-bold uppercase tracking-widest"
-          >
-            <Plus size={14} />
-            <span>Add New Image</span>
-          </button>
-        )}
+      <div className="flex justify-between items-center mb-6">
+        <button
+          onClick={() => { resetForm(); setIsModalOpen(true); }}
+          className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
+        >
+          <Plus size={16} />
+          <span>Add New Image</span>
+        </button>
       </div>
 
-      {message.text && (
-        <div className={`p-4 rounded-lg text-sm font-bold ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
-          {message.text}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Form */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-            <h4 className="text-xs font-black text-[#013b6d] uppercase tracking-[0.2em] border-b border-gray-100 pb-4 mb-6">
-              {editingId ? 'Edit Image Details' : 'Upload New Image'}
-            </h4>
-            <form onSubmit={handleSubmit} className="space-y-6">
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-lg font-black text-[#013b6d] uppercase tracking-widest">
+                {editingId ? 'Edit Image' : 'Add New Image'}
+              </h3>
+              <button 
+                onClick={() => { resetForm(); setIsModalOpen(false); }} 
+                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="p-8 overflow-y-auto">
+              <form onSubmit={handleSubmit} className="space-y-6">
               
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
@@ -260,20 +255,22 @@ const GalleryManagement = () => {
                 <button
                   type="submit"
                   disabled={saving || !formData.image}
-                className="w-full flex items-center justify-center space-x-3 py-2 px-6 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+                className={`w-full flex items-center justify-center space-x-3 py-2 px-6 rounded-lg hover: transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 ${saving ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
                 >
                   <Save size={18} />
                   <span className="text-sm font-bold uppercase tracking-widest">
-                    {saving ? 'Saving...' : editingId ? 'Update Image' : 'Save Image'}
+                    {saving ? 'Submitting...' : editingId ? 'Update Image' : 'Save Image'}
                   </span>
                 </button>
               </div>
             </form>
           </div>
         </div>
+      </div>
+      )}
 
-        {/* Grid Display */}
-        <div className="lg:col-span-7">
+      {/* Grid Display */}
+      <div className="w-full">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-full">
             <div className="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
               <h4 className="text-xs font-black text-[#013b6d] uppercase tracking-[0.2em]">Image Grid</h4>
@@ -333,7 +330,6 @@ const GalleryManagement = () => {
             )}
           </div>
         </div>
-      </div>
     </div>
   );
 };

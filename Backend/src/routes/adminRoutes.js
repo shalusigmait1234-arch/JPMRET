@@ -1,17 +1,17 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { loginAdmin, getAdminProfile, getDashboardStats } = require('../controllers/adminController');
-const { getInquiries, updateInquiryStatus } = require('../controllers/contactController');
-const { updateHero, getAllHeroes, createHero, deleteHero } = require('../controllers/heroController');
-const { getStats, saveStat, deleteStat } = require('../controllers/statController');
-const { getServices, saveService, deleteService } = require('../controllers/serviceController');
-const { getAdminBenefits, createBenefit, updateBenefit, deleteBenefit } = require('../controllers/benefitController');
-const { getAdminGallery, createGalleryImage, updateGalleryImage, deleteGalleryImage } = require('../controllers/galleryController');
-const { getAdminTestimonials, createTestimonial, updateTestimonial, deleteTestimonial } = require('../controllers/testimonialController');
-const { upsertCoverage } = require('../controllers/coverageController');
-const { createReport, updateReport, deleteReport } = require('../controllers/reportController');
-const { createPrintMedia, updatePrintMedia, deletePrintMedia } = require('../controllers/printMediaController');
-const { protect } = require('../middleware/authMiddleware');
+import { loginAdmin, getAdminProfile, getDashboardStats } from '../controllers/adminController.js';
+import { getInquiries, updateInquiryStatus } from '../controllers/contactController.js';
+import { updateHero, getAllHeroes, createHero, deleteHero } from '../controllers/heroController.js';
+import { getStats, saveStat, deleteStat } from '../controllers/statController.js';
+import { getServices, saveService, deleteService } from '../controllers/serviceController.js';
+import { getAdminBenefits, createBenefit, updateBenefit, deleteBenefit } from '../controllers/benefitController.js';
+import { getAdminGallery, createGalleryImage, updateGalleryImage, deleteGalleryImage } from '../controllers/galleryController.js';
+import { getAdminTestimonials, createTestimonial, updateTestimonial, deleteTestimonial } from '../controllers/testimonialController.js';
+import { upsertCoverage } from '../controllers/coverageController.js';
+import { getReports, createReport, updateReport, deleteReport } from '../controllers/reportController.js';
+import { getPrintMedia, createPrintMedia, updatePrintMedia, deletePrintMedia } from '../controllers/printMediaController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 router.post('/login', loginAdmin);
 router.get('/profile', protect, getAdminProfile);
@@ -59,13 +59,15 @@ router.delete('/testimonials/:id', protect, deleteTestimonial);
 router.post('/coverage', protect, upsertCoverage);
 
 // Reports Management
+router.get('/reports', protect, getReports);
 router.post('/reports', protect, createReport);
 router.patch('/reports/:id', protect, updateReport);
 router.delete('/reports/:id', protect, deleteReport);
 
 // Print Media Management
+router.get('/print-media', protect, getPrintMedia);
 router.post('/print-media', protect, createPrintMedia);
 router.patch('/print-media/:id', protect, updatePrintMedia);
 router.delete('/print-media/:id', protect, deletePrintMedia);
 
-module.exports = router;
+export default router;

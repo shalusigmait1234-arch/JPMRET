@@ -29,17 +29,17 @@ const Dashboard = () => {
   };
 
   const modules = [
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard', activeClass: 'bg-blue-600 text-white', iconClass: 'text-white' },
-    { name: 'Hero Section', icon: ImageIcon, path: '/admin/hero', activeClass: 'bg-purple-600 text-white', iconClass: 'text-white' },
-    { name: 'Stats / Counters', icon: FileText, path: '/admin/stats', activeClass: 'bg-rose-600 text-white', iconClass: 'text-white' },
-    { name: 'Services', icon: FileText, path: '/admin/services', activeClass: 'bg-cyan-600 text-white', iconClass: 'text-white' },
-    { name: 'Why Us', icon: FileText, path: '/admin/benefits', activeClass: 'bg-amber-500 text-white', iconClass: 'text-white' },
-    { name: 'Gallery', icon: ImageIcon, path: '/admin/gallery', activeClass: 'bg-emerald-600 text-white', iconClass: 'text-white' },
-    { name: 'Testimonials', icon: Quote, path: '/admin/testimonials', activeClass: 'bg-pink-600 text-white', iconClass: 'text-white' },
+    { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Hero Section', icon: ImageIcon, path: '/admin/hero', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Stats', icon: FileText, path: '/admin/stats', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Services', icon: FileText, path: '/admin/services', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Why Us', icon: FileText, path: '/admin/benefits', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Gallery', icon: ImageIcon, path: '/admin/gallery', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Testimonials', icon: Quote, path: '/admin/testimonials', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     {
       name: 'Coverage',
       icon: Globe,
-      activeClass: 'bg-indigo-600 text-white',
+      activeClass: 'bg-[#001e38] text-white',
       iconClass: 'text-white',
       subItems: [
         { name: 'Agriculture Development', path: '/admin/agriculture' },
@@ -48,9 +48,9 @@ const Dashboard = () => {
         { name: 'Water Management', path: '/admin/water-management' },
       ]
     },
-    { name: 'Print Media', icon: ImageIcon, path: '/admin/print-media', activeClass: 'bg-orange-500 text-white', iconClass: 'text-white' },
-    { name: 'Reports', icon: FileText, path: '/admin/reports', activeClass: 'bg-sky-600 text-white', iconClass: 'text-white' },
-    { name: 'Inquiries', icon: FileText, path: '/admin/inquiries', activeClass: 'bg-teal-600 text-white', iconClass: 'text-white' },
+    { name: 'Print Media', icon: ImageIcon, path: '/admin/print-media', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Reports', icon: FileText, path: '/admin/reports', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Inquiries', icon: FileText, path: '/admin/inquiries', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
   ];
 
   return (

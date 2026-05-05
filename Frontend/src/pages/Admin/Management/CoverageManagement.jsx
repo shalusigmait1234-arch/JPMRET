@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { useUpsertCoverageMutation, useUploadImageMutation } from '../../../store/api/adminApi';
 import { useGetCoverageQuery } from '../../../store/api/contentApi';
@@ -30,7 +31,6 @@ const CoverageManagement = ({ sectionSlug }) => {
     features: ['']
   });
 
-  const [message, setMessage] = useState({ type: '', text: '' });
   const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
@@ -66,9 +66,9 @@ const CoverageManagement = ({ sectionSlug }) => {
       const response = await uploadImage(uploadData).unwrap();
       const imageUrl = response.url || response.imageUrl;
       setFormData(prev => ({ ...prev, image: imageUrl }));
-      setMessage({ type: 'success', text: 'Image uploaded successfully.' });
+      toast.success('Image uploaded successfully.');
     } catch (err) {
-      setMessage({ type: 'error', text: 'Failed to upload image.' });
+      toast.error('Failed to upload image.');
       setPreviewImage(null);
     }
   };
@@ -91,14 +91,14 @@ const CoverageManagement = ({ sectionSlug }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage({ type: '', text: '' });
+    
 
     try {
       await upsertCoverage({ slug, ...formData }).unwrap();
-      setMessage({ type: 'success', text: 'Content updated successfully!' });
+      toast.success('Content updated successfully!');
       refetch();
     } catch {
-      setMessage({ type: 'error', text: 'Failed to save content.' });
+      toast.error('Failed to save content.');
     }
   };
 
@@ -120,12 +120,6 @@ const CoverageManagement = ({ sectionSlug }) => {
           </p>
         </div> */}
       </div>
-
-      {message.text && (
-        <div className={`p-4 rounded-lg text-sm font-bold ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
-          {message.text}
-        </div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -257,11 +251,13 @@ const CoverageManagement = ({ sectionSlug }) => {
                 <button
                   type="submit"
                   disabled={saving || uploading}
-                  className="w-full flex items-center justify-center space-x-3 py-2.5 px-6 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+                  className={`w-full flex items-center justify-center space-x-3 py-2.5 px-6 rounded-lg transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 ${
+                    saving || uploading ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'
+                  }`}
                 >
                   {saving ? <RefreshCw className="animate-spin" size={18} /> : <Save size={18} />}
                   <span className="text-sm font-bold uppercase tracking-widest">
-                    {saving ? 'Saving...' : 'Update Page Content'}
+                    {saving || uploading ? 'Submitting...' : 'Update Page Content'}
                   </span>
                 </button>
               </div>

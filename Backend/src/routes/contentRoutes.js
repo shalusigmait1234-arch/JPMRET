@@ -1,14 +1,14 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { getHero } = require('../controllers/heroController');
-const { getStats } = require('../controllers/statController');
-const { getServices } = require('../controllers/serviceController');
-const { getBenefits } = require('../controllers/benefitController');
-const { getGallery } = require('../controllers/galleryController');
-const { getTestimonials } = require('../controllers/testimonialController');
-const { getCoverageBySlug } = require('../controllers/coverageController');
-const { getReports } = require('../controllers/reportController');
-const { getPrintMedia } = require('../controllers/printMediaController');
+import { getHero } from '../controllers/heroController.js';
+import { getStats } from '../controllers/statController.js';
+import { getServices } from '../controllers/serviceController.js';
+import { getBenefits } from '../controllers/benefitController.js';
+import { getGallery } from '../controllers/galleryController.js';
+import { getTestimonials } from '../controllers/testimonialController.js';
+import { getCoverageBySlug } from '../controllers/coverageController.js';
+import { getReports } from '../controllers/reportController.js';
+import { getPrintMedia } from '../controllers/printMediaController.js';
 
 router.get('/hero', getHero);
 router.get('/stats', getStats);
@@ -20,4 +20,4 @@ router.get('/coverage/:slug', getCoverageBySlug);
 router.get('/reports', getReports);
 router.get('/print-media', getPrintMedia);
 
-module.exports = router;
+export default router;

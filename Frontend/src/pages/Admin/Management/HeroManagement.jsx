@@ -16,9 +16,11 @@ import {
   Plus,
   RefreshCw,
   MousePointer2,
-  Link2
+  Link2,
+  X
 } from 'lucide-react';
 import { API_BASE_URL } from '../../../config';
+import { toast } from 'react-toastify';
 
 const HeroManagement = () => {
   const { data: heroes, isLoading: fetchLoading, refetch } = useGetHeroesQuery();
@@ -36,8 +38,8 @@ const HeroManagement = () => {
   });
 
   const [editingId, setEditingId] = useState(null);
-  const [message, setMessage] = useState({ type: '', text: '' });
   const [uploadStatus, setUploadStatus] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Use a helper to get full image URL. For production, this should use window.location.origin or an env var
   const getImageUrl = (imagePath) => {
@@ -56,7 +58,7 @@ const HeroManagement = () => {
       buttonLink: ''
     });
     setEditingId(null);
-    setMessage({ type: '', text: '' });
+    setIsModalOpen(false);
   };
 
   const handleEdit = (hero) => {
@@ -68,17 +70,17 @@ const HeroManagement = () => {
       buttonLink: hero.buttonLink || ''
     });
     setEditingId(hero._id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this hero section?')) {
       try {
         await deleteHero(id).unwrap();
-        setMessage({ type: 'success', text: 'Hero section deleted successfully!' });
+        toast.success('Hero section deleted successfully!');
         if (editingId === id) resetForm();
       } catch (err) {
-        setMessage({ type: 'error', text: 'Failed to delete hero section.' });
+        toast.error('Failed to delete hero section.');
       }
     }
   };
@@ -97,32 +99,31 @@ const HeroManagement = () => {
     try {
       setUploadStatus('uploading');
       const response = await uploadImage(data).unwrap();
-      // Store ONLY the filename in the DB as requested
-      const filename = response.filename || response.url.split('/').pop();
-      setFormData({ ...formData, image: filename });
+      // Store the full URL from Cloudinary
+      setFormData({ ...formData, image: response.url });
       setUploadStatus('success');
       setTimeout(() => setUploadStatus(''), 2000);
     } catch (err) {
       setUploadStatus('error');
-      setMessage({ type: 'error', text: 'Image upload failed. Please try again.' });
+      toast.error('Image upload failed. Please try again.');
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage({ type: '', text: '' });
 
     try {
       if (editingId) {
         await updateHero({ id: editingId, ...formData }).unwrap();
-        setMessage({ type: 'success', text: 'Hero section updated successfully!' });
+        toast.success('Hero section updated successfully!');
+        resetForm();
       } else {
         await createHero(formData).unwrap();
-        setMessage({ type: 'success', text: 'Hero section created successfully!' });
+        toast.success('Hero section created successfully!');
         resetForm();
       }
     } catch (err) {
-      setMessage({ type: 'error', text: err?.data?.message || 'Failed to save hero section.' });
+      toast.error(err?.data?.message || 'Failed to save hero section.');
     }
   };
 
@@ -135,31 +136,32 @@ const HeroManagement = () => {
   return (
     <div className="w-full space-y-8">
       <div className="flex justify-between items-end">
-        {/* <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">Hero Section Management</h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">Control the main banners of your website</p>
-        </div> */}
-        {editingId && (
-          <button
-            onClick={resetForm}
-            className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all text-xs font-bold uppercase tracking-widest"
-          >
-            <Plus size={14} />
-            <span>Add New Instead</span>
-          </button>
-        )}
+        {/* Title removed per your UI */}
+        <button
+          onClick={() => { resetForm(); setIsModalOpen(true); }}
+          className="flex items-center space-x-2 px-4 py-2 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md"
+        >
+          <Plus size={14} />
+          <span>Create Hero Section</span>
+        </button>
       </div>
 
-      {message.text && (
-        <div className={`p-4 rounded-lg text-sm flex items-center ${message.type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'
-          }`}>
-          {message.text}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Form Column */}
-        <div className="lg:col-span-12 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
+              <h3 className="text-lg font-black text-[#013b6d] uppercase tracking-widest">
+                {editingId ? 'Edit Hero Section' : 'Create Hero Section'}
+              </h3>
+              <button 
+                onClick={() => { resetForm(); setIsModalOpen(false); }} 
+                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-1 shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -204,16 +206,27 @@ const HeroManagement = () => {
               <div className="flex items-center space-x-4">
                 <div className="flex-1">
                   <label className="w-full flex flex-col items-center justify-center p-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:bg-gray-100 hover:border-[#bd9143]/50 transition-all group">
-                    <div className="flex flex-col items-center justify-center pt-2 pb-3">
-                      {uploadStatus === 'uploading' ? (
-                        <div className="animate-spin h-6 w-6 border-b-2 border-[#bd9143]"></div>
+                    <div className="flex flex-col items-center justify-center pt-2 pb-3 w-full">
+                      {formData.image && uploadStatus !== 'uploading' ? (
+                        <div className="relative w-full h-40 mb-3 rounded-xl overflow-hidden border-2 border-white shadow-md">
+                          <img 
+                            src={getImageUrl(formData.image)} 
+                            alt="Preview" 
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                             <Upload className="text-white h-6 w-6" />
+                          </div>
+                        </div>
+                      ) : uploadStatus === 'uploading' ? (
+                        <div className="animate-spin h-8 w-8 border-b-2 border-[#bd9143] mb-2"></div>
                       ) : uploadStatus === 'success' ? (
-                        <Check className="h-6 w-6 text-green-500" />
+                        <Check className="h-8 w-8 text-green-500 mb-2" />
                       ) : (
-                        <Upload className="h-6 w-6 text-gray-400 group-hover:text-[#bd9143] transition-colors" />
+                        <Upload className="h-8 w-8 text-gray-400 group-hover:text-[#bd9143] transition-colors mb-2" />
                       )}
-                      <p className="mt-2 text-xs  text-gray-500 uppercase tracking-widest">
-                        {uploadStatus === 'uploading' ? 'Uploading...' : 'Click to Upload Image'}
+                      <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">
+                        {uploadStatus === 'uploading' ? 'Uploading...' : formData.image ? 'Click to Change Image' : 'Upload Background Image'}
                       </p>
                     </div>
                     <input type="file" className="hidden" onChange={handleFileUpload} accept="image/*" />
@@ -265,15 +278,22 @@ const HeroManagement = () => {
             <button
               type="submit"
               disabled={updateLoading || createLoading || uploadStatus === 'uploading'}
-              className="w-full flex items-center justify-center space-x-3 py-2.5 px-6 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+              className={`w-full flex items-center justify-center space-x-3 py-2.5 px-6 rounded-lg transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 ${
+                updateLoading || createLoading
+                  ? 'bg-black text-white'
+                  : 'bg-[#001e38] text-white hover:bg-[#bd9143]'
+              }`}
             >
               <Save size={18} />
               <span className="text-sm uppercase tracking-widest">
-                {updateLoading || createLoading ? 'Saving...' : editingId ? 'Update Hero Section' : 'Create Hero Section'}
+                {updateLoading || createLoading ? 'Submitting...' : editingId ? 'Update Hero Section' : 'Create Hero Section'}
               </span>
             </button>
           </form>
+          </div>
         </div>
+      </div>
+      )}
 
         {/* Preview Column */}
         {/* <div className="lg:col-span-5 space-y-6">
@@ -318,7 +338,7 @@ const HeroManagement = () => {
             </div>
           </div>
         </div> */}
-      </div>
+      
 
       <div className="pt-8 border-t border-gray-100">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 overflow-hidden">

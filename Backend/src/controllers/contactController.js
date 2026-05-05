@@ -1,6 +1,6 @@
-const Contact = require('../models/Contact');
+import Contact from '../models/Contact.js';
 
-exports.submitInquiry = async (req, res) => {
+export const submitInquiry = async (req, res) => {
   try {
     const { name, email, phone, subject, message } = req.body;
 
@@ -28,7 +28,7 @@ exports.submitInquiry = async (req, res) => {
 
 
 
-exports.getInquiries = async (req, res) => {
+export const getInquiries = async (req, res) => {
   try {
     const inquiries = await Contact.find().sort({ createdAt: -1 });
     res.status(200).json(inquiries);
@@ -38,7 +38,7 @@ exports.getInquiries = async (req, res) => {
 };
 
 
-exports.updateInquiryStatus = async (req, res) => {
+export const updateInquiryStatus = async (req, res) => {
   try {
     const { status } = req.body;
     const inquiry = await Contact.findByIdAndUpdate(

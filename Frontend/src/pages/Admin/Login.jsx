@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../store/api/adminApi';
 import { Lock, Mail, Loader2, ShieldCheck, ArrowRight } from 'lucide-react';
@@ -6,7 +7,6 @@ import { Lock, Mail, Loader2, ShieldCheck, ArrowRight } from 'lucide-react';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
 
@@ -19,13 +19,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    toast.error('');
     try {
       const result = await login({ email, password }).unwrap();
       localStorage.setItem('adminToken', result.token);
       navigate('/admin/dashboard');
     } catch (err) {
-      setError(err?.data?.message || 'Authentication failed. Please verify your credentials.');
+      toast.error(err?.data?.message || 'Authentication failed. Please verify your credentials.');
     }
   };
 
@@ -102,10 +102,15 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center items-center py-3.5 px-6 bg-[#001e38] hover:bg-[#bd9143] text-white text-sm font-bold rounded-md transition-all duration-300 shadow-md group uppercase tracking-widest"
+                className={`w-full flex justify-center items-center py-3.5 px-6 text-white text-sm font-bold rounded-md transition-all duration-300 shadow-md group uppercase tracking-widest ${
+                  isLoading ? 'bg-black' : 'bg-[#001e38] hover:bg-[#bd9143]'
+                }`}
               >
                 {isLoading ? (
-                  <Loader2 className="animate-spin h-5 w-5" />
+                  <>
+                    <Loader2 className="animate-spin h-5 w-5 mr-2" />
+                    Submitting...
+                  </>
                 ) : (
                   <>
                     Sign In

@@ -1,7 +1,7 @@
-const Hero = require('../models/Hero');
+import Hero from '../models/Hero.js';
 
 
-exports.getHero = async (req, res) => {
+export const getHero = async (req, res) => {
   try {
     const heroes = await Hero.find({ isActive: true }).sort({ updatedAt: -1 });
     if (!heroes || heroes.length === 0) {
@@ -13,7 +13,7 @@ exports.getHero = async (req, res) => {
   }
 };
 
-exports.getAllHeroes = async (req, res) => {
+export const getAllHeroes = async (req, res) => {
   try {
     const heroes = await Hero.find().sort({ updatedAt: -1 });
     res.status(200).json(heroes);
@@ -22,7 +22,7 @@ exports.getAllHeroes = async (req, res) => {
   }
 };
 
-exports.createHero = async (req, res) => {
+export const createHero = async (req, res) => {
   try {
     const { title, subtitle, image, buttonText, buttonLink, isActive } = req.body;
     const hero = await Hero.create({
@@ -43,7 +43,7 @@ exports.createHero = async (req, res) => {
   }
 };
 
-exports.updateHero = async (req, res) => {
+export const updateHero = async (req, res) => {
   try {
     const { title, subtitle, image, buttonText, buttonLink, isActive } = req.body;
     const heroId = req.params.id;
@@ -79,7 +79,7 @@ exports.updateHero = async (req, res) => {
   }
 };
 
-exports.deleteHero = async (req, res) => {
+export const deleteHero = async (req, res) => {
   try {
     const hero = await Hero.findById(req.params.id);
     if (!hero) {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useSubmitInquiryMutation } from '../../../store/api/contactApi';
 
 const ContactForm = () => {
@@ -118,10 +119,12 @@ const ContactForm = () => {
 
                 <button 
                   type="submit" 
-                  className="w-full md:w-auto bg-[#001e38] text-white px-10 py-4 rounded-md font-bold hover:bg-[#bd9143] transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className={`w-full md:w-auto text-white px-10 py-4 rounded-md font-bold transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+                    isLoading ? 'bg-black' : 'bg-[#001e38] hover:bg-[#bd9143]'
+                  }`}
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Sending...' : 'Send Message'} 
+                  {isLoading ? 'Submitting...' : 'Send Message'} 
                   {!isLoading && <i className="icofont-arrow-right text-lg"></i>}
                 </button>
               </form>

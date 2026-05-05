@@ -35,7 +35,7 @@ const TestimonialsSection = () => {
             modules={[Autoplay, Pagination]}
             pagination={{ clickable: true }}
             autoplay={{ delay: 5000 }}
-            loop={true}
+            loop={displayTestimonials.length > 2}
             spaceBetween={30}
             breakpoints={{
               0: { slidesPerView: 1 },

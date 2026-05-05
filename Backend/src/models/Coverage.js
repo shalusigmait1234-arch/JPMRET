@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const coverageSchema = new mongoose.Schema({
   slug: {
@@ -28,4 +28,5 @@ const coverageSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Coverage', coverageSchema);
+const Coverage = mongoose.model('Coverage', coverageSchema);
+export default Coverage;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const statSchema = new mongoose.Schema({
     label: {
@@ -21,4 +21,5 @@ const statSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Stat', statSchema);
+const Stat = mongoose.model('Stat', statSchema);
+export default Stat;

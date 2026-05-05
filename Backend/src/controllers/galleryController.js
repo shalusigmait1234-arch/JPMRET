@@ -1,4 +1,4 @@
-const Gallery = require('../models/Gallery');
+import Gallery from '../models/Gallery.js';
 
 
 const getGallery = async (req, res) => {
@@ -86,7 +86,7 @@ const deleteGalleryImage = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getGallery,
   getAdminGallery,
   createGalleryImage,

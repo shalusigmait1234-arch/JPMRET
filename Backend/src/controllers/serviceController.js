@@ -1,4 +1,4 @@
-const Service = require('../models/Service');
+import Service from '../models/Service.js';
 
 // Get all services
 const getServices = async (req, res) => {
@@ -42,7 +42,7 @@ const deleteService = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     getServices,
     saveService,
     deleteService

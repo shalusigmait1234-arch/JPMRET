@@ -28,7 +28,7 @@ const HeroSection = () => {
         link: Hero.buttonLink,
         btnText: Hero.buttonText
       }]:
-      [Hero]; 
+      []; 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return '';
     if (imagePath.startsWith('http')) return imagePath;
@@ -56,7 +56,7 @@ const HeroSection = () => {
           <SwiperSlide key={index}>
             <div
               className="relative min-h-[500px] md:min-h-[650px] lg:min-h-[800px] flex items-center bg-cover bg-center"
-              style={{ backgroundImage: `linear-gradient(rgba(0,30,56,0.7), rgba(0,30,56,0.7)), url(${getImageUrl(slide.img)})` }}
+              style={{ backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%), url(${getImageUrl(slide.img)})` }}
             >
               <div className="max-w-[1170px] mx-auto px-4 w-full">
                 <div className="max-w-3xl">
@@ -71,7 +71,7 @@ const HeroSection = () => {
                   <div className="flex flex-wrap gap-4">
                     <a
                       href={slide.link}
-                      className="bg-white text-[#001e38] px-8 py-3 rounded-md font-semibold hover:bg-[#bd9143] hover:text-white transition-all duration-300 flex items-center gap-2 shadow-lg"
+                      className="bg-[#bd9143] text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-[#001e38] transition-all duration-300 flex items-center gap-2 shadow-lg"
                     >
                       {slide.btnText || 'Explore More'}
                       <i className="icofont-arrow-right"></i>

@@ -1,27 +1,42 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const connectDB = require('./src/config/db');
-const Admin = require('./src/models/Admin');
-const Stat = require('./src/models/Stat');
-const Service = require('./src/models/Service');
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import connectDB from './src/config/db.js';
+import Admin from './src/models/Admin.js';
+import Stat from './src/models/Stat.js';
+import Service from './src/models/Service.js';
+
+import adminRoutes from './src/routes/adminRoutes.js';
+import uploadRoutes from './src/routes/uploadRoutes.js';
+import contactRoutes from './src/routes/contactRoutes.js';
+import contentRoutes from './src/routes/contentRoutes.js';
+import healthRoutes from './src/routes/healthRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Connect to Database
-connectDB();
+await connectDB();
 
 const app = express();
 
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : [],
+    credentials: true
+};
 
+app.use(cors(corsOptions));
+app.use(express.json());
 // Routes
-app.use('/api/admin', require('./src/routes/adminRoutes'));
-app.use('/api/admin/upload', require('./src/routes/uploadRoutes'));
-app.use('/api/contact', require('./src/routes/contactRoutes'));
-app.use('/api/content', require('./src/routes/contentRoutes'));
+app.use('/api/admin', adminRoutes);
+app.use('/api/admin/upload', uploadRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/content', contentRoutes);
+app.use('/api/health', healthRoutes);
 
 // Seed Admin if not exists
 const seedAdmin = async () => {
@@ -84,7 +99,7 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

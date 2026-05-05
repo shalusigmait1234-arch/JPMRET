@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const gallerySchema = new mongoose.Schema({
   image: {
@@ -23,4 +23,5 @@ const gallerySchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Gallery', gallerySchema);
+const Gallery = mongoose.model('Gallery', gallerySchema);
+export default Gallery;

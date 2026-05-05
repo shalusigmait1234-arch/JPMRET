@@ -1,4 +1,4 @@
-const Stat = require('../models/Stat');
+import Stat from '../models/Stat.js';
 
 // Get all stats
 const getStats = async (req, res) => {
@@ -42,7 +42,7 @@ const deleteStat = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     getStats,
     saveStat,
     deleteStat

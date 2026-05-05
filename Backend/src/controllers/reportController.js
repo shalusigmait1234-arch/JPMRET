@@ -1,4 +1,4 @@
-const Report = require('../models/Report');
+import Report from '../models/Report.js';
 
 // @desc    Get all reports
 // @route   GET /api/content/reports
@@ -82,7 +82,7 @@ const deleteReport = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getReports,
   createReport,
   updateReport,
