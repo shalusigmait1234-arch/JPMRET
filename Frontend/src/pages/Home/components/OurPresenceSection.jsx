@@ -1,43 +1,59 @@
-import React from 'react';
+import React from "react";
 
 const OurPresenceSection = () => {
   return (
-    <section className="py-20 bg-gray-50 overflow-hidden">
+    <section className="py-16 lg:py-20 bg-gray-50 overflow-hidden">
       <div className="max-w-[1170px] mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-5xl text-[#001e38] font-['DM_Serif_Display',serif] relative inline-block pb-4 after:content-[''] after:absolute after:left-1/2 after:bottom-0 after:-translate-x-1/2 after:w-16 after:h-[2px] after:bg-[#f06f14]">
+
+        {/* Heading */}
+        <div className="text-center mb-10 lg:mb-14">
+          <h2 className="text-3xl lg:text-5xl text-[#001e38] font-['DM_Serif_Display',serif] relative inline-block pb-4">
             Our Presence
+            <span className="absolute left-1/2 bottom-0 -translate-x-1/2 w-14 h-[2px] bg-[#f06f14]"></span>
           </h2>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-12">
+        {/* Content */}
+        <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-12">
+
+          {/* Left Text */}
           <div className="w-full lg:w-5/12">
-            <div className="space-y-6 text-[#45443F] text-lg leading-relaxed font-medium">
+            <div className="space-y-5 text-[#45443F] text-base lg:text-lg leading-relaxed font-medium">
+
               <p>
                 Our foundation is actively working across key districts of
-                <strong className="text-[#001e38]"> Uttar Pradesh and Bihar</strong>, reaching thousands of
-                underprivileged communities through impactful development programs.
+                <strong className="text-[#001e38]">
+                  {" "}Uttar Pradesh and Bihar
+                </strong>, reaching thousands of underprivileged communities through impactful development programs.
               </p>
+
               <p>
-                With a strong presence in cities like <strong className="text-[#001e38]">Lucknow (Corporate Office)</strong>,
-                Maharajganj, Gorakhpur, Prayagraj, Varanasi region, and extending into Bihar,
+                With a strong presence in cities like
+                <strong className="text-[#001e38]">
+                  {" "}Lucknow (Corporate Office)
+                </strong>, Maharajganj, Gorakhpur, Prayagraj, Varanasi region, and extending into Bihar,
                 we focus on education, healthcare, livelihood, and social awareness initiatives.
               </p>
+
               <p>
                 Through local participation and sustainable strategies, we aim to create
                 long-lasting positive change in rural and semi-urban areas.
               </p>
+
             </div>
           </div>
-          <div className="w-full lg:w-7/12">
-            <div className="bg-white p-4 rounded-xl shadow-lg transform hover:scale-[1.02] transition-transform duration-500">
+
+          {/* Right Map */}
+          <div className="w-full lg:w-7/12 flex justify-center">
+            <div className="bg-white rounded-2xl flex justify-center items-center">
               <img
                 src="/assets/img/aboutus/map.jpg"
-                className="w-full h-auto rounded-lg"
                 alt="Presence Map"
+                className="w-full h-auto object-contain max-h-[420px]"
               />
             </div>
           </div>
+
         </div>
       </div>
     </section>

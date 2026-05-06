@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { FaWhatsapp, FaArrowUp } from 'react-icons/fa';
 import Header from './Header';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -40,9 +41,9 @@ const Layout = () => {
         href="https://wa.me/919935820377"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-8 left-8 z-50 w-14 h-14 bg-[#25d366] text-white rounded-full flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform duration-300"
+        className="fixed bottom-25 right-8 z-50 w-14 h-14 bg-[#25d366] text-white rounded-full flex items-center justify-center text-3xl shadow-lg hover:scale-110 transition-transform duration-300 animate-blink"
       >
-        <i className="icofont-whatsapp"></i>
+        <FaWhatsapp />
       </a>
 
       {/* Back to Top */}
@@ -50,7 +51,7 @@ const Layout = () => {
         onClick={scrollToTop}
         className={`fixed bottom-8 right-8 z-50 w-12 h-12 bg-[#bd9143] text-white rounded-md flex items-center justify-center shadow-lg hover:bg-[#001e38] transition-all duration-500 transform ${showScroll ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
       >
-        <i className="icofont-arrow-up text-xl"></i>
+        <FaArrowUp className="text-xl" />
       </button>
     </div>
   );

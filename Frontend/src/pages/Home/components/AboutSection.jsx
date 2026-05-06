@@ -6,20 +6,23 @@ const AboutSection = () => {
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="bg-white p-6 md:p-12 rounded-lg shadow-[0px_7px_18px_rgba(0,0,0,0.13)] -mt-32 md:-mt-48 relative z-20">
           <div className="text-center">
-            <h2 className="text-2xl md:text-4xl text-[#001e38] mb-4 font-['DM_Serif_Display',serif]">
+
+            <h2 className="text-2xl md:text-4xl font-['DM_Serif_Display',serif] text-[#0b2b5a] leading-tight">
               Welcome to Janki Prasad Global Governance and Development Foundation
             </h2>
-            <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-8"></div>
 
-            <div className="space-y-6 max-w-5xl mx-auto">
-              <p className="text-[#45443F] text-base md:text-lg leading-relaxed font-medium">
+            <div className="w-20 h-[3px] bg-[#f06f14] mx-auto mb-10"></div>
+
+            <div className="space-y-8 max-w-5xl mx-auto">
+
+              <p className="text-center text-gray-600 text-sm md:text-base leading-relaxed max-w-4xl mx-auto">
                 The JP Global Governance And Development Foundation (JPGGADF), an ISO 9001:2015 certified
                 organization, was established in 2010 with the vision of uplifting the poor and marginalized
                 by promoting people's organizations as a cornerstone for achieving a self-reliant community
                 and contributing to national progress.
               </p>
 
-              <div className="my-8">
+              <div className="my-10">
                 <img
                   src="/assets/img/aboutus/aboutus.jpg"
                   className="w-full h-auto rounded-lg shadow-md"
@@ -27,14 +30,14 @@ const AboutSection = () => {
                 />
               </div>
 
-              <p className="text-[#45443F] text-base md:text-lg leading-relaxed font-medium">
+              <p className="text-[#45443F] text-sm md:text-base leading-relaxed font-medium">
                 The Board of Trustees of the JPGGADF is a distinguished group of individuals who brought
                 together a wealth of experience, knowledge and a commitment to advancing education and
                 social development. Among them are academicians, retired Vice Chancellor and visionaries
                 with a deep appreciation for traditional culture.
               </p>
 
-              <div className="pt-6">
+              <div className="pt-8">
                 <a
                   href="/about"
                   className="inline-flex items-center gap-2 bg-[#001e38] text-white px-8 py-3 rounded-md font-semibold hover:bg-[#bd9143] transition-all duration-300"
@@ -42,6 +45,7 @@ const AboutSection = () => {
                   Read More <i className="icofont-arrow-right"></i>
                 </a>
               </div>
+
             </div>
           </div>
         </div>

@@ -11,36 +11,51 @@ import 'swiper/css/pagination';
 const HeroSection = () => {
   const { data: Hero, isLoading } = useGetHeroQuery();
 
-  // If dynamic data is available and is an array with items, use it. Otherwise use defaults.
-  const slides = (Hero && Array.isArray(Hero) && Hero.length > 0)
-    ? Hero.map(hero => ({
-      title: hero.title,
-      desc: hero.subtitle,
-      img: hero.image,
-      link: hero.buttonLink,
-      btnText: hero.buttonText
-    }))
-    : (Hero && !Array.isArray(Hero))
-      ? [{
-        title: Hero.title,
-        desc: Hero.subtitle,
-        img: Hero.image,
-        link: Hero.buttonLink,
-        btnText: Hero.buttonText
-      }]:
-      []; 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return '';
-    if (imagePath.startsWith('http')) return imagePath;
-    if (imagePath.startsWith('/uploads')) return `${API_BASE_URL}${imagePath}`;
-    return `${API_BASE_URL}/uploads/${imagePath}`;
-  };
+  // ✅ fallback dummy slides
+  const defaultSlides = [
+    {
+      title: "Welcome to Our Platform",
+      desc: "Explore our services and solutions designed for you.",
+      img: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+      link: "#",
+      btnText: "Get Started"
+    },
+    {
+      title: "Build Something Amazing",
+      desc: "We help you turn ideas into reality with modern tech.",
+      img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+      link: "#",
+      btnText: "Learn More"
+    }
+  ];
 
-  if (isLoading) return (
-    <div className="p-20 text-center">
-      <RefreshCw className="animate-spin h-8 w-8 text-[#bd9143] mx-auto" />
-    </div>
-  );
+  // ✅ dynamic + fallback logic
+  const slides =
+    (Hero && Array.isArray(Hero) && Hero.length > 0)
+      ? Hero.map(hero => ({
+          title: hero.title,
+          desc: hero.subtitle,
+          img: hero.image,
+          link: hero.buttonLink,
+          btnText: hero.buttonText
+        }))
+      : (Hero && !Array.isArray(Hero))
+      ? [{
+          title: Hero.title,
+          desc: Hero.subtitle,
+          img: Hero.image,
+          link: Hero.buttonLink,
+          btnText: Hero.buttonText
+        }]
+      : defaultSlides;
+
+  if (isLoading) {
+    return (
+      <div className="p-20 text-center">
+        <RefreshCw className="animate-spin h-8 w-8 text-[#bd9143] mx-auto" />
+      </div>
+    );
+  }
 
   return (
     <div className="relative overflow-hidden">
@@ -55,23 +70,29 @@ const HeroSection = () => {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div
-              className="relative min-h-[500px] md:min-h-[650px] lg:min-h-[800px] flex items-center bg-cover bg-center"
-              style={{ backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%), url(${getImageUrl(slide.img)})` }}
+              className="relative min-h-[320px] md:min-h-[420px] lg:min-h-[520px] flex items-center bg-cover bg-center"
+              style={{
+                backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%), url(${
+                  slide.img || 'https://images.unsplash.com/photo-1501785888041-af3ef285b470'
+                })`
+              }}
             >
               <div className="max-w-[1170px] mx-auto px-4 w-full">
                 <div className="max-w-3xl">
                   <h1
-                    className="text-white text-3xl md:text-5xl lg:text-6xl font-['DM_Serif_Display',serif] mb-6 leading-tight drop-shadow-lg"
+                    className="text-white text-2xl md:text-4xl lg:text-5xl font-['DM_Serif_Display',serif] mb-4 leading-tight drop-shadow-lg"
                     dangerouslySetInnerHTML={{ __html: slide.title }}
-                  ></h1>
+                  />
+
                   <p
-                    className="text-white text-lg md:text-xl mb-10 leading-relaxed opacity-90 drop-shadow-md"
+                    className="text-white text-base md:text-lg mb-6 leading-relaxed opacity-90 drop-shadow-md"
                     dangerouslySetInnerHTML={{ __html: slide.desc }}
-                  ></p>
-                  <div className="flex flex-wrap gap-4">
+                  />
+
+                  <div className="flex flex-wrap gap-3">
                     <a
                       href={slide.link}
-                      className="bg-[#bd9143] text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-[#001e38] transition-all duration-300 flex items-center gap-2 shadow-lg"
+                      className="bg-[#bd9143] text-white px-6 py-2.5 rounded-md font-semibold hover:bg-white hover:text-[#001e38] transition-all duration-300 flex items-center gap-2 shadow-lg"
                     >
                       {slide.btnText || 'Explore More'}
                       <i className="icofont-arrow-right"></i>
@@ -84,33 +105,60 @@ const HeroSection = () => {
         ))}
       </Swiper>
 
-      {/* Custom Slider Navigation Styles */}
+      {/* ✅ IMPROVED SIDE SCROLLER + PAGINATION */}
       <style dangerouslySetInnerHTML={{
         __html: `
-        .swiper-button-next, .swiper-button-prev {
+        /* ===== NAVIGATION ARROWS ===== */
+        .swiper-button-next,
+        .swiper-button-prev {
           color: white !important;
-          background: rgba(255,255,255,0.1);
-          width: 50px !important;
-          height: 50px !important;
+          background: rgba(0,0,0,0.45);
+          width: 45px !important;
+          height: 45px !important;
           border-radius: 50%;
-          backdrop-filter: blur(4px);
+          backdrop-filter: blur(6px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 0.3s ease;
         }
-        .swiper-button-next:after, .swiper-button-prev:after {
-          font-size: 20px !important;
+
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+          background: rgba(0,0,0,0.7);
+          transform: scale(1.1);
         }
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+          font-size: 18px !important;
+          font-weight: bold;
+        }
+
+        .swiper-button-prev {
+          left: 15px;
+        }
+
+        .swiper-button-next {
+          right: 15px;
+        }
+
+        /* ===== PAGINATION ===== */
         .swiper-pagination-bullet {
           background: white !important;
           opacity: 0.5;
-          width: 12px;
-          height: 12px;
+          width: 8px;
+          height: 8px;
         }
+
         .swiper-pagination-bullet-active {
           background: #bd9143 !important;
           opacity: 1;
-          width: 30px;
+          width: 22px;
           border-radius: 6px;
         }
-      `}} />
+        `
+      }} />
     </div>
   );
 };

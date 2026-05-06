@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGetGalleryQuery } from '../../../store/api/contentApi';
 import { API_BASE_URL } from '../../../config';
+import { FaPlus } from "react-icons/fa";
 
 const GallerySection = () => {
   const { data: apiImages, isLoading } = useGetGalleryQuery();
@@ -59,7 +60,7 @@ const GallerySection = () => {
                     className="absolute inset-0 bg-[#001e38]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"
                   >
                     <div className="w-12 h-12 bg-[#bd9143] rounded-full flex items-center justify-center text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <i className="icofont-plus text-xl"></i>
+                      <FaPlus />
                     </div>
                   </a>
                 </div>

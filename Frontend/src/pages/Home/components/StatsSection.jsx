@@ -1,37 +1,89 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetStatsQuery } from '../../../store/api/contentApi';
 
 const defaultStats = [
-  { label: "Projects completed", value: "300", target: "+" },
-  { label: "Communities supported", value: "250", target: "+" },
-  { label: "Volunteers engaged", value: "550", target: "+" },
-  { label: "Beneficiaries reached", value: "500", target: "+" }
+  { label: "Projects completed", value: 300, target: "+" },
+  { label: "Communities supported", value: 250, target: "+" },
+  { label: "Volunteers engaged", value: 550, target: "+" },
+  { label: "Beneficiaries reached", value: 500, target: "+" }
 ];
+
+// ✅ Convert text to Normal Case (First Capital)
+const formatLabel = (text) => {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
+// ✅ Counter
+const Counter = ({ end }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 2000;
+    const increment = end / (duration / 20);
+
+    const timer = setInterval(() => {
+      start += increment;
+
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 20);
+
+    return () => clearInterval(timer);
+  }, [end]);
+
+  return count;
+};
 
 const StatsSection = () => {
   const { data: dynamicStats } = useGetStatsQuery();
-  const stats = (dynamicStats && dynamicStats.length > 0) ? dynamicStats : defaultStats;
+
+  const stats =
+    dynamicStats && dynamicStats.length > 0
+      ? dynamicStats
+      : defaultStats;
 
   return (
-    <div className="bg-[#001e38] py-16 md:py-24 overflow-hidden">
-      <div className="max-w-[1170px] mx-auto px-4">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+    <div
+      className="relative w-full py-10 md:py-14 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/assets/img/banner/counter-bg.jpg')"
+      }}
+    >
+      <div className="absolute inset-0 bg-black/40"></div>
+
+      <div className="relative max-w-[1200px] mx-auto px-4">
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+
           {stats.map((stat, i) => (
-            <div key={stat._id || i} className="text-center group">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <h3 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tighter">
-                  {stat.value}
-                </h3>
-                <span className="text-3xl md:text-5xl font-light text-[#bd9143]">
+            <div key={stat._id || i}>
+
+              {/* NUMBER */}
+              <div className="flex items-end justify-center gap-1">
+
+                <h2 className="text-4xl md:text-6xl lg:text-7xl text-white font-semibold">
+                  <Counter end={Number(stat.value)} />
+                </h2>
+
+                <span className="text-5xl md:text-6xl lg:text-7xl text-[#c49a4a] font-light">
                   {stat.target}
                 </span>
+
               </div>
-              <p className="text-gray-300 font-semibold uppercase text-xs md:text-sm tracking-widest">
-                {stat.label}
+
+              {/* LABEL */}
+              <p className="mt-3 text-xs md:text-sm font-medium text-white/90 tracking-wide">
+                {formatLabel(stat.label)}
               </p>
-              <div className="w-10 h-[1px] bg-[#bd9143] mx-auto mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
             </div>
           ))}
+
         </div>
       </div>
     </div>

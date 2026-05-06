@@ -30,6 +30,8 @@ const Dashboard = () => {
 
   const modules = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Inquiries', icon: FileText, path: '/admin/inquiries', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+
     { name: 'Hero Section', icon: ImageIcon, path: '/admin/hero', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Stats', icon: FileText, path: '/admin/stats', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Services', icon: FileText, path: '/admin/services', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
@@ -50,7 +52,6 @@ const Dashboard = () => {
     },
     { name: 'Print Media', icon: ImageIcon, path: '/admin/print-media', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Reports', icon: FileText, path: '/admin/reports', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
-    { name: 'Inquiries', icon: FileText, path: '/admin/inquiries', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
   ];
 
   return (
@@ -72,16 +73,16 @@ const Dashboard = () => {
                     {(() => {
                       const isActive = mod.subItems.some(s => s.path === location.pathname);
                       return (
-                    <button
-                      onClick={() => toggleMenu(mod.name)}
-                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-all ${isActive ? mod.activeClass : 'hover:bg-slate-100 text-slate-700'}`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <mod.icon size={18} className={isActive ? mod.iconClass : 'text-slate-700'} />
-                        <span className="text-sm font-medium">{mod.name}</span>
-                      </div>
-                      {openMenus[mod.name] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                    </button>
+                        <button
+                          onClick={() => toggleMenu(mod.name)}
+                          className={`w-full flex items-center justify-between p-3 rounded-xl transition-all ${isActive ? mod.activeClass : 'hover:bg-slate-100 text-slate-700'}`}
+                        >
+                          <div className="flex items-center space-x-3">
+                            <mod.icon size={18} className={isActive ? mod.iconClass : 'text-slate-700'} />
+                            <span className="text-sm font-medium">{mod.name}</span>
+                          </div>
+                          {openMenus[mod.name] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                        </button>
                       );
                     })()}
                     {openMenus[mod.name] && (
@@ -93,7 +94,7 @@ const Dashboard = () => {
                               className={`flex items-center p-2 rounded-xl transition-all text-sm ${location.pathname === sub.path
                                 ? mod.activeClass
                                 : 'text-slate-700 hover:bg-slate-100'
-                              }`}
+                                }`}
                             >
                               <span>{sub.name}</span>
                             </Link>
@@ -106,8 +107,8 @@ const Dashboard = () => {
                   <Link
                     to={mod.path}
                     className={`flex items-center space-x-3 p-3 rounded-xl transition-all ${location.pathname === mod.path
-                        ? mod.activeClass
-                        : 'text-slate-700 hover:bg-slate-100'
+                      ? mod.activeClass
+                      : 'text-slate-700 hover:bg-slate-100'
                       }`}
                   >
                     <mod.icon size={18} className={location.pathname === mod.path ? mod.iconClass : 'text-slate-700'} />

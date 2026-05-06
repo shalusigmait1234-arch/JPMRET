@@ -6,7 +6,7 @@ const AboutContent = () => {
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           <div className="w-full lg:w-7/12 order-2 lg:order-1">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#001e38] mb-6 font-['DM_Serif_Display',serif] leading-tight">
+            <h2 className="text-2xl md:text-4xl text-[#001e38] mb-6 font-['DM_Serif_Display',serif] leading-tight">
               Welcome to Janki Prasad Global Governance and Development Foundation
             </h2>
             <div className="w-16 h-[2px] bg-[#f06f14] mb-8"></div>
