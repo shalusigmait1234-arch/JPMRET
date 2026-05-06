@@ -16,9 +16,17 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
+    // Determine folder from request or default
+    const folderName = req.body.folder || 'jpmret-assets';
+    
+    // For PDFs, 'auto' or 'raw' works, but 'auto' is usually better for metadata.
+    // However, some accounts require 'raw' for non-image files if not configured.
+    const isPDF = file.mimetype === 'application/pdf' || file.originalname.toLowerCase().endsWith('.pdf');
+    
     return {
-      folder: 'jpmret-assets',
-      resource_type: 'auto',
+      folder: folderName,
+      resource_type: isPDF ? 'auto' : 'image',
+      allowed_formats: isPDF ? ['pdf'] : ['jpg', 'png', 'jpeg', 'webp'],
     };
   },
 });

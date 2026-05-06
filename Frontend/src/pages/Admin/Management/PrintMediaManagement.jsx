@@ -72,8 +72,8 @@ const PrintMediaManagement = () => {
     }
 
     const uploadData = new FormData();
-    uploadData.append('image', file);
     uploadData.append('folder', 'print-media');
+    uploadData.append('image', file);
 
     try {
       const response = await uploadFile(uploadData).unwrap();

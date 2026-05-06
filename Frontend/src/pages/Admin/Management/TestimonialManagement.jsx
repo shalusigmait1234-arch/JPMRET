@@ -79,8 +79,8 @@ const TestimonialManagement = () => {
     setPreviewImage(URL.createObjectURL(file));
 
     const uploadData = new FormData();
-    uploadData.append('image', file);
     uploadData.append('folder', 'testimonials');
+    uploadData.append('image', file);
 
     try {
       const response = await uploadImage(uploadData).unwrap();
@@ -178,7 +178,7 @@ const TestimonialManagement = () => {
             Manage student and partner feedback
           </p>
         </div>
-        {!isFormOpen && (
+        {!isModalOpen && (
           <div className="flex items-center space-x-4 flex-nowrap">
             <div className="relative group">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />

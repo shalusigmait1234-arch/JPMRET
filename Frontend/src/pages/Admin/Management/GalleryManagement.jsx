@@ -74,8 +74,8 @@ const GalleryManagement = () => {
     setPreviewImage(URL.createObjectURL(file));
 
     const uploadData = new FormData();
-    uploadData.append('image', file);
     uploadData.append('folder', 'gallery');
+    uploadData.append('image', file);
 
     try {
       const response = await uploadImage(uploadData).unwrap();

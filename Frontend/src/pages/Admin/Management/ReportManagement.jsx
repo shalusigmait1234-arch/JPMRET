@@ -73,8 +73,8 @@ const ReportManagement = () => {
     }
 
     const uploadData = new FormData();
-    uploadData.append('image', file); // API expects 'image' field name but middleware handles PDF
     uploadData.append('folder', 'reports');
+    uploadData.append('image', file); // API expects 'image' field name but middleware handles PDF
 
     try {
       const response = await uploadFile(uploadData).unwrap();
