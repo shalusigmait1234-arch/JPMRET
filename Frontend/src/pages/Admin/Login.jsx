@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../store/api/adminApi';
-import { Lock, Mail, Loader2, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Lock, Mail, Loader2, ShieldCheck, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
 
@@ -19,7 +20,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.error('');
     try {
       const result = await login({ email, password }).unwrap();
       localStorage.setItem('adminToken', result.token);
@@ -58,7 +58,7 @@ const Login = () => {
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-bold text-[#001e38] uppercase mb-1.5 block tracking-wider">Email Address</label>
+                  <label className="text-xs font-bold text-[#001e38] uppercase mb-1.5 block tracking-wider">Admin ID / Email</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                       <Mail className="h-4 w-4 text-[#bd9143]" />
@@ -66,7 +66,7 @@ const Login = () => {
                     <input
                       type="email"
                       required
-                      className="block w-full pl-10 pr-4 py-3 bg-[#f9f9f9] border border-[#eee] rounded-md text-sm text-[#333] focus:outline-none focus:border-[#bd9143] focus:bg-white transition-all"
+                      className="block w-full !pl-12 !pr-4 py-3 bg-[#f9f9f9] border border-[#eee] rounded-md text-sm text-[#333] focus:outline-none focus:border-[#bd9143] focus:bg-white transition-all"
                       placeholder="admin@jpmret.org"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -81,13 +81,20 @@ const Login = () => {
                       <Lock className="h-4 w-4 text-[#bd9143]" />
                     </div>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       required
-                      className="block w-full pl-10 pr-4 py-3 bg-[#f9f9f9] border border-[#eee] rounded-md text-sm text-[#333] focus:outline-none focus:border-[#bd9143] focus:bg-white transition-all"
+                      className="block w-full !pl-12 !pr-12 py-3 bg-[#f9f9f9] border border-[#eee] rounded-md text-sm text-[#333] focus:outline-none focus:border-[#bd9143] focus:bg-white transition-all"
                       placeholder="••••••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-[#bd9143] transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                   </div>
                 </div>
               </div>

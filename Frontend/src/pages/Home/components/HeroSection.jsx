@@ -11,7 +11,8 @@ import 'swiper/css/pagination';
 const HeroSection = () => {
   const { data: Hero, isLoading } = useGetHeroQuery();
 
-  // ✅ fallback dummy slides
+  // ✅ fallback dummy slides (commented out as requested)
+  /*
   const defaultSlides = [
     {
       title: "Welcome to Our Platform",
@@ -28,8 +29,9 @@ const HeroSection = () => {
       btnText: "Learn More"
     }
   ];
+  */
 
-  // ✅ dynamic + fallback logic
+  // ✅ dynamic logic only
   const slides =
     (Hero && Array.isArray(Hero) && Hero.length > 0)
       ? Hero.map(hero => ({
@@ -47,7 +49,7 @@ const HeroSection = () => {
           link: Hero.buttonLink,
           btnText: Hero.buttonText
         }]
-        : defaultSlides;
+        : []; // No dummy fallback
 
   if (isLoading) {
     return (
