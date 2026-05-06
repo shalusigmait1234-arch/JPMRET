@@ -41,10 +41,11 @@ const ReportsContent = () => {
           </h2>
           <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-6"></div>
           <p className="text-[#45443F] text-lg max-w-2xl mx-auto">
-            Transparency is at the heart of our work. Explore our journey, impact, and growth through our yearly progress reports.
+            Explore our yearly growth and achievements
+
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reports.map((r, i) => {
             const style = r.accent ? r : getDynamicStyles(i);
@@ -58,9 +59,9 @@ const ReportsContent = () => {
                   {r.label}
                 </p>
                 <div className="mt-auto">
-                  <a 
-                    href={getFullUrl(r.url)} 
-                    target="_blank" 
+                  <a
+                    href={getFullUrl(r.url)}
+                    target="_blank"
                     rel="noreferrer"
                     className={`inline-flex items-center gap-2 text-white px-8 py-3 rounded-md font-bold transition-all duration-300 shadow-md hover:shadow-lg ${style.btnBg}`}
                   >

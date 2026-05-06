@@ -30,7 +30,7 @@ const ContactInfo = () => {
   ];
 
   return (
-    <section className="py-24 bg-white">
+    <section className="pt-24 pb-12 bg-white">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-7">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {contactDetails.map((detail, index) => (

@@ -6,8 +6,9 @@ const Downloads = () => {
   const docs = [
     { name: "Organisation's Profile", icon: "fas fa-building", color: "text-blue-600", path: "/PDF/Orgn-Profile.pdf" },
     { name: "Code of Conduct", icon: "fas fa-scale-balanced", color: "text-green-600", path: "/PDF/Code-of-Conduct.pdf" },
-    { name: "Financial & Accounting Manual", icon: "fas fa-file-invoice-dollar", color: "text-orange-600", path: "/PDF/Financial-Policy.pdf" },
-    { name: "Gender Policy", icon: "fas fa-venus-mars", color: "text-pink-600", path: "#" },
+    { name: "HR Policy / Manual", icon: "fas fa-users", color: "text-red-600", path: "#" },
+    { name: "Financial & Accounting Manual", icon: "fas fa-file-invoice-dollar", color: "text-orange-500", path: "/PDF/Financial-Policy.pdf" },
+    { name: "Gender Policy", icon: "fas fa-venus-mars", color: "text-cyan-500", path: "#" },
     { name: "Conflict of Interest Policy", icon: "fas fa-handshake", color: "text-indigo-600", path: "/PDF/Conflict-of-Interes-Policy.pdf" }
   ];
 

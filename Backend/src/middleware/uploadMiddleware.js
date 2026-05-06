@@ -18,9 +18,7 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => {
     return {
       folder: 'jpmret-assets',
-      // Cloudinary will automatically determine the best format or keep original
-      // resource_type: 'auto' is useful to support PDFs and images gracefully
-      resource_type: file.mimetype === 'application/pdf' ? 'raw' : 'auto',
+      resource_type: 'auto',
     };
   },
 });

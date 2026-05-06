@@ -30,11 +30,11 @@ const Dashboard = () => {
 
   const modules = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
-    { name: 'Inquiries', icon: FileText, path: '/admin/inquiries', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Contact Reports', icon: FileText, path: '/admin/inquiries', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
 
-    { name: 'Hero Section', icon: ImageIcon, path: '/admin/hero', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
-    { name: 'Stats', icon: FileText, path: '/admin/stats', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
-    { name: 'Services', icon: FileText, path: '/admin/services', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Sliders ', icon: ImageIcon, path: '/admin/hero', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Stats (Counter)', icon: FileText, path: '/admin/stats', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Commitment Society', icon: FileText, path: '/admin/services', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Why Us', icon: FileText, path: '/admin/benefits', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Gallery', icon: ImageIcon, path: '/admin/gallery', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Testimonials', icon: Quote, path: '/admin/testimonials', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },

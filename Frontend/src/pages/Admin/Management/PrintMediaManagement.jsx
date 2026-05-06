@@ -25,7 +25,7 @@ import {
 const PrintMediaManagement = () => {
   const { data: mediaList, isLoading: fetching } = useGetPrintMediaListQuery();
   const [createMedia, { isLoading: creating }] = useCreatePrintMediaMutation();
-  const [updateMedia, { isLoading: updating }] = useUpdateMediaMutation();
+  const [updateMedia, { isLoading: updating }] = useUpdatePrintMediaMutation();
   const [deleteMedia, { isLoading: deleting }] = useDeletePrintMediaMutation();
   const [uploadFile, { isLoading: uploading }] = useUploadImageMutation();
 
@@ -62,7 +62,9 @@ const PrintMediaManagement = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.type !== 'application/pdf') {
+    // Robust PDF validation: check mime type OR file extension
+    const isPDF = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    if (!isPDF) {
       toast.error('Please upload a PDF file only.');
       return;
     }
@@ -76,7 +78,8 @@ const PrintMediaManagement = () => {
       setFormData(prev => ({ ...prev, url: response.url }));
       toast.success('File uploaded successfully.');
     } catch (err) {
-      toast.error('Failed to upload file.');
+      console.error('Upload error:', err);
+      toast.error(err?.data?.message || 'Failed to upload file.');
     }
   };
 
