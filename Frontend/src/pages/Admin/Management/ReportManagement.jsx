@@ -187,24 +187,36 @@ const ReportManagement = () => {
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">PDF File</label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={formData.url}
-                    readOnly
-                    className="flex-1 p-2.5 bg-gray-100 border border-gray-100 rounded-lg text-sm font-medium text-gray-500"
-                    placeholder="No file uploaded"
-                    required
-                  />
-                  <label className="px-4 py-2.5 bg-[#bd9143] text-white rounded-lg cursor-pointer hover:bg-[#a67d35] transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0">
-                    {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Upload size={14} />}
-                    <span>{formData.url ? 'Change File' : 'Upload PDF'}</span>
-                    <input type="file" className="hidden" accept=".pdf" onChange={handleFileUpload} disabled={uploading} />
-                  </label>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">PDF File</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={formData.url}
+                      readOnly
+                      className="flex-1 p-2.5 bg-gray-100 border border-gray-100 rounded-lg text-sm font-medium text-gray-500"
+                      placeholder="No file uploaded"
+                      required
+                    />
+                    {formData.url && (
+                      <a
+                        href={getFullUrl(formData.url)}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-4 py-2.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0"
+                        title="View Current PDF"
+                      >
+                        <ExternalLink size={14} />
+                        <span>View</span>
+                      </a>
+                    )}
+                    <label className="px-4 py-2.5 bg-[#bd9143] text-white rounded-lg cursor-pointer hover:bg-[#a67d35] transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0">
+                      {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Upload size={14} />}
+                      <span>{formData.url ? 'Change File' : 'Upload PDF'}</span>
+                      <input type="file" className="hidden" accept=".pdf" onChange={handleFileUpload} disabled={uploading} />
+                    </label>
+                  </div>
                 </div>
-              </div>
 
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Display Order</label>

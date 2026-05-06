@@ -21,7 +21,8 @@ import {
   Upload,
   X,
   ArrowUpDown,
-  Eye
+  Eye,
+  Pencil
 } from 'lucide-react';
 
 const TestimonialManagement = () => {
@@ -389,7 +390,7 @@ const TestimonialManagement = () => {
                             className={`p-2 rounded-lg transition-all ${editingId === item._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#001e38] hover:bg-[#001e38] hover:text-white'}`}
                             title="Edit"
                           >
-                            <Edit2 size={14} />
+                            <Pencil size={14} />
                           </button>
                           <button
                             onClick={() => handleDelete(item._id)}

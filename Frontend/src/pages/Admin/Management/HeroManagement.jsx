@@ -13,7 +13,7 @@ import {
   Upload,               // ← now a separate import
   Check,
   Trash2,
-  Edit2,
+  Pencil,
   Plus,
   RefreshCw,
   MousePointer2,
@@ -349,7 +349,7 @@ const HeroManagement = () => {
                                 : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'
                                 }`}
                             >
-                              <Edit2 size={12} />
+                              <Pencil size={12} />
                             </button>
                             <button
                               onClick={() => handleDelete(hero._id)}

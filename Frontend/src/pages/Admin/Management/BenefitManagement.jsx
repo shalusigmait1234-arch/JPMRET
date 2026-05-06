@@ -16,7 +16,7 @@ import {
   FileText,
   Heart,
   ArrowUpDown,
-  Edit2,
+  Pencil,
   X
 } from 'lucide-react';
 
@@ -240,7 +240,7 @@ const BenefitManagement = () => {
                               onClick={() => handleEdit(benefit)}
                               className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs uppercase tracking-widest transition-all ${editingId === benefit._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
                             >
-                              <Edit2 size={12} />
+                              <Pencil size={12} />
                             </button>
                             <button
                               onClick={() => handleDelete(benefit._id)}

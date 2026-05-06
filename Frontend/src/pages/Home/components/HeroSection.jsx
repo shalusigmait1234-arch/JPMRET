@@ -93,6 +93,8 @@ const HeroSection = () => {
                   <div className="flex flex-wrap gap-3">
                     <a
                       href={slide.link}
+                      target={slide.link?.toLowerCase().endsWith('.pdf') ? '_blank' : undefined}
+                      rel={slide.link?.toLowerCase().endsWith('.pdf') ? 'noopener noreferrer' : undefined}
                       className="bg-[#bd9143] text-white px-6 py-2.5 rounded-md font-semibold hover:bg-white hover:text-[#001e38] transition-all duration-300 flex items-center gap-2 shadow-lg"
                     >
                       {slide.btnText || 'Explore More'}

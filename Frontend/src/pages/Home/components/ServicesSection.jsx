@@ -95,6 +95,8 @@ const ServicesSection = () => {
               <div className="px-5 pb-5 mt-auto">
                 <a
                   href={service.link}
+                  target={service.link?.toLowerCase().endsWith('.pdf') ? '_blank' : undefined}
+                  rel={service.link?.toLowerCase().endsWith('.pdf') ? 'noopener noreferrer' : undefined}
                   className="block w-full text-center bg-[#c89b3c] text-white py-3 font-semibold hover:bg-[#b1842f] transition"
                 >
                   Read More →

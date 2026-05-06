@@ -185,6 +185,18 @@ const PrintMediaManagement = () => {
                         placeholder="No file uploaded"
                         required
                       />
+                      {formData.url && (
+                        <a
+                          href={getFullUrl(formData.url)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-4 py-2.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0"
+                          title="View Current PDF"
+                        >
+                          <ExternalLink size={14} />
+                          <span>View</span>
+                        </a>
+                      )}
                       <label className="px-4 py-2.5 bg-[#bd9143] text-white rounded-lg cursor-pointer hover:bg-[#a67d35] transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0">
                         {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Upload size={14} />}
                         <span>{formData.url ? 'Change' : 'Upload PDF'}</span>
