@@ -18,7 +18,8 @@ import {
   Upload,
   X,
   ArrowUpDown,
-  Tag
+  Tag,
+  Search
 } from 'lucide-react';
 
 const GalleryManagement = () => {
@@ -27,6 +28,7 @@ const GalleryManagement = () => {
   const [updateGalleryImage, { isLoading: updating }] = useUpdateGalleryImageMutation();
   const [deleteGalleryImage] = useDeleteGalleryImageMutation();
   const [uploadImage, { isLoading: uploading }] = useUploadImageMutation();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [formData, setFormData] = useState({
     image: '',
@@ -149,21 +151,49 @@ const GalleryManagement = () => {
 
   const saving = creating || updating || uploading;
 
+  // Filter based on search
+  const filteredGallery = galleryItems?.filter(item => 
+    (item.caption || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (item.category || '').toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   // Calculate paginated items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = galleryItems?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const currentItems = filteredGallery.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="w-full space-y-8">
       <div className="flex justify-between items-center mb-6">
-        <button
-          onClick={() => { resetForm(); setIsModalOpen(true); }}
-          className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
-        >
-          <Plus size={16} />
-          <span>Add New Image</span>
-        </button>
+        <div>
+          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+            Gallery Management
+          </h3>
+          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
+            Manage your photo archives and event highlights
+          </p>
+        </div>
+        {!isFormOpen && (
+          <div className="flex items-center space-x-4 flex-nowrap">
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+              <input
+                type="text"
+                placeholder="Search gallery..."
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+              />
+            </div>
+            <button
+              onClick={() => { resetForm(); setIsModalOpen(true); }}
+              className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
+            >
+              <Plus size={16} />
+              <span>Add New Image</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {isModalOpen && (
@@ -334,7 +364,7 @@ const GalleryManagement = () => {
                 {/* Pagination Component */}
                 <Pagination 
                   currentPage={currentPage}
-                  totalItems={galleryItems?.length || 0}
+                  totalItems={filteredGallery.length}
                   itemsPerPage={itemsPerPage}
                   onPageChange={(page) => setCurrentPage(page)}
                 />

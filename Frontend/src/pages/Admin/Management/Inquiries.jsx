@@ -50,15 +50,19 @@ const Inquiries = () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div className="relative group w-full max-w-md">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">Visitor Inquiries</h3>
+          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">Manage visitor messages and requests</p>
+        </div>
+        <div className="relative group w-full max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={18} />
           <input
             type="text"
             placeholder="Search by name, email or subject..."
             value={searchQuery}
             onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-100 rounded-xl text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all shadow-sm"
+            className="w-full pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all shadow-sm"
           />
         </div>
       </div>

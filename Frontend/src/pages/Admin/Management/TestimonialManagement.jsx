@@ -22,12 +22,14 @@ import {
   X,
   ArrowUpDown,
   Eye,
-  Pencil
+  Pencil,
+  Search
 } from 'lucide-react';
 
 const TestimonialManagement = () => {
   const { data: testimonials, isLoading } = useGetTestimonialsListQuery();
   const [createTestimonial, { isLoading: creating }] = useCreateTestimonialMutation();
+  const [searchQuery, setSearchQuery] = useState('');
   const [updateTestimonial, { isLoading: updating }] = useUpdateTestimonialMutation();
   const [deleteTestimonial] = useDeleteTestimonialMutation();
   const [uploadImage, { isLoading: uploading }] = useUploadImageMutation();
@@ -154,21 +156,49 @@ const TestimonialManagement = () => {
 
   const saving = creating || updating || uploading;
 
+  // Filter based on search
+  const filteredTestimonials = testimonials?.filter(item => 
+    item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.designation.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   // Calculate paginated items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = testimonials?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const currentItems = filteredTestimonials.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="w-full space-y-8 animate-in fade-in duration-500">
       <div className="flex justify-between items-center">
-        <button
-          onClick={() => { resetForm(); setIsModalOpen(true); }}
-          className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
-        >
-          <Plus size={16} />
-          <span>Add New Testimonial</span>
-        </button>
+        <div>
+          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+            Testimonial Management
+          </h3>
+          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
+            Manage student and partner feedback
+          </p>
+        </div>
+        {!isFormOpen && (
+          <div className="flex items-center space-x-4 flex-nowrap">
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+              <input
+                type="text"
+                placeholder="Search testimonials..."
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+              />
+            </div>
+            <button
+              onClick={() => { resetForm(); setIsModalOpen(true); }}
+              className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
+            >
+              <Plus size={16} />
+              <span>Add New Testimonial</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {isModalOpen && (
@@ -422,7 +452,7 @@ const TestimonialManagement = () => {
         <div className="p-4 border-t border-gray-50 bg-gray-50/30">
           <Pagination 
             currentPage={currentPage}
-            totalItems={testimonials?.length || 0}
+            totalItems={filteredTestimonials.length}
             itemsPerPage={itemsPerPage}
             onPageChange={(page) => setCurrentPage(page)}
           />

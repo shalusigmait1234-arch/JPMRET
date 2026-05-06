@@ -142,7 +142,7 @@ const ReportManagement = () => {
           </p>
         </div>
         {!isFormOpen && (
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 flex-nowrap">
             <div className="relative group">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
               <input
