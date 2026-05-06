@@ -50,7 +50,7 @@ const ContactForm = () => {
           <div className="w-full lg:w-7/12">
             <div className="bg-white p-8 md:p-12 rounded-lg border border-[#d3a047] shadow-sm">
               <div className="mb-10">
-                <h2 className="text-[32px] leading-tight font-serif font-bold text-[#001e38] mb-4">Let's talk...!</h2>
+                <h2 className="mb-4">Let's talk...!</h2>
                 <p className="text-[#45443F] text-[16px] leading-relaxed">
                   Let's talk and explore how we can work together to create meaningful impact. Whether you have an idea, a project, or a partnership opportunity, we are always open to discussion and collaboration. Reach out to us to share your thoughts, ask questions.
                 </p>

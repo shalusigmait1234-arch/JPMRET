@@ -14,7 +14,7 @@ const MissionVisionSection = () => {
               <i className="fa-solid fa-bullseye text-[#bd9143] text-2xl"></i>
             </div>
 
-            <h3 className="text-2xl mb-3 font-serif bg-[#001e38] text-white inline-block px-4 py-1 rounded">
+            <h3 className="text-2xl mb-3 font-serif bg-[#001e38] !text-white inline-block px-4 py-1 rounded">
               Mission
             </h3>
 

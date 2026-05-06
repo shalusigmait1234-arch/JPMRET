@@ -38,7 +38,7 @@ const ContactInfo = () => {
               <div className="text-[#d3a047] mb-4">
                 <detail.Icon size={40} strokeWidth={2} fill={detail.title === 'Email' ? 'none' : 'currentColor'} aria-hidden="true" />
               </div>
-              <h4 className="font-serif text-[24px] leading-8 font-medium text-[#d3a047] mb-2 tracking-normal">
+              <h4 className="mb-2 tracking-normal">
                 {detail.title}:
               </h4>
               <div className="text-[#09073f] text-[16px] leading-6 font-medium">

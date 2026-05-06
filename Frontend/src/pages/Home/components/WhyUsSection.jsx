@@ -48,7 +48,7 @@ const WhyUsSection = () => {
             What Drives Us
           </span>
 
-          <h2 className="text-3xl md:text-5xl text-[#0b2c4d] font-serif font-semibold mb-4">
+          <h2 className="mb-4">
             Our Commitment to Society
           </h2>
 
@@ -68,9 +68,9 @@ const WhyUsSection = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-lg font-semibold text-[#0b2c4d] mb-3">
+              <h4 className="mb-3">
                 {benefit.title}
-              </h3>
+              </h4>
 
               {/* Description */}
               <p className="text-[#6b6b6b] text-sm leading-relaxed">

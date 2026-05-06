@@ -5,6 +5,7 @@ import {
   useSaveStatMutation,
   useDeleteStatMutation
 } from '../../../store/api/adminApi';
+import Pagination from '../../../components/Pagination';
 import {
   Save,
   Trash2,
@@ -30,6 +31,11 @@ const StatManagement = () => {
   });
   const [editingId, setEditingId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const resetForm = () => {
     setFormData({ label: '', value: '', target: '+', order: 0 });
     setEditingId(null);
@@ -76,6 +82,11 @@ const StatManagement = () => {
       <RefreshCw className="animate-spin h-8 w-8 text-[#bd9143] mx-auto" />
     </div>
   );
+
+  // Calculate paginated items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = stats?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   return (
     <div className="w-full space-y-8">
@@ -184,28 +195,6 @@ const StatManagement = () => {
       </div>
       </div>
       )}
-
-        {/* Live Preview */}
-        {/* <div className="space-y-4">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Homepage Preview</h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {(stats && stats.length > 0 ? stats : [
-                { label: "Projects completed", value: "300", target: "+" },
-                { label: "Communities supported", value: "250", target: "+" },
-                { label: "Volunteers engaged", value: "550", target: "+" },
-                { label: "Beneficiaries reached", value: "500", target: "+" }
-              ]).map((stat, i) => (
-                <div key={i} className="bg-[#001e38] rounded-lg p-4 text-center">
-                  <p className="text-2xl font-bold text-[#bd9143]">
-                    {stat.value}<span className="text-lg">{stat.target}</span>
-                  </p>
-                  <p className="text-xs text-white/70 uppercase tracking-widest mt-1">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div> */}
       
 
       {/* Existing Stats Table */}
@@ -224,38 +213,38 @@ const StatManagement = () => {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {stats && stats.length > 0 ? (
-                stats.map((stat) => (
-                  <tr key={stat._id} className={`group hover:bg-gray-50/50 transition-all ${editingId === stat._id ? 'bg-[#bd9143]/5' : ''}`}>
-                    <td className="py-4 px-4">
-                      <span className="text-xs bg-gray-100 px-2 py-1 rounded">{stat.order}</span>
-                    </td>
-                    <td className="py-4 px-4">
-                      <span className="text-xl">{stat.value}<span className="text-sm text-[#bd9143]">{stat.target}</span></span>
-                    </td>
-                    <td className="py-4 px-4 text-base">{stat.label}</td>
-                    <td className="py-4 px-4">
-                      <span className="text-xs">{stat.createdAt ? new Date(stat.createdAt).toLocaleDateString() : '—'}</span>
-                    </td>
-                    <td className="py-4 px-4 text-right">
-                      <div className="flex justify-end space-x-2">
-                        <button
-                          onClick={() => handleEdit(stat)}
-                          className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${editingId === stat._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
-                        >
-                          <Edit2 size={12} />
-                          {/* <span>Edit</span> */}
-                        </button>
-                        <button
-                          onClick={() => handleDelete(stat._id)}
-                          className="flex items-center space-x-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
-                        >
-                          <Trash2 size={12} />
-                          {/* <span>Delete</span> */}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                <>
+                  {currentItems.map((stat) => (
+                    <tr key={stat._id} className={`group hover:bg-gray-50/50 transition-all ${editingId === stat._id ? 'bg-[#bd9143]/5' : ''}`}>
+                      <td className="py-4 px-4">
+                        <span className="text-xs bg-gray-100 px-2 py-1 rounded">{stat.order}</span>
+                      </td>
+                      <td className="py-4 px-4">
+                        <span className="text-xl">{stat.value}<span className="text-sm text-[#bd9143]">{stat.target}</span></span>
+                      </td>
+                      <td className="py-4 px-4 text-base">{stat.label}</td>
+                      <td className="py-4 px-4">
+                        <span className="text-xs">{stat.createdAt ? new Date(stat.createdAt).toLocaleDateString() : '—'}</span>
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <div className="flex justify-end space-x-2">
+                          <button
+                            onClick={() => handleEdit(stat)}
+                            className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${editingId === stat._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
+                          >
+                            <Edit2 size={12} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(stat._id)}
+                            className="flex items-center space-x-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
               ) : (
                 <tr>
                   <td colSpan="5" className="py-20 text-center text-xs font-bold text-gray-400 uppercase tracking-widest">
@@ -265,6 +254,16 @@ const StatManagement = () => {
               )}
             </tbody>
           </table>
+        </div>
+        
+        {/* Pagination Component */}
+        <div className="p-4 border-t border-gray-50">
+          <Pagination 
+            currentPage={currentPage}
+            totalItems={stats?.length || 0}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
         </div>
       </div>
     </div>

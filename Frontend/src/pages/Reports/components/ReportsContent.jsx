@@ -36,7 +36,7 @@ const ReportsContent = () => {
     <section className="py-20 bg-gray-50">
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#001e38] mb-4 font-['DM_Serif_Display',serif]">
+          <h2 className="mb-4">
             Annual Progress Reports
           </h2>
           <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-6"></div>
@@ -53,7 +53,7 @@ const ReportsContent = () => {
                 <div className={`w-20 h-20 rounded-full bg-gray-50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
                   <i className={`fa-solid fa-file-pdf text-4xl ${style.iconColor}`}></i>
                 </div>
-                <h5 className="text-2xl font-bold text-[#001e38] mb-3">{r.year}</h5>
+                <h5 className="mb-3">{r.year}</h5>
                 <p className="text-[#45443F] mb-8 font-medium leading-relaxed">
                   {r.label}
                 </p>

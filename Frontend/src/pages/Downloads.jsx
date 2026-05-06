@@ -23,7 +23,7 @@ const Downloads = () => {
       <section className="py-20">
         <div className="max-w-[1170px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#001e38] mb-4 font-['DM_Serif_Display',serif]">Documents & Policies</h2>
+            <h2 className="mb-4">Documents & Policies</h2>
             <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-6"></div>
             <p className="text-[#45443F] text-lg max-w-2xl mx-auto">
               Access and download our official organizational documents and policies.
@@ -36,7 +36,7 @@ const Downloads = () => {
                 <div className={`w-16 h-16 bg-gray-50 rounded-xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-500 ${doc.color}`}>
                   <i className={doc.icon}></i>
                 </div>
-                <h6 className="font-bold text-[#001e38] mb-8">{doc.name}</h6>
+                <h6 className="mb-8">{doc.name}</h6>
                 <div className="mt-auto w-full">
                   <a 
                     href={doc.path} 

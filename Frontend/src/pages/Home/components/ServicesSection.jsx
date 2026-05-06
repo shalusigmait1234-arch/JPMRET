@@ -51,7 +51,7 @@ const ServicesSection = () => {
 
         {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl text-[#0b2c4d] font-semibold mb-4 font-['Playfair_Display',serif]">
+          <h2 className="mb-4">
             Jal Jeevan Mission
           </h2>
 
@@ -82,9 +82,9 @@ const ServicesSection = () => {
 
               {/* Content */}
               <div className="p-5 flex-grow">
-                <h6 className="text-lg font-semibold text-[#c89b3c] mb-3 font-['Playfair_Display',serif] leading-snug min-h-[60px]">
+                <h5 className="mb-3 leading-snug min-h-[60px]">
                   {service.title}
-                </h6>
+                </h5>
 
                 <p className="text-gray-600 text-sm leading-relaxed">
                   {service.description || service.desc}

@@ -8,6 +8,7 @@ import {
   useUploadImageMutation
 } from '../../../store/api/adminApi';
 import { API_BASE_URL } from '../../../config';
+import Pagination from '../../../components/Pagination';
 import {
   Save,
   Trash2,
@@ -22,7 +23,6 @@ import {
 
 const GalleryManagement = () => {
   const { data: galleryItems, isLoading } = useGetGalleryListQuery();
-  console.log('galleryItems:', galleryItems);
   const [createGalleryImage, { isLoading: creating }] = useCreateGalleryImageMutation();
   const [updateGalleryImage, { isLoading: updating }] = useUpdateGalleryImageMutation();
   const [deleteGalleryImage] = useDeleteGalleryImageMutation();
@@ -39,6 +39,10 @@ const GalleryManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return '';
@@ -77,7 +81,6 @@ const GalleryManagement = () => {
       
       setFormData(prev => ({ ...prev, image: imageUrl }));
       
-      // Removed auto-save. Let the user click 'Save Image' button below.
     } catch (err) {
       console.error('Upload failed:', err);
       toast.error('Failed to upload image.');
@@ -119,7 +122,6 @@ const GalleryManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    
     if (!formData.image) {
       toast.error('Please upload an image.');
       return;
@@ -146,6 +148,11 @@ const GalleryManagement = () => {
   );
 
   const saving = creating || updating || uploading;
+
+  // Calculate paginated items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = galleryItems?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   return (
     <div className="w-full space-y-8">
@@ -280,48 +287,58 @@ const GalleryManagement = () => {
             </div>
             
             {galleryItems && galleryItems.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {galleryItems.map((item) => (
-                  <div 
-                    key={item._id} 
-                    className={`group relative rounded-xl overflow-hidden border-2 transition-all flex flex-col ${editingId === item._id ? 'border-[#bd9143] shadow-md' : 'border-gray-100 hover:border-gray-300'}`}
-                  >
-                    <div className="relative aspect-square w-full bg-gray-50">
-                      <img 
-                        src={getImageUrl(item.image)} 
-                        alt={item.caption || 'Gallery image'} 
-                        className="w-full h-full object-cover"
-                      />
-                      {item.order > 0 && (
-                        <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
-                          #{item.order}
+              <>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {currentItems.map((item) => (
+                    <div 
+                      key={item._id} 
+                      className={`group relative rounded-xl overflow-hidden border-2 transition-all flex flex-col ${editingId === item._id ? 'border-[#bd9143] shadow-md' : 'border-gray-100 hover:border-gray-300'}`}
+                    >
+                      <div className="relative aspect-square w-full bg-gray-50">
+                        <img 
+                          src={getImageUrl(item.image)} 
+                          alt={item.caption || 'Gallery image'} 
+                          className="w-full h-full object-cover"
+                        />
+                        {item.order > 0 && (
+                          <div className="absolute top-2 left-2 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+                            #{item.order}
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-3 bg-white border-t border-gray-100 flex justify-between items-center">
+                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest bg-gray-100 px-2 py-1 rounded truncate max-w-[80px]">
+                          {item.category}
+                        </span>
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={(e) => { e.stopPropagation(); handleEdit(item); }}
+                            className="p-1.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition-colors"
+                            title="Edit"
+                          >
+                            <Save size={14} />
+                          </button>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
+                            className="p-1.5 bg-red-50 text-red-600 rounded hover:bg-red-600 hover:text-white transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 size={14} />
+                          </button>
                         </div>
-                      )}
-                    </div>
-                    <div className="p-3 bg-white border-t border-gray-100 flex justify-between items-center">
-                      <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest bg-gray-100 px-2 py-1 rounded truncate max-w-[80px]">
-                        {item.category}
-                      </span>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleEdit(item); }}
-                          className="p-1.5 bg-blue-50 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition-colors"
-                          title="Edit"
-                        >
-                          <Save size={14} />
-                        </button>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
-                          className="p-1.5 bg-red-50 text-red-600 rounded hover:bg-red-600 hover:text-white transition-colors"
-                          title="Delete"
-                        >
-                          <Trash2 size={14} />
-                        </button>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+                
+                {/* Pagination Component */}
+                <Pagination 
+                  currentPage={currentPage}
+                  totalItems={galleryItems?.length || 0}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={(page) => setCurrentPage(page)}
+                />
+              </>
             ) : (
               <div className="h-48 flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-100 rounded-xl">
                 <ImageIcon size={32} className="mb-2 opacity-50" />

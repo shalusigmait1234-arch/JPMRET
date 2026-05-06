@@ -7,7 +7,7 @@ const OurPresenceSection = () => {
 
         {/* Heading */}
         <div className="text-center mb-10 lg:mb-14">
-          <h2 className="text-3xl lg:text-5xl text-[#001e38] font-['DM_Serif_Display',serif] relative inline-block pb-4">
+          <h2 className="relative inline-block pb-4">
             Our Presence
             <span className="absolute left-1/2 bottom-0 -translate-x-1/2 w-14 h-[2px] bg-[#f06f14]"></span>
           </h2>

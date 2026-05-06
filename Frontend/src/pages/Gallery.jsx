@@ -33,7 +33,7 @@ const Gallery = () => {
       <section className="py-20">
         <div className="max-w-[1170px] mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#001e38] mb-4 font-['DM_Serif_Display',serif]">Our Visual Journey</h2>
+            <h2 className="mb-4">Our Visual Journey</h2>
             <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-6"></div>
             <p className="text-[#45443F] text-lg max-w-2xl mx-auto">
               A glimpse into our initiatives, community engagements, and the impact we've created together.

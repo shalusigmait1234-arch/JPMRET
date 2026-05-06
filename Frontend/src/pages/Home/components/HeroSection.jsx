@@ -81,7 +81,7 @@ const HeroSection = () => {
               <div className="max-w-[1170px] mx-auto px-4 w-full">
                 <div className="max-w-3xl">
                   <h1
-                    className="text-white text-2xl md:text-4xl lg:text-5xl font-['DM_Serif_Display',serif] mb-4 leading-tight drop-shadow-lg"
+                    className="!text-white text-xl md:text-3xl lg:text-4xl font-['DM_Serif_Display',serif] mb-4 leading-tight drop-shadow-lg"
                     dangerouslySetInnerHTML={{ __html: slide.title }}
                   />
 

@@ -39,7 +39,7 @@ const PrintMedia = () => {
               <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
                 <i className="fa-solid fa-file-pdf text-4xl text-red-600"></i>
               </div>
-              <h3 className="text-2xl font-bold text-[#001e38] mb-8 font-['DM_Serif_Display',serif]">{item.title}</h3>
+              <h3 className="mb-8">{item.title}</h3>
               <div className="mt-auto w-full">
                 <a 
                   href={getFullUrl(item.url)} 

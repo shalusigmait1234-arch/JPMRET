@@ -20,8 +20,8 @@ const TestimonialsSection = () => {
     <section className="py-20 bg-white">
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="text-center mb-16">
-          <span className="text-[#bd9143] text-xl font-medium uppercase tracking-widest mb-4 block">What People Say</span>
-          <h2 className="text-4xl md:text-5xl text-[#001e38] mb-6 font-['DM_Serif_Display',serif]">Voices of Impact</h2>
+          {/* <span className="text-[#bd9143] text-xl font-medium uppercase tracking-widest mb-4 block">What People Say</span> */}
+          <h2 className="mb-6">Voices of Impact</h2>
           <div className="w-16 h-[2px] bg-[#f06f14] mx-auto mb-8"></div>
           <p className="text-[#45443F] max-w-2xl mx-auto text-lg">Voices from communities where we have made a difference.</p>
         </div>
@@ -45,28 +45,27 @@ const TestimonialsSection = () => {
           >
             {displayTestimonials.map((test, i) => (
               <SwiperSlide key={i}>
-                <div className="bg-gray-50 p-8 md:p-10 rounded-2xl relative shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group">
-                  <div className="absolute top-8 right-8 text-4xl text-[#bd9143]/20 group-hover:text-[#bd9143]/40 transition-colors">
+                <div className="bg-white p-10 rounded-2xl relative shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-100 group text-center h-full">
+                  <div className="absolute top-8 right-8 text-4xl text-[#bd9143]/10 group-hover:text-[#bd9143]/20 transition-colors">
                     <i className="fa-solid fa-quote-right"></i>
                   </div>
 
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#bd9143] shadow-md">
-                      <img
-                        src={getImageUrl(test.img)}
-                        alt={test.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h5 className="text-xl text-[#001e38]">{test.name}</h5>
-                      <span className="text-sm text-[#bd9143] font-medium uppercase tracking-wider">{test.role}</span>
-                    </div>
+                  <div className="w-24 h-24 mx-auto mb-8 rounded-full overflow-hidden border-4 border-[#bd9143]/20 shadow-md">
+                    <img
+                      src={getImageUrl(test.img)}
+                      alt={test.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
-                  <p className="text-[#45443F] italic leading-relaxed text-lg">
+                  <p className="text-[#45443F] italic leading-relaxed text-lg mb-8 min-h-[120px]">
                     "{test.text}"
                   </p>
+
+                  <div className="mt-auto">
+                    <h5 className="text-2xl mb-1">{test.name}</h5>
+                    <span className="text-sm text-gray-400 font-medium uppercase tracking-[0.2em]">{test.role}</span>
+                  </div>
                 </div>
               </SwiperSlide>
             ))}

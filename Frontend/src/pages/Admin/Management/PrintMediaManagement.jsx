@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { 
-  useGetPrintMediaListQuery, 
-  useCreatePrintMediaMutation, 
-  useUpdatePrintMediaMutation, 
+import {
+  useGetPrintMediaListQuery,
+  useCreatePrintMediaMutation,
+  useUpdatePrintMediaMutation,
   useDeletePrintMediaMutation,
-  useUploadImageMutation 
+  useUploadImageMutation
 } from '../../../store/api/adminApi';
 import { API_BASE_URL } from '../../../config';
-import { 
-  Plus, 
-  Pencil, 
-  Trash2, 
-  Save, 
-  X, 
-  FileText, 
-  Upload, 
+import Pagination from '../../../components/Pagination';
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Save,
+  X,
+  FileText,
+  Upload,
   RefreshCw,
   ExternalLink,
   BookOpen
@@ -24,7 +25,7 @@ import {
 const PrintMediaManagement = () => {
   const { data: mediaList, isLoading: fetching } = useGetPrintMediaListQuery();
   const [createMedia, { isLoading: creating }] = useCreatePrintMediaMutation();
-  const [updateMedia, { isLoading: updating }] = useUpdatePrintMediaMutation();
+  const [updateMedia, { isLoading: updating }] = useUpdateMediaMutation();
   const [deleteMedia, { isLoading: deleting }] = useDeletePrintMediaMutation();
   const [uploadFile, { isLoading: uploading }] = useUploadImageMutation();
 
@@ -36,11 +37,15 @@ const PrintMediaManagement = () => {
     order: 0
   });
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
   const resetForm = () => {
     setFormData({ title: '', url: '', order: 0 });
     setEditId(null);
     setIsFormOpen(false);
-    
+
   };
 
   const handleEdit = (item) => {
@@ -108,6 +113,11 @@ const PrintMediaManagement = () => {
     return `${API_BASE_URL}${url}`;
   };
 
+  // Calculate paginated items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = mediaList?.slice(indexOfFirstItem, indexOfLastItem) || [];
+
   return (
     <div className="w-full space-y-6">
       <div className="flex justify-between items-center">
@@ -151,116 +161,126 @@ const PrintMediaManagement = () => {
 
             <div className="p-8 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="md:col-span-2 space-y-1.5">
-                <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Publication Title</label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
-                  placeholder="e.g. Organization Profile"
-                  required
-                />
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="md:col-span-2 space-y-1.5">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Publication Title</label>
+                    <input
+                      type="text"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                      placeholder="e.g. Organization Profile"
+                      required
+                    />
+                  </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">PDF File</label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={formData.url}
-                    readOnly
-                    className="flex-1 p-2.5 bg-gray-100 border border-gray-100 rounded-lg text-sm font-medium text-gray-500"
-                    placeholder="No file uploaded"
-                    required
-                  />
-                  <label className="px-4 py-2.5 bg-[#bd9143] text-white rounded-lg cursor-pointer hover:bg-[#a67d35] transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0">
-                    {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Upload size={14} />}
-                    <span>{formData.url ? 'Change' : 'Upload PDF'}</span>
-                    <input type="file" className="hidden" accept=".pdf" onChange={handleFileUpload} disabled={uploading} />
-                  </label>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">PDF File</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={formData.url}
+                        readOnly
+                        className="flex-1 p-2.5 bg-gray-100 border border-gray-100 rounded-lg text-sm font-medium text-gray-500"
+                        placeholder="No file uploaded"
+                        required
+                      />
+                      <label className="px-4 py-2.5 bg-[#bd9143] text-white rounded-lg cursor-pointer hover:bg-[#a67d35] transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0">
+                        {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Upload size={14} />}
+                        <span>{formData.url ? 'Change' : 'Upload PDF'}</span>
+                        <input type="file" className="hidden" accept=".pdf" onChange={handleFileUpload} disabled={uploading} />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Display Order</label>
+                    <input
+                      type="number"
+                      value={formData.order}
+                      onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
+                      className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Display Order</label>
-                <input
-                  type="number"
-                  value={formData.order}
-                  onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
-                />
-              </div>
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={resetForm}
+                    className="px-6 py-2.5 border border-gray-200 text-gray-500 rounded-lg hover:bg-gray-50 transition-all font-bold text-[10px] uppercase tracking-widest"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={creating || updating || uploading}
+                    className={`flex items-center space-x-2 px-8 py-2 rounded-lg hover: transition-all font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 disabled:opacity-50 ${creating || updating || uploading ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
+                  >
+                    {creating || updating ? <RefreshCw className="animate-spin" size={14} /> : <Save size={14} />}
+                    <span>{creating || updating || uploading ? 'Submitting...' : editId ? 'Update Publication' : 'Save Publication'}</span>
+                  </button>
+                </div>
+              </form>
             </div>
-
-            <div className="flex justify-end space-x-3 pt-4">
-              <button
-                type="button"
-                onClick={resetForm}
-                className="px-6 py-2.5 border border-gray-200 text-gray-500 rounded-lg hover:bg-gray-50 transition-all font-bold text-[10px] uppercase tracking-widest"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={creating || updating || uploading}
-                className={`flex items-center space-x-2 px-8 py-2 rounded-lg hover: transition-all font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 disabled:opacity-50 ${creating || updating || uploading ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
-              >
-                {creating || updating ? <RefreshCw className="animate-spin" size={14} /> : <Save size={14} />}
-                <span>{creating || updating || uploading ? 'Submitting...' : editId ? 'Update Publication' : 'Save Publication'}</span>
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
-      </div>
       )}
 
-      
-      {!fetching && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mediaList?.map((item) => (
-            <div key={item._id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all">
-              <div className="p-8 text-center">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="p-4 bg-[#E33E43]/10 text-[#E33E43] rounded-2xl mx-auto">
-                    <FileText size={40} />
+
+      {!fetching && mediaList && mediaList.length > 0 && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {currentItems.map((item) => (
+              <div key={item._id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all">
+                <div className="p-8 text-center">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-4 bg-[#E33E43]/10 text-[#E33E43] rounded-2xl mx-auto">
+                      <FileText size={40} />
+                    </div>
                   </div>
-                </div>
 
-                <h5 className="text-xl font-bold text-[#013b6d] mb-6 line-clamp-1">{item.title}</h5>
+                  <h5 className="text-xl font-bold text-[#013b6d] mb-6 line-clamp-1">{item.title}</h5>
 
-                <div className="flex flex-col gap-3">
-                  <a
-                    href={getFullUrl(item.url)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3 bg-[#E33E43] text-white rounded-full hover:bg-[#c12e32] transition-all font-bold text-xs uppercase tracking-widest shadow-sm"
-                  >
-                    <ExternalLink size={14} />
-                    <span>View PDF</span>
-                  </a>
-                  
-                  <div className="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => handleEdit(item)}
-                      className="flex items-center gap-1.5 px-4 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all text-[10px] font-bold uppercase tracking-widest"
+                  <div className="flex flex-col gap-3">
+                    <a
+                      href={getFullUrl(item.url)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-center gap-2 w-full py-3 bg-[#E33E43] text-white rounded-full hover:bg-[#c12e32] transition-all font-bold text-xs uppercase tracking-widest shadow-sm"
                     >
-                      <Pencil size={12} /> Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="flex items-center gap-1.5 px-4 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-[10px] font-bold uppercase tracking-widest"
-                    >
-                      <Trash2 size={12} /> Delete
-                    </button>
+                      <ExternalLink size={14} />
+                      <span>View PDF</span>
+                    </a>
+
+                    <div className="flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => handleEdit(item)}
+                        className="flex items-center gap-1.5 px-4 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all text-[10px] font-bold uppercase tracking-widest"
+                      >
+                        <Pencil size={12} /> Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="flex items-center gap-1.5 px-4 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-[10px] font-bold uppercase tracking-widest"
+                      >
+                        <Trash2 size={12} /> Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+
+          {/* Pagination Component */}
+          <Pagination
+            currentPage={currentPage}
+            totalItems={mediaList?.length || 0}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        </>
       )}
 
       {!fetching && (!mediaList || mediaList.length === 0) && !isFormOpen && (
@@ -275,3 +295,4 @@ const PrintMediaManagement = () => {
 };
 
 export default PrintMediaManagement;
+

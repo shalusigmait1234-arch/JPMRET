@@ -6,6 +6,7 @@ import {
   useDeleteServiceMutation,
   useUploadImageMutation
 } from '../../../store/api/adminApi';
+import Pagination from '../../../components/Pagination';
 import {
   Save,
   Trash2,
@@ -36,6 +37,11 @@ const ServiceManagement = () => {
   });
   const [editingId, setEditingId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const getImageUrl = (imagePath) => {
     if (!imagePath) return '';
     if (imagePath.startsWith('http')) return imagePath;
@@ -106,6 +112,11 @@ const ServiceManagement = () => {
       <RefreshCw className="animate-spin h-8 w-8 text-[#bd9143] mx-auto" />
     </div>
   );
+
+  // Calculate paginated items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = services?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   return (
     <div className="w-full space-y-8">
@@ -266,41 +277,43 @@ const ServiceManagement = () => {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {services && services.length > 0 ? (
-                  services.map((service) => (
-                    <tr key={service._id} className="group hover:bg-gray-50/50 transition-all">
-                      <td className="py-4 px-6">
-                        <img src={getImageUrl(service.image)} className="h-12 w-12 rounded-lg object-cover shadow-sm" alt="" />
-                      </td>
-                      <td className="py-4 px-6 min-w-[200px]">
-                        <h5 className="text-base font-bold text-[#001e38]">{service.title}</h5>
-                        <p className="text-[13px] text-gray-500 line-clamp-1 mt-1">{service.description}</p>
-                      </td>
-                      <td className="py-4 px-6">
-                        <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">{service.order}</span>
-                      </td>
-                      <td className="py-4 px-6">
-                        <span className="text-xs text-gray-400 font-medium">{service.createdAt ? new Date(service.createdAt).toLocaleDateString() : '—'}</span>
-                      </td>
-                      <td className="py-4 px-6 text-right">
-                        <div className="flex justify-end space-x-2">
-                          <button
-                            onClick={() => handleEdit(service)}
-                            className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${editingId === service._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
-                          >
-                            <Edit2 size={12} />
-                            {/* <span>Edit</span> */}
-                          </button>
-                          <button
-                            onClick={() => handleDelete(service._id)}
-                            className="flex items-center space-x-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
-                          >
-                            <Trash2 size={12} />
-                            {/* <span>Delete</span> */}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                  <>
+                    {currentItems.map((service) => (
+                      <tr key={service._id} className="group hover:bg-gray-50/50 transition-all">
+                        <td className="py-4 px-6">
+                          <img src={getImageUrl(service.image)} className="h-12 w-12 rounded-lg object-cover shadow-sm" alt="" />
+                        </td>
+                        <td className="py-4 px-6 min-w-[200px]">
+                          <h5 className="text-base font-bold text-[#001e38]">{service.title}</h5>
+                          <p className="text-[13px] text-gray-500 line-clamp-1 mt-1">{service.description}</p>
+                        </td>
+                        <td className="py-4 px-6">
+                          <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">{service.order}</span>
+                        </td>
+                        <td className="py-4 px-6">
+                          <span className="text-xs text-gray-400 font-medium">{service.createdAt ? new Date(service.createdAt).toLocaleDateString() : '—'}</span>
+                        </td>
+                        <td className="py-4 px-6 text-right">
+                          <div className="flex justify-end space-x-2">
+                            <button
+                              onClick={() => handleEdit(service)}
+                              className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${editingId === service._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
+                            >
+                              <Edit2 size={12} />
+                              {/* <span>Edit</span> */}
+                            </button>
+                            <button
+                              onClick={() => handleDelete(service._id)}
+                              className="flex items-center space-x-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                            >
+                              <Trash2 size={12} />
+                              {/* <span>Delete</span> */}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
                 ) : (
                   <tr>
                     <td colSpan="5" className="py-20 text-center text-xs font-bold text-gray-400 uppercase tracking-widest">
@@ -310,6 +323,16 @@ const ServiceManagement = () => {
                 )}
               </tbody>
             </table>
+          </div>
+          
+          {/* Pagination Component */}
+          <div className="p-4 border-t border-gray-50">
+            <Pagination 
+              currentPage={currentPage}
+              totalItems={services?.length || 0}
+              itemsPerPage={itemsPerPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
           </div>
         </div>
     </div>

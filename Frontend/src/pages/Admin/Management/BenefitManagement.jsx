@@ -6,6 +6,7 @@ import {
   useUpdateBenefitMutation,
   useDeleteBenefitMutation
 } from '../../../store/api/adminApi';
+import Pagination from '../../../components/Pagination';
 import {
   Save,
   Trash2,
@@ -33,6 +34,10 @@ const BenefitManagement = () => {
   });
   const [editingId, setEditingId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const resetForm = () => {
     setFormData({ title: '', icon: 'fa fa-check', description: '', order: 0 });
@@ -88,6 +93,11 @@ const BenefitManagement = () => {
 
   const saving = creating || updating;
 
+  // Calculate paginated items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = benefits?.slice(indexOfFirstItem, indexOfLastItem) || [];
+
   return (
     <div className="w-full space-y-8">
       <div className="flex justify-between items-center">
@@ -120,7 +130,6 @@ const BenefitManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  {/* <Type size={14} className="text-[#bd9143]" /> */}
                   <label className="text-sm  text-gray-900 uppercase tracking-widest">Title</label>
                 </div>
                 <input
@@ -135,7 +144,6 @@ const BenefitManagement = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-2 mb-2">
-                  {/* <Heart size={14} className="text-[#bd9143]" /> */}
                   <label className="text-sm  text-gray-900 uppercase tracking-widest">Icon Class</label>
                 </div>
                 <input
@@ -152,7 +160,6 @@ const BenefitManagement = () => {
 
             <div className="space-y-2">
               <div className="flex items-center gap-2 mb-2">
-                {/* <FileText size={14} className="text-[#bd9143]" /> */}
                 <label className="text-sm  text-gray-900 uppercase tracking-widest">Description</label>
               </div>
               <textarea
@@ -167,7 +174,6 @@ const BenefitManagement = () => {
 
             <div className="space-y-2 w-full md:w-1/2 md:pr-3">
               <div className="flex items-center gap-2 mb-2">
-                {/* <ArrowUpDown size={14} className="text-[#bd9143]" /> */}
                 <label className="text-sm  text-gray-900 uppercase tracking-widest">Display Order</label>
               </div>
               <input
@@ -197,27 +203,6 @@ const BenefitManagement = () => {
       </div>
       )}
 
-        {/* Live Preview */}
-        {/* <div className="space-y-4">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Homepage Preview</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {(benefits && benefits.length > 0 ? benefits : [
-                { title: "Example Title", icon: "fa fa-leaf", description: "Example description text goes here.", order: 0 }
-              ]).map((benefit, i) => (
-                <div key={i} className="bg-white border border-gray-100 rounded-xl p-6 text-center hover:shadow-lg transition-all">
-                  <div className="h-16 w-16 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-4 text-[#bd9143] text-2xl">
-                    <i className={benefit.icon}></i>
-                  </div>
-                  <h3 className="text-lg font-bold text-[#013b6d] mb-2">{benefit.title}</h3>
-                  <p className="text-sm text-gray-600 line-clamp-3">{benefit.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div> */}
-
-        {/* List Table */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-50">
             <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Existing Benefits</h4>
@@ -234,40 +219,40 @@ const BenefitManagement = () => {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {benefits && benefits.length > 0 ? (
-                  benefits.map((benefit) => (
-                    <tr key={benefit._id} className={`group hover:bg-gray-50/50 transition-all ${editingId === benefit._id ? 'bg-[#bd9143]/5' : ''}`}>
-                      <td className="py-4 px-6">
-                        <div className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center text-[#bd9143]">
-                          <i className={benefit.icon}></i>
-                        </div>
-                      </td>
-                      <td className="py-4 px-6 min-w-[200px]">
-                        <h5 className="text-base  text-[#001e38]">{benefit.title}</h5>
-                        <p className="text-[13px] text-gray-500 line-clamp-1 mt-1">{benefit.description}</p>
-                      </td>
-                      <td className="py-4 px-6">
-                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">{benefit.order}</span>
-                      </td>
-                      <td className="py-4 px-6 text-right">
-                        <div className="flex justify-end space-x-2">
-                          <button
-                            onClick={() => handleEdit(benefit)}
-                            className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs uppercase tracking-widest transition-all ${editingId === benefit._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
-                          >
-                            <Edit2 size={12} />
-                            {/* <span>Edit</span> */}
-                          </button>
-                          <button
-                            onClick={() => handleDelete(benefit._id)}
-                            className="flex items-center space-x-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
-                          >
-                            <Trash2 size={12} />
-                            {/* <span>Delete</span> */}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                  <>
+                    {currentItems.map((benefit) => (
+                      <tr key={benefit._id} className={`group hover:bg-gray-50/50 transition-all ${editingId === benefit._id ? 'bg-[#bd9143]/5' : ''}`}>
+                        <td className="py-4 px-6">
+                          <div className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center text-[#bd9143]">
+                            <i className={benefit.icon}></i>
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 min-w-[200px]">
+                          <h5 className="text-base  text-[#001e38]">{benefit.title}</h5>
+                          <p className="text-[13px] text-gray-500 line-clamp-1 mt-1">{benefit.description}</p>
+                        </td>
+                        <td className="py-4 px-6">
+                          <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">{benefit.order}</span>
+                        </td>
+                        <td className="py-4 px-6 text-right">
+                          <div className="flex justify-end space-x-2">
+                            <button
+                              onClick={() => handleEdit(benefit)}
+                              className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs uppercase tracking-widest transition-all ${editingId === benefit._id ? 'bg-[#bd9143] text-white' : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'}`}
+                            >
+                              <Edit2 size={12} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(benefit._id)}
+                              className="flex items-center space-x-1 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
                 ) : (
                   <tr>
                     <td colSpan="4" className="py-20 text-center text-xs text-gray-400 uppercase tracking-widest">
@@ -277,6 +262,15 @@ const BenefitManagement = () => {
                 )}
               </tbody>
             </table>
+          </div>
+          
+          <div className="p-4 border-t border-gray-50">
+            <Pagination 
+              currentPage={currentPage}
+              totalItems={benefits?.length || 0}
+              itemsPerPage={itemsPerPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
           </div>
         </div>
     </div>

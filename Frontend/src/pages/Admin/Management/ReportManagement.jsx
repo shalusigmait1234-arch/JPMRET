@@ -8,6 +8,7 @@ import {
   useUploadImageMutation
 } from '../../../store/api/adminApi';
 import { API_BASE_URL } from '../../../config';
+import Pagination from '../../../components/Pagination';
 import {
   Plus,
   Pencil,
@@ -35,6 +36,10 @@ const ReportManagement = () => {
     url: '',
     order: 0
   });
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const resetForm = () => {
     setFormData({ year: '', label: '', url: '', order: 0 });
@@ -108,6 +113,11 @@ const ReportManagement = () => {
     if (url.startsWith('http')) return url;
     return `${API_BASE_URL}${url}`;
   };
+
+  // Calculate paginated items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = reports?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   return (
     <div className="w-full space-y-6">
@@ -231,49 +241,59 @@ const ReportManagement = () => {
       )}
 
       
-      {!fetching && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {reports?.map((report) => (
-            <div key={report._id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all">
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="p-3 bg-red-50 text-red-500 rounded-lg">
-                    <FileText size={24} />
+      {!fetching && reports && reports.length > 0 && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {currentItems.map((report) => (
+              <div key={report._id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all">
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-3 bg-red-50 text-red-500 rounded-lg">
+                      <FileText size={24} />
+                    </div>
+                    <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => handleEdit(report)}
+                        className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                        title="Edit"
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(report._id)}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Delete"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => handleEdit(report)}
-                      className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-                      title="Edit"
-                    >
-                      <Pencil size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(report._id)}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                      title="Delete"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
+
+                  <h5 className="text-lg font-bold text-[#013b6d] mb-1">{report.year}</h5>
+                  <p className="text-sm text-gray-500 mb-6 line-clamp-2">{report.label}</p>
+
+                  <a
+                    href={getFullUrl(report.url)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-gray-50 text-[#001e38] rounded-lg hover:bg-[#bd9143] hover:text-white transition-all font-bold text-[10px] uppercase tracking-widest border border-gray-100"
+                  >
+                    <ExternalLink size={14} />
+                    <span>View PDF</span>
+                  </a>
                 </div>
-
-                <h5 className="text-lg font-bold text-[#013b6d] mb-1">{report.year}</h5>
-                <p className="text-sm text-gray-500 mb-6 line-clamp-2">{report.label}</p>
-
-                <a
-                  href={getFullUrl(report.url)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-2.5 bg-gray-50 text-[#001e38] rounded-lg hover:bg-[#bd9143] hover:text-white transition-all font-bold text-[10px] uppercase tracking-widest border border-gray-100"
-                >
-                  <ExternalLink size={14} />
-                  <span>View PDF</span>
-                </a>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+          
+          {/* Pagination Component */}
+          <Pagination 
+            currentPage={currentPage}
+            totalItems={reports?.length || 0}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        </>
       )}
 
       {!fetching && (!reports || reports.length === 0) && !isFormOpen && (

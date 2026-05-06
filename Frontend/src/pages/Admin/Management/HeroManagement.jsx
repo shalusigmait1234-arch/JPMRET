@@ -6,6 +6,7 @@ import {
   useGetHeroesQuery,
   useUploadImageMutation
 } from '../../../store/api/adminApi';
+import Pagination from '../../../components/Pagination';
 import {
   Save,
   Image as ImageIcon,   // ← add alias here
@@ -40,6 +41,10 @@ const HeroManagement = () => {
   const [editingId, setEditingId] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Use a helper to get full image URL. For production, this should use window.location.origin or an env var
   const getImageUrl = (imagePath) => {
@@ -132,6 +137,11 @@ const HeroManagement = () => {
       <RefreshCw className="animate-spin h-8 w-8 text-[#bd9143] mx-auto" />
     </div>
   );
+
+  // Calculate paginated items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = heroes?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   return (
     <div className="w-full space-y-8">
@@ -295,51 +305,6 @@ const HeroManagement = () => {
       </div>
       )}
 
-        {/* Preview Column */}
-        {/* <div className="lg:col-span-5 space-y-6">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 sticky top-8">
-            <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Live Preview</h4>
-            <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-900 shadow-2xl group">
-              {formData.image ? (
-                <img
-                  src={getImageUrl(formData.image)}
-                  alt="Preview"
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700"
-                  onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000'; }}
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-gray-600 text-[10px] uppercase tracking-widest">
-                  No Image Selected
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-transparent"></div>
-              <div className="absolute inset-x-0 bottom-0 p-6 space-y-2">
-                <h1 className="text-2xl text-black font-['DM_Serif_Display',serif] leading-tight">
-                  {formData.title || 'Your Title Here'}
-                </h1>
-                <p className="text-base text-gray-900 font-medium line-clamp-2 leading-relaxed">
-                  {formData.subtitle || 'Your hero section description will appear here.'}
-                </p>
-                <div className="pt-2">
-                  <span className="inline-block px-4 py-2 bg-[#bd9143] text-white text-xs uppercase tracking-widest rounded shadow-lg">
-                    {formData.buttonText || 'Explore More'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-gray-50">
-              <h5 className="text-[10px] font-black text-[#bd9143] uppercase tracking-[0.2em] mb-2 flex items-center">
-                <ExternalLink size={12} className="mr-2" /> Quick Tip
-              </h5>
-              <p className="text-xs text-gray-500 leading-relaxed italic">
-                The preview above shows how this banner will look on the homepage.
-              </p>
-            </div>
-          </div>
-        </div> */}
-      
-
       <div className="pt-8 border-t border-gray-100">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <h4 className="text-xs uppercase tracking-[0.2em] mb-4">Existing Hero Banners</h4>
@@ -349,58 +314,54 @@ const HeroManagement = () => {
                 <tr className="border-b border-gray-50">
                   <th className="py-4 px-4 text-xs uppercase tracking-widest">Preview</th>
                   <th className="py-4 px-4 text-xs uppercase tracking-widest">Content</th>
-                  {/* <th className="py-4 px-4 text-xs uppercase tracking-widest"></th> */}
                   <th className="py-4 px-4 text-xs uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {heroes && heroes.length > 0 ? (
-                  heroes.map((hero) => (
-                    <tr
-                      key={hero._id}
-                      className={`group transition-all hover:bg-gray-50/50 ${editingId === hero._id ? 'bg-[#bd9143]/5' : ''
-                        }`}
-                    >
-                      <td className="py-4 px-4">
-                        <div className="w-24 aspect-video rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
-                          <img
-                            src={getImageUrl(hero.image)}
-                            alt={hero.title}
-                            className="w-full h-full object-cover"
-                            onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000'; }}
-                          />
-                        </div>
-                      </td>
-                      <td className="py-4 px-4 max-w-md">
-                        <h5 className="text-base text-[#013b6d] truncate">{hero.title}</h5>
-                        <p className="text-xs text-gray-500 line-clamp-1 mt-1">{hero.subtitle}</p>
-                      </td>
-                      {/* <td className="py-4 px-4">
-                        <span className="text-xs text-gray-400 font-medium">{hero.createdAt ? new Date(hero.createdAt).toLocaleDateString() : '—'}</span>
-                      </td> */}
-                      <td className="py-4 px-4 text-right">
-                        <div className="flex justify-end space-x-2">
-                          <button
-                            onClick={() => handleEdit(hero)}
-                            className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest ${editingId === hero._id
-                              ? 'bg-[#bd9143] text-white'
-                              : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'
-                              }`}
-                          >
-                            <Edit2 size={12} />
-                            {/* <span>Edit</span> */}
-                          </button>
-                          <button
-                            onClick={() => handleDelete(hero._id)}
-                            className="flex items-center space-x-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
-                          >
-                            <Trash2 size={12} />
-                            {/* <span>Delete</span> */}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                  <>
+                    {currentItems.map((hero) => (
+                      <tr
+                        key={hero._id}
+                        className={`group transition-all hover:bg-gray-50/50 ${editingId === hero._id ? 'bg-[#bd9143]/5' : ''
+                          }`}
+                      >
+                        <td className="py-4 px-4">
+                          <div className="w-24 aspect-video rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                            <img
+                              src={getImageUrl(hero.image)}
+                              alt={hero.title}
+                              className="w-full h-full object-cover"
+                              onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000'; }}
+                            />
+                          </div>
+                        </td>
+                        <td className="py-4 px-4 max-w-md">
+                          <h5 className="text-base text-[#013b6d] truncate">{hero.title}</h5>
+                          <p className="text-xs text-gray-500 line-clamp-1 mt-1">{hero.subtitle}</p>
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <div className="flex justify-end space-x-2">
+                            <button
+                              onClick={() => handleEdit(hero)}
+                              className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg transition-all text-xs font-bold uppercase tracking-widest ${editingId === hero._id
+                                ? 'bg-[#bd9143] text-white'
+                                : 'bg-gray-100 text-[#013b6d] hover:bg-[#013b6d] hover:text-white'
+                                }`}
+                            >
+                              <Edit2 size={12} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(hero._id)}
+                              className="flex items-center space-x-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
                 ) : (
                   <tr>
                     <td colSpan="4" className="py-20 text-center">
@@ -410,19 +371,20 @@ const HeroManagement = () => {
                 )}
               </tbody>
             </table>
-          </div>
         </div>
-
-        {/* <div className="bg-[#bd9143]/10 p-6 rounded-xl border border-[#bd9143]/20">
-            <h5 className="text-[10px] font-black text-[#bd9143] uppercase tracking-[0.2em] mb-2 flex items-center">
-              <ExternalLink size={12} className="mr-2" /> Note
-            </h5>
-            <p className="text-[11px] text-gray-600 leading-relaxed">
-              The list shows all your hero banners. You can edit any banner by clicking the Edit button or remove it using the Delete button.
-            </p>
-          </div> */}
+        
+        {/* Pagination Component */}
+        <div className="p-4 border-t border-gray-50">
+          <Pagination 
+            currentPage={currentPage}
+            totalItems={heroes?.length || 0}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
+        </div>
       </div>
     </div>
+  </div>
   );
 };
 

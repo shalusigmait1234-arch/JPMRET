@@ -7,7 +7,7 @@ const AboutSection = () => {
         <div className="bg-white p-6 md:p-12 rounded-lg shadow-[0px_7px_18px_rgba(0,0,0,0.13)] -mt-32 md:-mt-48 relative z-20">
           <div className="text-center">
 
-            <h2 className="text-2xl md:text-4xl font-['DM_Serif_Display',serif] text-[#0b2b5a] leading-tight">
+            <h2 className="mb-2">
               Welcome to Janki Prasad Global Governance and Development Foundation
             </h2>
 

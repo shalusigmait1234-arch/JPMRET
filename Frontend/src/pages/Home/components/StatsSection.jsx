@@ -66,18 +66,18 @@ const StatsSection = () => {
               {/* NUMBER */}
               <div className="flex items-end justify-center gap-1">
 
-                <h2 className="text-4xl md:text-6xl lg:text-7xl text-white font-semibold">
+                <h2 className="text-4xl md:text-6xl lg:text-7xl !text-white font-semibold">
                   <Counter end={Number(stat.value)} />
                 </h2>
 
-                <span className="text-5xl md:text-6xl lg:text-7xl text-[#c49a4a] font-light">
+                <span className="text-5xl md:text-6xl lg:text-7xl text-white font-light">
                   {stat.target}
                 </span>
 
               </div>
 
               {/* LABEL */}
-              <p className="mt-3 text-xs md:text-sm font-medium text-white/90 tracking-wide">
+              <p className="mt-3 text-xs md:text-sm font-medium text-white tracking-wide">
                 {formatLabel(stat.label)}
               </p>
 

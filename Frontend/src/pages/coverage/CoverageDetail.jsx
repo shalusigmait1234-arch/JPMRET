@@ -23,7 +23,7 @@ const CoverageDetail = ({ data }) => {
         <div className="max-w-[1320px] mx-auto px-4 sm:px-7">
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.85fr] gap-8 lg:gap-12 items-start">
             <div>
-              <h1 className="font-serif text-[32px] leading-tight font-bold text-[#00436a] mb-5">
+              <h1 className="mb-5">
                 {data.title}
               </h1>
 
@@ -45,7 +45,7 @@ const CoverageDetail = ({ data }) => {
 
           {data.features && data.features.length > 0 && (
             <div className="mt-7">
-              <h2 className="font-serif text-[30px] leading-tight font-bold text-[#00436a] mb-3">
+              <h2 className="mb-3">
                 Key Features:
               </h2>
 

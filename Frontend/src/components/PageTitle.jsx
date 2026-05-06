@@ -8,7 +8,7 @@ const PageTitle = ({ title, breadcrumbs }) => {
       style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/assets/img/banner/bredcrumb.jpg')" }}
     >
       <div className="max-w-[1170px] mx-auto px-4 text-center">
-        <h1 className="font-serif text-[40px] md:text-[44px] leading-tight font-bold text-white mb-3">{title}</h1>
+        <h1 className="font-serif text-[32px] md:text-[36px] leading-tight font-normal text-white mb-3">{title}</h1>
         <nav className="flex justify-center items-center gap-3 text-white text-[16px] font-semibold">
           {breadcrumbs.map((crumb, index) => (
             <React.Fragment key={index}>
