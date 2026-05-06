@@ -158,8 +158,8 @@ const TestimonialManagement = () => {
 
   // Filter based on search
   const filteredTestimonials = testimonials?.filter(item => 
-    item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.designation.toLowerCase().includes(searchQuery.toLowerCase())
+    (item.author || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (item.designation || '').toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
   // Calculate paginated items
