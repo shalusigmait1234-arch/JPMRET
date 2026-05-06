@@ -33,21 +33,21 @@ const HeroSection = () => {
   const slides =
     (Hero && Array.isArray(Hero) && Hero.length > 0)
       ? Hero.map(hero => ({
-          title: hero.title,
-          desc: hero.subtitle,
-          img: hero.image,
-          link: hero.buttonLink,
-          btnText: hero.buttonText
-        }))
+        title: hero.title,
+        desc: hero.subtitle,
+        img: hero.image,
+        link: hero.buttonLink,
+        btnText: hero.buttonText
+      }))
       : (Hero && !Array.isArray(Hero))
-      ? [{
+        ? [{
           title: Hero.title,
           desc: Hero.subtitle,
           img: Hero.image,
           link: Hero.buttonLink,
           btnText: Hero.buttonText
         }]
-      : defaultSlides;
+        : defaultSlides;
 
   if (isLoading) {
     return (
@@ -72,9 +72,8 @@ const HeroSection = () => {
             <div
               className="relative min-h-[320px] md:min-h-[420px] lg:min-h-[520px] flex items-center bg-cover bg-center"
               style={{
-                backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%), url(${
-                  slide.img || 'https://images.unsplash.com/photo-1501785888041-af3ef285b470'
-                })`
+                backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%), url(${slide.img || 'https://images.unsplash.com/photo-1501785888041-af3ef285b470'
+                  })`
               }}
             >
               <div className="max-w-[1170px] mx-auto px-4 w-full">
@@ -112,35 +111,36 @@ const HeroSection = () => {
         .swiper-button-next,
         .swiper-button-prev {
           color: white !important;
-          background: rgba(0,0,0,0.45);
-          width: 45px !important;
-          height: 45px !important;
+          background: rgba(0, 0, 0, 0.5) !important;
+          width: 36px !important;
+          height: 36px !important;
           border-radius: 50%;
-          backdrop-filter: blur(6px);
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: 0.3s ease;
+          transition: all 0.3s ease;
         }
 
         .swiper-button-next:hover,
         .swiper-button-prev:hover {
-          background: rgba(0,0,0,0.7);
-          transform: scale(1.1);
+          background: rgba(0, 0, 0, 0.8) !important;
+          transform: scale(1.05);
         }
 
         .swiper-button-next:after,
         .swiper-button-prev:after {
-          font-size: 18px !important;
-          font-weight: bold;
+          font-size: 10px !important;
+          font-weight: 900 !important;
+          -webkit-text-stroke: 1px white;
+          line-height: 1;
         }
 
         .swiper-button-prev {
-          left: 15px;
+          left: 20px !important;
         }
 
         .swiper-button-next {
-          right: 15px;
+          right: 20px !important;
         }
 
         /* ===== PAGINATION ===== */

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Check } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
+import PageTitle from '../../components/PageTitle';
 
 const getImageUrl = (imagePath) => {
   if (!imagePath) return '';
@@ -10,8 +11,14 @@ const getImageUrl = (imagePath) => {
 };
 
 const CoverageDetail = ({ data }) => {
+  const breadcrumbs = [
+    { label: 'Home', path: '/' },
+    { label: data.title }
+  ];
+
   return (
     <div className="bg-white min-h-screen">
+      <PageTitle title={data.title} breadcrumbs={breadcrumbs} />
       <section className="pt-7 pb-16 md:pb-20">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-7">
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.85fr] gap-8 lg:gap-12 items-start">

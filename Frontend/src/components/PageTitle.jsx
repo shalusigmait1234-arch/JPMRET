@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 const PageTitle = ({ title, breadcrumbs }) => {
   return (
     <div 
-      className="relative py-24 md:py-32 bg-cover bg-center"
-      style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.58)), url('/assets/img/banner/bredcrumb.jpg')" }}
+      className="relative py-16 md:py-20 bg-cover bg-center"
+      style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/assets/img/banner/bredcrumb.jpg')" }}
     >
       <div className="max-w-[1170px] mx-auto px-4 text-center">
         <h1 className="font-serif text-[40px] md:text-[44px] leading-tight font-bold text-white mb-3">{title}</h1>

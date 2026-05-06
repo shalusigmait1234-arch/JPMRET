@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -98,13 +99,13 @@ const Navbar = () => {
 
           {/* Mobile Toggle */}
           <button
-            className="lg:hidden text-[#302c51] p-2 focus:outline-none"
+            className="lg:hidden text-[#302c51] p-2 focus:outline-none flex items-center justify-center"
             onClick={toggleMenu}
           >
             {isMenuOpen ? (
-              <i className="icofont-close text-3xl"></i>
+              <X size={32} />
             ) : (
-              <i className="icofont-navigation-menu text-3xl"></i>
+              <Menu size={32} />
             )}
           </button>
         </nav>

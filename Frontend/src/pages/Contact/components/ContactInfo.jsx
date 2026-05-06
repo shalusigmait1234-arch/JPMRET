@@ -36,9 +36,9 @@ const ContactInfo = () => {
           {contactDetails.map((detail, index) => (
             <div key={index} className="min-h-[210px] rounded-lg border border-[#d3a047] bg-white px-7 py-5 text-center flex flex-col items-center justify-center">
               <div className="text-[#d3a047] mb-4">
-                <detail.Icon size={40} strokeWidth={3} fill={detail.title === 'Email' ? 'none' : 'currentColor'} aria-hidden="true" />
+                <detail.Icon size={40} strokeWidth={2} fill={detail.title === 'Email' ? 'none' : 'currentColor'} aria-hidden="true" />
               </div>
-              <h4 className="text-[24px] leading-8 font-medium text-[#d3a047] mb-2">
+              <h4 className="font-serif text-[24px] leading-8 font-medium text-[#d3a047] mb-2 tracking-normal">
                 {detail.title}:
               </h4>
               <div className="text-[#09073f] text-[16px] leading-6 font-medium">

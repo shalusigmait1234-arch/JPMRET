@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useSubmitInquiryMutation } from '../../../store/api/contactApi';
+import { allowOnlyText, allowOnlyPhoneNumber } from '../../../utils/validation';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,16 @@ const ContactForm = () => {
   const [submitInquiry, { isLoading }] = useSubmitInquiryMutation();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let finalValue = value;
+
+    if (name === 'name') {
+      finalValue = allowOnlyText(value);
+    } else if (name === 'phone') {
+      finalValue = allowOnlyPhoneNumber(value);
+    }
+
+    setFormData({ ...formData, [name]: finalValue });
   };
 
   const handleSubmit = async (e) => {
@@ -34,44 +44,43 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-white">
       <div className="max-w-[1170px] mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           <div className="w-full lg:w-7/12">
-            <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl">
+            <div className="bg-white p-8 md:p-12 rounded-lg border border-[#d3a047] shadow-sm">
               <div className="mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#001e38] mb-4 font-['DM_Serif_Display',serif]">Let's talk...!</h2>
-                <div className="w-16 h-[2px] bg-[#f06f14] mb-6"></div>
-                <p className="text-[#45443F] text-lg leading-relaxed">
-                  Let’s talk and explore how we can work together to create meaningful impact. Reach out to us to share your thoughts, ask questions.
+                <h2 className="text-[32px] leading-tight font-serif font-bold text-[#001e38] mb-4">Let's talk...!</h2>
+                <p className="text-[#45443F] text-[16px] leading-relaxed">
+                  Let's talk and explore how we can work together to create meaningful impact. Whether you have an idea, a project, or a partnership opportunity, we are always open to discussion and collaboration. Reach out to us to share your thoughts, ask questions.
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative">
-                    <label className="absolute left-4 top-1/2 -translate-y-1/2 text-[#bd9143]">
+                    <label className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d3a047]">
                       <i className="icofont-user-alt-3"></i>
                     </label>
                     <input 
                       type="text" 
                       name="name" 
-                      className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bd9143] focus:bg-white transition-all" 
-                      placeholder="Your Name" 
+                      className="w-full pl-12 pr-4 py-3 bg-white border border-[#d3a047]/40 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#bd9143] focus:border-[#bd9143] transition-all" 
+                      placeholder="Name" 
                       required 
                       value={formData.name}
                       onChange={handleChange}
                     />
                   </div>
                   <div className="relative">
-                    <label className="absolute left-4 top-1/2 -translate-y-1/2 text-[#bd9143]">
+                    <label className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d3a047]">
                       <i className="icofont-ui-call"></i>
                     </label>
                     <input 
                       type="text" 
                       name="phone" 
-                      className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bd9143] focus:bg-white transition-all" 
-                      placeholder="Phone Number" 
+                      className="w-full pl-12 pr-4 py-3 bg-white border border-[#d3a047]/40 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#bd9143] focus:border-[#bd9143] transition-all" 
+                      placeholder="Phone" 
                       required 
                       value={formData.phone}
                       onChange={handleChange}
@@ -80,14 +89,14 @@ const ContactForm = () => {
                 </div>
 
                 <div className="relative">
-                  <label className="absolute left-4 top-1/2 -translate-y-1/2 text-[#bd9143]">
+                  <label className="absolute left-4 top-1/2 -translate-y-1/2 text-[#d3a047]">
                     <i className="icofont-ui-email"></i>
                   </label>
                   <input 
                     type="email" 
                     name="email" 
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bd9143] focus:bg-white transition-all" 
-                    placeholder="Email Address" 
+                    className="w-full pl-12 pr-4 py-3 bg-white border border-[#d3a047]/40 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#bd9143] focus:border-[#bd9143] transition-all" 
+                    placeholder="Email" 
                     required 
                     value={formData.email}
                     onChange={handleChange}
@@ -95,14 +104,14 @@ const ContactForm = () => {
                 </div>
 
                 <div className="relative">
-                  <label className="absolute left-4 top-6 text-[#bd9143]">
+                  <label className="absolute left-4 top-4 text-[#d3a047]">
                     <i className="icofont-comment"></i>
                   </label>
                   <textarea 
                     name="message" 
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bd9143] focus:bg-white transition-all" 
-                    rows="5" 
-                    placeholder="Your Message" 
+                    className="w-full pl-12 pr-4 py-3 bg-white border border-[#d3a047]/40 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#bd9143] focus:border-[#bd9143] transition-all" 
+                    rows="4" 
+                    placeholder="Message" 
                     required
                     value={formData.message}
                     onChange={handleChange}
@@ -132,7 +141,7 @@ const ContactForm = () => {
           </div>
 
           <div className="w-full lg:w-5/12">
-            <div className="h-full min-h-[400px] rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+            <div className="h-full min-h-[400px] rounded-lg overflow-hidden border border-gray-200">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d113888.99216154497!2d80.9813931!3d26.870756!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399be293119dc895%3A0x27ccd542ed8111f5!2s3%2F132%2C%203%2F132%2C%20Vijayipur%2C%20Vishesh%20Khand%202%2C%20Gomti%20Nagar%2C%20Lucknow%2C%20Uttar%20Pradesh%20226010!5e0!3m2!1sen!2sin!4v1777380377793!5m2!1sen!2sin"
                 width="100%"
