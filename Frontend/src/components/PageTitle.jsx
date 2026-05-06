@@ -10,7 +10,7 @@ const PageTitle = ({ title, breadcrumbs }) => {
       <div className="max-w-[1170px] mx-auto px-4 text-center">
         <h1 className="font-serif text-[32px] md:text-[36px] leading-tight font-normal text-white mb-3">{title}</h1>
         <nav className="flex justify-center items-center gap-3 text-white text-[16px] font-semibold">
-          {breadcrumbs.map((crumb, index) => (
+          {breadcrumbs && breadcrumbs.map((crumb, index) => (
             <React.Fragment key={index}>
               {index === breadcrumbs.length - 1 ? (
                 <span>{crumb.label}</span>

@@ -18,7 +18,8 @@ import {
   Link2,
   ArrowUpDown,
   Pencil,
-  X
+  X,
+  Search
 } from 'lucide-react';
 import { API_BASE_URL } from '../../../config';
 
@@ -27,6 +28,7 @@ const ServiceManagement = () => {
   const [saveService, { isLoading: saving }] = useSaveServiceMutation();
   const [deleteService] = useDeleteServiceMutation();
   const [uploadImage, { isLoading: uploading }] = useUploadImageMutation();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [formData, setFormData] = useState({
     title: '',
@@ -113,21 +115,39 @@ const ServiceManagement = () => {
     </div>
   );
 
+  // Filter based on search
+  const filteredServices = services?.filter(service => 
+    service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    service.description.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   // Calculate paginated items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = services?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const currentItems = filteredServices.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="w-full space-y-8">
       <div className="flex justify-between items-center mb-6">
-        <button
-          onClick={() => { resetForm(); setIsModalOpen(true); }}
-          className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
-        >
-          <Plus size={16} />
-          <span>Create New Service</span>
-        </button>
+        <div className="flex items-center space-x-4">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+            <input
+              type="text"
+              placeholder="Search services..."
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+              className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+            />
+          </div>
+          <button
+            onClick={() => { resetForm(); setIsModalOpen(true); }}
+            className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
+          >
+            <Plus size={16} />
+            <span>Create New Service</span>
+          </button>
+        </div>
       </div>
 
       {isModalOpen && (
@@ -329,7 +349,7 @@ const ServiceManagement = () => {
           <div className="p-4 border-t border-gray-50">
             <Pagination 
               currentPage={currentPage}
-              totalItems={services?.length || 0}
+              totalItems={filteredServices.length}
               itemsPerPage={itemsPerPage}
               onPageChange={(page) => setCurrentPage(page)}
             />

@@ -34,8 +34,8 @@ const Dashboard = () => {
 
     { name: 'Sliders ', icon: ImageIcon, path: '/admin/hero', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Stats (Counter)', icon: FileText, path: '/admin/stats', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
-    { name: 'Commitment Society', icon: FileText, path: '/admin/services', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
-    { name: 'Why Us', icon: FileText, path: '/admin/benefits', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Services', icon: FileText, path: '/admin/services', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
+    { name: 'Commitment Society', icon: FileText, path: '/admin/benefits', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Gallery', icon: ImageIcon, path: '/admin/gallery', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     { name: 'Testimonials', icon: Quote, path: '/admin/testimonials', activeClass: 'bg-[#001e38] text-white', iconClass: 'text-white' },
     {

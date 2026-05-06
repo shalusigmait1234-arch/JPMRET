@@ -10,11 +10,11 @@ const ContactPage = () => {
   ];
 
   return (
-    <div className="contact-page">
+    <>
       <PageTitle title="Contact Us" breadcrumbs={breadcrumbs} />
       <ContactInfo />
       <ContactForm />
-    </div>
+    </>
   );
 };
 

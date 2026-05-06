@@ -18,7 +18,8 @@ import {
   FileText,
   Upload,
   RefreshCw,
-  ExternalLink
+  ExternalLink,
+  Search
 } from 'lucide-react';
 
 const ReportManagement = () => {
@@ -27,6 +28,7 @@ const ReportManagement = () => {
   const [updateReport, { isLoading: updating }] = useUpdateReportMutation();
   const [deleteReport, { isLoading: deleting }] = useDeleteReportMutation();
   const [uploadFile, { isLoading: uploading }] = useUploadImageMutation();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -117,10 +119,16 @@ const ReportManagement = () => {
     return `${API_BASE_URL}${url}`;
   };
 
+  // Filter reports based on search query
+  const filteredReports = reports?.filter(report => 
+    report.year.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    report.label.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   // Calculate paginated items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = reports?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const currentItems = filteredReports.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="w-full space-y-6">
@@ -134,13 +142,25 @@ const ReportManagement = () => {
           </p>
         </div>
         {!isFormOpen && (
-          <button
-            onClick={() => setIsFormOpen(true)}
-            className="flex items-center space-x-2 px-4 py-2 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95"
-          >
-            <Plus size={16} />
-            <span>Add New Report</span>
-          </button>
+          <div className="flex items-center space-x-4">
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+              <input
+                type="text"
+                placeholder="Search reports..."
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+              />
+            </div>
+            <button
+              onClick={() => setIsFormOpen(true)}
+              className="flex items-center space-x-2 px-4 py-2 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95"
+            >
+              <Plus size={16} />
+              <span>Add New Report</span>
+            </button>
+          </div>
         )}
       </div>
 
@@ -304,7 +324,7 @@ const ReportManagement = () => {
           {/* Pagination Component */}
           <Pagination 
             currentPage={currentPage}
-            totalItems={reports?.length || 0}
+            totalItems={filteredReports.length}
             itemsPerPage={itemsPerPage}
             onPageChange={(page) => setCurrentPage(page)}
           />

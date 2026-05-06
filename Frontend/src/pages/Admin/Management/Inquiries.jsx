@@ -1,6 +1,6 @@
 
 import { useGetInquiriesQuery, useUpdateInquiryStatusMutation } from '../../../store/api/adminApi';
-import { Mail, Phone, Calendar, Clock, CheckCircle, Eye, ShieldCheck, X, User, MessageSquare, Info } from 'lucide-react';
+import { Mail, Phone, Calendar, Clock, CheckCircle, Eye, ShieldCheck, X, User, MessageSquare, Info, Search } from 'lucide-react';
 import { useState } from 'react';
 import Pagination from '../../../components/Pagination';
 
@@ -9,6 +9,7 @@ const Inquiries = () => {
   const [updateStatus] = useUpdateInquiryStatusMutation();
   const [selectedInquiry, setSelectedInquiry] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,18 +36,31 @@ const Inquiries = () => {
     return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#bd9143]"></div></div>;
   }
 
+  // Filter inquiries based on search
+  const filteredInquiries = inquiries?.filter(inquiry => 
+    inquiry.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    inquiry.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    inquiry.subject.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   // Calculate paginated items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = inquiries?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const currentItems = filteredInquiries.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
-        {/* <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">Inquiry Management</h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">Manage visitor messages and requests</p>
-        </div> */}
+        <div className="relative group w-full max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={18} />
+          <input
+            type="text"
+            placeholder="Search by name, email or subject..."
+            value={searchQuery}
+            onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-100 rounded-xl text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all shadow-sm"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
@@ -125,7 +139,7 @@ const Inquiries = () => {
       {/* Pagination Component */}
       <Pagination
         currentPage={currentPage}
-        totalItems={inquiries?.length || 0}
+        totalItems={filteredInquiries.length}
         itemsPerPage={itemsPerPage}
         onPageChange={(page) => setCurrentPage(page)}
       />
