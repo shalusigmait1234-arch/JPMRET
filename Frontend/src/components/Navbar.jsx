@@ -1,13 +1,20 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import {
+  Menu,
+  X,
+  ChevronDown,
+} from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+
   const location = useLocation();
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const toggleDropdown = (name) => {
     setActiveDropdown(activeDropdown === name ? null : name);
@@ -16,29 +23,51 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About Us', path: '/about' },
+
     {
       name: 'Coverage',
       dropdown: [
-        { name: 'Agriculture Development', path: '/coverage/agriculture' },
-        { name: 'Local participation', path: '/coverage/local-participation' },
-        { name: 'Transform lives', path: '/coverage/transform-lives' },
-        { name: 'Water Management', path: '/coverage/water-management' },
+        {
+          name: 'Agriculture Development',
+          path: '/coverage/agriculture',
+        },
+        {
+          name: 'Local participation',
+          path: '/coverage/local-participation',
+        },
+        {
+          name: 'Transform lives',
+          path: '/coverage/transform-lives',
+        },
+        {
+          name: 'Water Management',
+          path: '/coverage/water-management',
+        },
       ],
     },
+
     { name: 'Reports', path: '/reports' },
+
     {
       name: 'Gallery',
       dropdown: [
-        { name: 'Photo Gallery', path: '/gallery' },
-        { name: 'Print Media', path: '/print-media' },
+        {
+          name: 'Photo Gallery',
+          path: '/gallery',
+        },
+        {
+          name: 'Print Media',
+          path: '/print-media',
+        },
       ],
     },
+
     { name: 'Downloads', path: '/downloads' },
     { name: 'Contact Us', path: '/contact' },
   ];
 
   return (
-    <div className="w-full z-[999999] bg-white">
+    <div className="w-full bg-white z-[999999] shadow-sm">
       <div className="max-w-[1170px] mx-auto px-4">
         <nav className="flex items-center justify-between py-2">
 
@@ -54,17 +83,31 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center">
             <ul className="flex items-center">
-              {navLinks.map((link, idx) => (
-                <li key={idx} className="relative group px-4 py-6">
 
+              {navLinks.map((link, idx) => (
+                <li
+                  key={idx}
+                  className="relative group px-4 py-6"
+                >
+
+                  {/* Dropdown Menu */}
                   {link.dropdown ? (
                     <>
-                      <button className="flex items-center text-[#302c51] font-semibold text-sm uppercase hover:text-[#bd9143] transition-colors">
+                      <button className="flex items-center gap-1 text-[#302c51] font-semibold text-sm uppercase hover:text-[#bd9143] transition-colors">
+
                         {link.name}
-                        <i className="icofont-simple-down ml-1"></i>
+
+                        {/* Dropdown Icon */}
+                        <ChevronDown
+                          size={18}
+                          strokeWidth={3}
+                          className="text-[#bd9143] mt-[1px] transition-transform duration-300 group-hover:rotate-180"
+                        />
                       </button>
 
+                      {/* Dropdown List */}
                       <ul className="absolute left-0 top-full w-64 bg-[#00618a] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-xl z-50">
+
                         {link.dropdown.map((sub, sIdx) => (
                           <li
                             key={sIdx}
@@ -78,9 +121,11 @@ const Navbar = () => {
                             </Link>
                           </li>
                         ))}
+
                       </ul>
                     </>
                   ) : (
+                    /* Normal Menu */
                     <Link
                       to={link.path}
                       className={`text-[#302c51] font-semibold text-sm uppercase hover:text-[#bd9143] transition-colors ${
@@ -92,14 +137,16 @@ const Navbar = () => {
                       {link.name}
                     </Link>
                   )}
+
                 </li>
               ))}
+
             </ul>
           </div>
 
-          {/* Mobile Toggle */}
+          {/* Mobile Toggle Button */}
           <button
-            className="lg:hidden text-[#302c51] p-2 focus:outline-none flex items-center justify-center"
+            className="lg:hidden text-[#302c51] p-2 flex items-center justify-center"
             onClick={toggleMenu}
           >
             {isMenuOpen ? (
@@ -113,27 +160,41 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ${
-            isMenuOpen ? 'max-h-[1000px] border-t border-gray-100' : 'max-h-0'
+            isMenuOpen
+              ? 'max-h-[1000px] border-t border-gray-100'
+              : 'max-h-0'
           }`}
         >
           <ul className="py-4">
+
             {navLinks.map((link, idx) => (
-              <li key={idx} className="border-b border-gray-50 last:border-0">
+              <li
+                key={idx}
+                className="border-b border-gray-50 last:border-0"
+              >
 
                 {link.dropdown ? (
                   <div>
+
+                    {/* Mobile Dropdown Button */}
                     <button
                       className="flex items-center justify-between w-full px-4 py-3 text-[#302c51] font-semibold"
                       onClick={() => toggleDropdown(link.name)}
                     >
                       {link.name}
-                      <i
-                        className={`icofont-simple-down transition-transform duration-300 ${
-                          activeDropdown === link.name ? 'rotate-180' : ''
+
+                      <ChevronDown
+                        size={20}
+                        strokeWidth={3}
+                        className={`text-[#bd9143] transition-transform duration-300 ${
+                          activeDropdown === link.name
+                            ? 'rotate-180'
+                            : ''
                         }`}
-                      ></i>
+                      />
                     </button>
 
+                    {/* Mobile Dropdown List */}
                     <ul
                       className={`bg-gray-50 overflow-hidden transition-all duration-300 ${
                         activeDropdown === link.name
@@ -141,6 +202,7 @@ const Navbar = () => {
                           : 'max-h-0'
                       }`}
                     >
+
                       {link.dropdown.map((sub, sIdx) => (
                         <li key={sIdx}>
                           <Link
@@ -151,9 +213,11 @@ const Navbar = () => {
                           </Link>
                         </li>
                       ))}
+
                     </ul>
                   </div>
                 ) : (
+                  /* Mobile Normal Link */
                   <Link
                     to={link.path}
                     className={`block px-4 py-3 text-[#302c51] font-semibold ${
@@ -165,8 +229,10 @@ const Navbar = () => {
                     {link.name}
                   </Link>
                 )}
+
               </li>
             ))}
+
           </ul>
         </div>
       </div>
