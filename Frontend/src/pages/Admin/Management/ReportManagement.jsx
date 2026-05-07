@@ -47,7 +47,7 @@ const ReportManagement = () => {
     setFormData({ year: '', label: '', url: '', order: 0 });
     setEditId(null);
     setIsFormOpen(false);
-    
+
   };
 
   const handleEdit = (report) => {
@@ -120,7 +120,7 @@ const ReportManagement = () => {
   };
 
   // Filter reports based on search query
-  const filteredReports = reports?.filter(report => 
+  const filteredReports = reports?.filter(report =>
     report.year.toLowerCase().includes(searchQuery.toLowerCase()) ||
     report.label.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
@@ -134,14 +134,14 @@ const ReportManagement = () => {
     <div className="w-full space-y-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-3">
-          <div>
+          {/* <div>
             <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
               Report Management
             </h3>
             <p className="text-sm text-black transition-colors font-black uppercase tracking-widest bg-white border border-gray-100 px-2 py-1 rounded-md shadow-sm ml-2 inline-block">
               Upload and manage Annual Progress Reports
             </p>
-          </div>
+          </div> */}
           <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
             Total: {reports?.length || 0}
           </span>
@@ -149,16 +149,22 @@ const ReportManagement = () => {
         {!isFormOpen && (
           <div className="flex items-center space-x-4 flex-nowrap">
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
                 <Search className="text-black" size={16} />
               </div>
+
               <input
                 type="text"
                 placeholder="Search reports..."
                 value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
               />
+
             </div>
             <button
               onClick={() => setIsFormOpen(true)}
@@ -192,97 +198,97 @@ const ReportManagement = () => {
 
             <div className="p-8 overflow-y-auto">
               <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Year</label>
-                <input
-                  type="text"
-                  value={formData.year}
-                  onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
-                  placeholder="e.g. 2024 - 2025"
-                  required
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Display Label</label>
-                <input
-                  type="text"
-                  value={formData.label}
-                  onChange={(e) => setFormData({ ...formData, label: e.target.value })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
-                  placeholder="e.g. Annual Progress Report - 2024-25"
-                  required
-                />
-              </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">PDF File</label>
-                  <div className="flex gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Year</label>
                     <input
                       type="text"
-                      value={formData.url}
-                      readOnly
-                      className="flex-1 p-2.5 bg-gray-100 border border-gray-100 rounded-lg text-sm font-medium text-gray-500"
-                      placeholder="No file uploaded"
+                      value={formData.year}
+                      onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+                      className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                      placeholder="e.g. 2024 - 2025"
                       required
                     />
-                    {formData.url && (
-                      <a
-                        href={getFullUrl(formData.url)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-4 py-2.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0"
-                        title="View Current PDF"
-                      >
-                        <ExternalLink size={14} />
-                        <span>View</span>
-                      </a>
-                    )}
-                    <label className="px-4 py-2.5 bg-[#bd9143] text-white rounded-lg cursor-pointer hover:bg-[#a67d35] transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0">
-                      {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Upload size={14} />}
-                      <span>{formData.url ? 'Change File' : 'Upload PDF'}</span>
-                      <input type="file" className="hidden" accept=".pdf" onChange={handleFileUpload} disabled={uploading} />
-                    </label>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Display Label</label>
+                    <input
+                      type="text"
+                      value={formData.label}
+                      onChange={(e) => setFormData({ ...formData, label: e.target.value })}
+                      className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                      placeholder="e.g. Annual Progress Report - 2024-25"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">PDF File</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={formData.url}
+                        readOnly
+                        className="flex-1 p-2.5 bg-gray-100 border border-gray-100 rounded-lg text-sm font-medium text-gray-500"
+                        placeholder="No file uploaded"
+                        required
+                      />
+                      {formData.url && (
+                        <a
+                          href={getFullUrl(formData.url)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-4 py-2.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0"
+                          title="View Current PDF"
+                        >
+                          <ExternalLink size={14} />
+                          <span>View</span>
+                        </a>
+                      )}
+                      <label className="px-4 py-2.5 bg-[#bd9143] text-white rounded-lg cursor-pointer hover:bg-[#a67d35] transition-all flex items-center gap-2 font-bold text-[10px] uppercase tracking-widest shrink-0">
+                        {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Upload size={14} />}
+                        <span>{formData.url ? 'Change File' : 'Upload PDF'}</span>
+                        <input type="file" className="hidden" accept=".pdf" onChange={handleFileUpload} disabled={uploading} />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Display Order</label>
+                    <input
+                      type="number"
+                      value={formData.order}
+                      onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
+                      className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
+                    />
                   </div>
                 </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Display Order</label>
-                <input
-                  type="number"
-                  value={formData.order}
-                  onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-100 rounded-lg text-sm font-medium focus:outline-none focus:border-[#bd9143] transition-all"
-                />
-              </div>
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={resetForm}
+                    className="px-6 py-2.5 border border-gray-200 text-gray-500 rounded-lg hover:bg-gray-50 transition-all font-bold text-[10px] uppercase tracking-widest"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={creating || updating || uploading}
+                    className={`flex items-center space-x-2 px-8 py-2 rounded-lg hover: transition-all font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 disabled:opacity-50 ${creating || updating || uploading ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
+                  >
+                    {creating || updating ? <RefreshCw className="animate-spin" size={14} /> : <Save size={14} />}
+                    <span>{creating || updating || uploading ? 'Submitting...' : editId ? 'Update Report' : 'Save Report'}</span>
+                  </button>
+                </div>
+              </form>
             </div>
-
-            <div className="flex justify-end space-x-3 pt-4">
-              <button
-                type="button"
-                onClick={resetForm}
-                className="px-6 py-2.5 border border-gray-200 text-gray-500 rounded-lg hover:bg-gray-50 transition-all font-bold text-[10px] uppercase tracking-widest"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={creating || updating || uploading}
-                className={`flex items-center space-x-2 px-8 py-2 rounded-lg hover: transition-all font-bold text-[10px] uppercase tracking-widest shadow-lg active:scale-95 disabled:opacity-50 ${creating || updating || uploading ? 'bg-black text-white' : 'bg-[#001e38] text-white hover:bg-[#bd9143]'}`}
-              >
-                {creating || updating ? <RefreshCw className="animate-spin" size={14} /> : <Save size={14} />}
-                <span>{creating || updating || uploading ? 'Submitting...' : editId ? 'Update Report' : 'Save Report'}</span>
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
-      </div>
       )}
 
-      
+
       {!fetching && reports && reports.length > 0 && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -327,9 +333,9 @@ const ReportManagement = () => {
               </div>
             ))}
           </div>
-          
+
           {/* Pagination Component */}
-          <Pagination 
+          <Pagination
             currentPage={currentPage}
             totalItems={filteredReports.length}
             itemsPerPage={itemsPerPage}

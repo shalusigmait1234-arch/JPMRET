@@ -102,14 +102,14 @@ const BenefitManagement = () => {
     <div className="w-full space-y-8">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center space-x-3">
-          <div>
+          {/* <div>
             <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
               Benefit Management
             </h3>
             <p className="text-sm text-black font-medium uppercase tracking-widest">
               Manage core trust benefits and mission statements
             </p>
-          </div>
+          </div> */}
           <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
             Total: {benefits?.length || 0}
           </span>

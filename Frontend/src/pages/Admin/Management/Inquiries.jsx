@@ -52,26 +52,31 @@ const Inquiries = () => {
     <div className="space-y-8">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center space-x-3">
-          <div>
+          {/* <div>
             <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">Visitor Inquiries</h3>
             <p className="text-sm text-black font-bold uppercase tracking-widest bg-white border border-gray-100 px-2 py-1 rounded-md shadow-sm ml-2">Manage visitor messages and requests</p>
-          </div>
+          </div> */}
           <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
             Total: {inquiries?.length || 0}
           </span>
         </div>
-        <div className="relative group w-full max-w-sm">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="text-black" size={18} />
-          </div>
-          <input
-            type="text"
-            placeholder="Search by name, email or subject..."
-            value={searchQuery}
-            onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] focus:ring-1 focus:ring-[#bd9143]/20 transition-all shadow-sm"
-          />
-        </div>
+      <div className="relative group w-full max-w-sm">
+  
+  <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
+    <Search className="text-black" size={18} />
+  </div>
+
+  <input
+    type="text"
+    placeholder="Search by name, email or subject..."
+    value={searchQuery}
+    onChange={(e) => {
+      setSearchQuery(e.target.value);
+      setCurrentPage(1);
+    }}
+    className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] focus:ring-1 focus:ring-[#bd9143]/20 transition-all shadow-sm"
+  />
+</div>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
@@ -161,7 +166,7 @@ const Inquiries = () => {
             <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
               <div className="flex items-center gap-2 text-[#013b6d]">
                 <Info size={18} />
-                <h3 className="text-lg font-black uppercase tracking-widest">Inquiry Details</h3>
+                <h3 className="text-lg uppercase tracking-widest">Inquiry Details</h3>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -180,7 +185,7 @@ const Inquiries = () => {
                       <User size={18} />
                     </div>
                     <div>
-                      <p className="text-[10px] text-black font-black uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Full Name</p>
+                      <p className="text-[10px] text-black uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Full Name</p>
                       <p className="text-base font-bold text-[#001e38]">{selectedInquiry.name}</p>
                     </div>
                   </div>
@@ -190,7 +195,7 @@ const Inquiries = () => {
                       <Mail size={18} />
                     </div>
                     <div>
-                      <p className="text-[10px] text-black font-black uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Email Address</p>
+                      <p className="text-[10px] text-black uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Email Address</p>
                       <p className="text-base font-bold text-[#001e38] truncate">{selectedInquiry.email}</p>
                     </div>
                   </div>
@@ -202,7 +207,7 @@ const Inquiries = () => {
                       <Phone size={18} />
                     </div>
                     <div>
-                      <p className="text-[10px] text-black font-black uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Phone Number</p>
+                      <p className="text-[10px] text-black  uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Phone Number</p>
                       <p className="text-base font-bold text-[#001e38]">{selectedInquiry.phone || 'N/A'}</p>
                     </div>
                   </div>
@@ -212,7 +217,7 @@ const Inquiries = () => {
                       <Calendar size={18} />
                     </div>
                     <div>
-                      <p className="text-[10px] text-black font-black uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Received On</p>
+                      <p className="text-[10px] text-black uppercase tracking-[0.1em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md">Received On</p>
                       <p className="text-base font-bold text-[#001e38]">
                         {new Date(selectedInquiry.createdAt).toLocaleDateString()} at {new Date(selectedInquiry.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>
@@ -225,7 +230,7 @@ const Inquiries = () => {
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                 <div className="flex items-center gap-2 mb-4">
                   <MessageSquare size={16} className="text-[#bd9143]" />
-                  <p className="text-[10px] text-black font-black uppercase tracking-[0.2em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md mb-2 inline-block">Message Content</p>
+                  <p className="text-[10px] text-black  uppercase tracking-[0.2em] shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md mb-2 inline-block">Message Content</p>
                 </div>
                 <div className="space-y-4">
                   <div className="pb-3 border-b border-gray-200">

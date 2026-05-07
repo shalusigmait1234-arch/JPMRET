@@ -201,7 +201,7 @@ const HeroManagement = () => {
       <div className="flex justify-between items-center mb-6">
 
         <div className="flex items-center space-x-3">
-
+{/* 
           <div>
             <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
               Hero Management
@@ -210,7 +210,7 @@ const HeroManagement = () => {
             <p className="text-sm text-black font-medium uppercase tracking-widest">
               Manage website banner slides and headlines
             </p>
-          </div>
+          </div> */}
 
           <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
             Total: {heroes?.length || 0}

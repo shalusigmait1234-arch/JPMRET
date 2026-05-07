@@ -157,7 +157,7 @@ const TestimonialManagement = () => {
   const saving = creating || updating || uploading;
 
   // Filter based on search
-  const filteredTestimonials = testimonials?.filter(item => 
+  const filteredTestimonials = testimonials?.filter(item =>
     (item.author || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (item.designation || '').toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
@@ -171,14 +171,14 @@ const TestimonialManagement = () => {
     <div className="w-full space-y-8 animate-in fade-in duration-500">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-3">
-          <div>
+          {/* <div>
             <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
               Testimonial Management
             </h3>
             <p className="text-sm text-black font-medium uppercase tracking-widest">
               Manage student and partner feedback
             </p>
-          </div>
+          </div> */}
           <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
             Total: {testimonials?.length || 0}
           </span>
@@ -186,16 +186,22 @@ const TestimonialManagement = () => {
         {!isModalOpen && (
           <div className="flex items-center space-x-4 flex-nowrap">
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
                 <Search className="text-black" size={16} />
               </div>
+
               <input
                 type="text"
                 placeholder="Search testimonials..."
                 value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
               />
+
             </div>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
@@ -349,7 +355,7 @@ const TestimonialManagement = () => {
                     <Eye size={14} className="text-[#bd9143]" />
                     <label className="text-xs font-bold text-gray-900 uppercase tracking-widest">Live Preview</label>
                   </div>
-                  
+
                   <div className="bg-[#f8f9fa] p-8 rounded-2xl flex items-center justify-center min-h-[400px] border border-gray-100">
                     <div className="bg-white p-10 rounded-2xl shadow-xl border border-gray-100 w-full max-w-sm text-center transform transition-transform hover:scale-[1.02] duration-300">
                       <div className="w-24 h-24 mx-auto mb-8 rounded-full overflow-hidden border-4 border-[#bd9143]/20 shadow-inner">
@@ -361,11 +367,11 @@ const TestimonialManagement = () => {
                           </div>
                         )}
                       </div>
-                      
+
                       <p className="text-black italic text-base leading-relaxed mb-8 min-h-[100px] font-medium">
                         "{formData.text || 'Testimonial text will appear here...'}"
                       </p>
-                      
+
                       <div className="space-y-1">
                         <h4 className="text-xl font-bold text-[#001e38] font-['DM_Serif_Display',serif]">
                           {formData.name || 'Name'}
@@ -454,10 +460,10 @@ const TestimonialManagement = () => {
             </tbody>
           </table>
         </div>
-        
+
         {/* Pagination Component */}
         <div className="p-4 border-t border-gray-50 bg-gray-50/30">
-          <Pagination 
+          <Pagination
             currentPage={currentPage}
             totalItems={filteredTestimonials.length}
             itemsPerPage={itemsPerPage}

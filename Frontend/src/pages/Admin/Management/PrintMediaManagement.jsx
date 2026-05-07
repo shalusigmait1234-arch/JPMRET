@@ -119,7 +119,7 @@ const PrintMediaManagement = () => {
   };
 
   // Filter based on search
-  const filteredMedia = mediaList?.filter(item => 
+  const filteredMedia = mediaList?.filter(item =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
@@ -132,14 +132,14 @@ const PrintMediaManagement = () => {
     <div className="w-full space-y-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-3">
-          <div>
+          {/* <div>
             <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
               Print Media Management
             </h3>
             <p className="text-sm text-black transition-colors font-black uppercase tracking-widest bg-white border border-gray-100 px-2 py-1 rounded-md shadow-sm ml-2 inline-block">
               Manage your publications and PDF resources
             </p>
-          </div>
+          </div> */}
           <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
             Total: {mediaList?.length || 0}
           </span>
@@ -147,16 +147,22 @@ const PrintMediaManagement = () => {
         {!isFormOpen && (
           <div className="flex items-center space-x-4">
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
                 <Search className="text-black" size={16} />
               </div>
+
               <input
                 type="text"
                 placeholder="Search publications..."
                 value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
               />
+
             </div>
             <button
               onClick={() => setIsFormOpen(true)}
