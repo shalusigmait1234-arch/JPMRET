@@ -100,7 +100,20 @@ const BenefitManagement = () => {
 
   return (
     <div className="w-full space-y-8">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center space-x-3">
+          <div>
+            <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+              Benefit Management
+            </h3>
+            <p className="text-sm text-black font-medium uppercase tracking-widest">
+              Manage core trust benefits and mission statements
+            </p>
+          </div>
+          <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+            Total: {benefits?.length || 0}
+          </span>
+        </div>
         <button
           onClick={() => { resetForm(); setIsModalOpen(true); }}
           className="flex items-center space-x-2 px-4 py-2.5 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md active:scale-95"
@@ -119,7 +132,7 @@ const BenefitManagement = () => {
               </h3>
               <button 
                 onClick={() => { resetForm(); setIsModalOpen(false); }} 
-                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm"
+                className="text-black hover:text-red-600 transition-colors bg-white rounded-full p-2 shadow-sm"
               >
                 <X size={20} />
               </button>
@@ -154,7 +167,7 @@ const BenefitManagement = () => {
                   placeholder="e.g. fa fa-leaf"
                   required
                 />
-                <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-widest">FontAwesome class name</p>
+                <p className="text-[10px] text-black mt-1 uppercase tracking-widest">FontAwesome class name</p>
               </div>
             </div>
 
@@ -205,16 +218,16 @@ const BenefitManagement = () => {
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-50">
-            <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Existing Benefits</h4>
+            <h4 className="text-xs font-black text-black uppercase tracking-[0.2em]">Existing Benefits</h4>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-gray-50">
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest">Icon</th>
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest">Content</th>
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest">Order</th>
-                  <th className="py-4 px-6 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                  <th className="py-4 px-6 text-xs font-black text-black uppercase tracking-widest">Icon</th>
+                  <th className="py-4 px-6 text-xs font-black text-black uppercase tracking-widest">Content</th>
+                  <th className="py-4 px-6 text-xs font-black text-black uppercase tracking-widest">Order</th>
+                  <th className="py-4 px-6 text-xs font-black text-black uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -229,10 +242,10 @@ const BenefitManagement = () => {
                         </td>
                         <td className="py-4 px-6 min-w-[200px]">
                           <h5 className="text-base  text-[#001e38]">{benefit.title}</h5>
-                          <p className="text-[13px] text-gray-500 line-clamp-1 mt-1">{benefit.description}</p>
+                          <p className="text-[13px] text-black line-clamp-1 mt-1 font-medium">{benefit.description}</p>
                         </td>
                         <td className="py-4 px-6">
-                          <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">{benefit.order}</span>
+                          <span className="text-xs text-black bg-white border border-gray-200 px-2 py-1 rounded font-bold">{benefit.order}</span>
                         </td>
                         <td className="py-4 px-6 text-right">
                           <div className="flex justify-end space-x-2">

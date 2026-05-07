@@ -20,7 +20,7 @@ const Overview = () => {
         ].map((stat, i) => (
           <div key={i} className={`${stat.card} text-slate-900 p-6 rounded-xl shadow-sm border flex items-center justify-between gap-4 hover:shadow-md transition-all duration-300`}>
             <div>
-              <h4 className="text-sm text-slate-600 mb-2">{stat.label}</h4>
+              <h4 className="text-sm text-black mb-2">{stat.label}</h4>
               <p className="text-2xl font-semibold text-slate-900">{stat.value}</p>
             </div>
             <div className={`${stat.iconBox} h-10 w-10 flex items-center justify-center rounded-md`}>
@@ -34,16 +34,16 @@ const Overview = () => {
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <h3 className="text-base font-semibold text-slate-900">Recent Inquiries</h3>
-          <button className="text-sm text-slate-600 hover:text-slate-900 transition">View All</button>
+          <button className="text-black hover:text-[#013b6d] transition font-bold">View All</button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50">
-                <th className="px-6 py-3 text-sm font-semibold text-slate-500">Sender</th>
-                <th className="px-6 py-3 text-sm font-semibold text-slate-500">Subject</th>
-                <th className="px-6 py-3 text-sm font-semibold text-slate-500">Date</th>
-                <th className="px-6 py-3 text-sm font-semibold text-slate-500">Status</th>
+                <th className="px-6 py-3 text-sm font-black text-[#013b6d] uppercase tracking-wider">Sender</th>
+                <th className="px-6 py-3 text-sm font-black text-[#013b6d] uppercase tracking-wider">Subject</th>
+                <th className="px-6 py-3 text-sm font-black text-[#013b6d] uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-sm font-black text-[#013b6d] uppercase tracking-wider">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -52,11 +52,11 @@ const Overview = () => {
                   <td className="px-6 py-4">
                     <div className="flex flex-col">
                       <span className="text-sm font-medium text-slate-900">{row.name}</span>
-                      <span className="text-sm text-slate-500">{row.email}</span>
+                      <span className="text-sm text-black font-medium">{row.email}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-600">{row.subject}</td>
-                  <td className="px-6 py-4 text-sm text-slate-500">{new Date(row.createdAt).toLocaleDateString()}</td>
+                  <td className="px-6 py-4 text-sm text-black font-medium">{row.subject}</td>
+                  <td className="px-6 py-4 text-sm text-black font-medium">{new Date(row.createdAt).toLocaleDateString()}</td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-semibold ${row.status === 'New' ? 'bg-blue-100 text-blue-700' : row.status === 'Read' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'}`}>
                       {row.status}

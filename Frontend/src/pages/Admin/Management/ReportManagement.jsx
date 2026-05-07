@@ -133,24 +133,31 @@ const ReportManagement = () => {
   return (
     <div className="w-full space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
-            Report Management
-          </h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-            Upload and manage Annual Progress Reports
-          </p>
+        <div className="flex items-center space-x-3">
+          <div>
+            <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+              Report Management
+            </h3>
+            <p className="text-sm text-black transition-colors font-black uppercase tracking-widest bg-white border border-gray-100 px-2 py-1 rounded-md shadow-sm ml-2 inline-block">
+              Upload and manage Annual Progress Reports
+            </p>
+          </div>
+          <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+            Total: {reports?.length || 0}
+          </span>
         </div>
         {!isFormOpen && (
           <div className="flex items-center space-x-4 flex-nowrap">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="text-black" size={16} />
+              </div>
               <input
                 type="text"
                 placeholder="Search reports..."
                 value={searchQuery}
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+                className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
               />
             </div>
             <button
@@ -178,7 +185,7 @@ const ReportManagement = () => {
               <h4 className="text-xs font-black text-[#013b6d] uppercase tracking-[0.2em] flex items-center gap-2">
                 <FileText size={14} /> {editId ? 'Edit Report' : 'Add New Report'}
               </h4>
-              <button onClick={resetForm} className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm">
+              <button onClick={resetForm} className="text-black hover:text-red-600 transition-colors bg-white rounded-full p-2 shadow-sm">
                 <X size={20} />
               </button>
             </div>
@@ -305,7 +312,7 @@ const ReportManagement = () => {
                   </div>
 
                   <h5 className="text-lg font-bold text-[#013b6d] mb-1">{report.year}</h5>
-                  <p className="text-sm text-gray-500 mb-6 line-clamp-2">{report.label}</p>
+                  <p className="text-sm text-black mb-6 line-clamp-2 font-medium">{report.label}</p>
 
                   <a
                     href={getFullUrl(report.url)}

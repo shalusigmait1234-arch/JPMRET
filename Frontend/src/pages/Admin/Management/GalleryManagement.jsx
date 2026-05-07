@@ -165,24 +165,31 @@ const GalleryManagement = () => {
   return (
     <div className="w-full space-y-8">
       <div className="flex justify-between items-center mb-6">
-        <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
-            Gallery Management
-          </h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-            Manage your photo archives and event highlights
-          </p>
+        <div className="flex items-center space-x-3">
+          <div>
+            <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+              Gallery Management
+            </h3>
+            <p className="text-sm text-black font-medium uppercase tracking-widest">
+              Manage your photo archives and event highlights
+            </p>
+          </div>
+          <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+            Total: {galleryItems?.length || 0}
+          </span>
         </div>
         {!isModalOpen && (
           <div className="flex items-center space-x-4 flex-nowrap">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="text-black" size={16} />
+              </div>
               <input
                 type="text"
                 placeholder="Search gallery..."
                 value={searchQuery}
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+                className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
               />
             </div>
             <button
@@ -205,7 +212,7 @@ const GalleryManagement = () => {
               </h3>
               <button 
                 onClick={() => { resetForm(); setIsModalOpen(false); }} 
-                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm"
+                className="text-black hover:text-red-600 transition-colors bg-white rounded-full p-2 shadow-sm"
               >
                 <X size={20} />
               </button>
@@ -241,10 +248,10 @@ const GalleryManagement = () => {
                       ) : (
                         <Upload className="h-8 w-8 text-gray-400 mb-3 group-hover:text-[#bd9143] transition-colors" />
                       )}
-                      <span className="text-sm font-bold text-gray-600">
+                      <span className="text-sm font-bold text-black">
                         {uploading ? 'Uploading...' : 'Click to Upload Image'}
                       </span>
-                      <span className="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</span>
+                      <span className="text-xs text-black mt-1 font-bold">PNG, JPG up to 5MB</span>
                       <input
                         type="file"
                         ref={fileInputRef}
@@ -311,7 +318,7 @@ const GalleryManagement = () => {
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-full">
             <div className="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
               <h4 className="text-xs font-black text-[#013b6d] uppercase tracking-[0.2em]">Image Grid</h4>
-              <span className="text-xs font-bold bg-gray-100 text-gray-500 px-3 py-1 rounded-full">
+              <span className="text-xs font-bold bg-white border border-gray-200 text-black px-3 py-1 rounded-full shadow-sm">
                 {galleryItems?.length || 0} Images
               </span>
             </div>
@@ -337,7 +344,7 @@ const GalleryManagement = () => {
                         )}
                       </div>
                       <div className="p-3 bg-white border-t border-gray-100 flex justify-between items-center">
-                        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest bg-gray-100 px-2 py-1 rounded truncate max-w-[80px]">
+                        <span className="text-[10px] font-bold text-black uppercase tracking-widest bg-white border border-gray-100 px-2 py-1 rounded truncate max-w-[80px] shadow-sm">
                           {item.category}
                         </span>
                         <div className="flex space-x-2">

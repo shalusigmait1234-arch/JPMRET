@@ -129,15 +129,30 @@ const ServiceManagement = () => {
   return (
     <div className="w-full space-y-8">
       <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center space-x-3">
+          <div>
+            <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+              Service Management
+            </h3>
+            <p className="text-xs text-black font-black uppercase tracking-widest shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md inline-block font-bold">
+              Manage your core trust services and programs
+            </p>
+          </div>
+          <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+            Total: {services?.length || 0}
+          </span>
+        </div>
         <div className="flex items-center space-x-4">
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="text-black" size={16} />
+            </div>
             <input
               type="text"
               placeholder="Search services..."
               value={searchQuery}
               onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-              className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+              className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
             />
           </div>
           <button
@@ -159,7 +174,7 @@ const ServiceManagement = () => {
               </h3>
               <button 
                 onClick={() => { resetForm(); setIsModalOpen(false); }} 
-                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm"
+                className="text-black hover:text-red-600 transition-colors bg-white rounded-full p-2 shadow-sm"
               >
                 <X size={20} />
               </button>
@@ -237,7 +252,7 @@ const ServiceManagement = () => {
                     />
                     <label
                       htmlFor="image-upload"
-                      className="cursor-pointer flex items-center justify-center space-x-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all text-xs font-bold uppercase tracking-widest"
+                      className="cursor-pointer flex items-center justify-center space-x-2 px-4 py-2 bg-white border border-gray-100 text-black px-4 py-2 rounded-lg hover:bg-gray-50 transition-all text-xs font-black uppercase tracking-widest shadow-sm font-bold"
                     >
                       {uploading ? <RefreshCw className="animate-spin" size={14} /> : <Plus size={14} />}
                       <span>{formData.image ? 'Change Image' : 'Upload Image'}</span>
@@ -305,10 +320,10 @@ const ServiceManagement = () => {
                         </td>
                         <td className="py-4 px-6 min-w-[200px]">
                           <h5 className="text-base font-bold text-[#001e38]">{service.title}</h5>
-                          <p className="text-[13px] text-gray-500 line-clamp-1 mt-1">{service.description}</p>
+                          <p className="text-[13px] text-black line-clamp-1 mt-1 font-medium">{service.description}</p>
                         </td>
                         <td className="py-4 px-6">
-                          <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">{service.order}</span>
+                          <span className="text-xs font-bold text-black bg-white border border-gray-200 px-2 py-1 rounded shadow-sm">{service.order}</span>
                         </td>
                         <td className="py-4 px-6">
                           <span className="text-xs text-gray-400 font-medium">{service.createdAt ? new Date(service.createdAt).toLocaleDateString() : '—'}</span>

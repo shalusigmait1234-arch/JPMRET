@@ -90,7 +90,20 @@ const StatManagement = () => {
 
   return (
     <div className="w-full space-y-8">
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center space-x-3">
+          <div>
+            <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+              Stat Management
+            </h3>
+            <p className="text-sm text-black font-medium uppercase tracking-widest">
+              Manage website impact numbers and statistics
+            </p>
+          </div>
+          <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+            Total: {stats?.length || 0}
+          </span>
+        </div>
         <button
           onClick={() => { resetForm(); setIsModalOpen(true); }}
           className="flex items-center space-x-2 px-4 py-2 bg-[#001e38] text-white rounded-lg hover:bg-[#bd9143] transition-all text-xs font-bold uppercase tracking-widest shadow-md"
@@ -109,7 +122,7 @@ const StatManagement = () => {
               </h3>
               <button 
                 onClick={() => { resetForm(); setIsModalOpen(false); }} 
-                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-1 shadow-sm"
+                className="text-black hover:text-red-600 transition-colors bg-white rounded-full p-1 shadow-sm"
               >
                 <X size={20} />
               </button>
@@ -247,7 +260,7 @@ const StatManagement = () => {
                 </>
               ) : (
                 <tr>
-                  <td colSpan="5" className="py-20 text-center text-xs font-bold text-gray-400 uppercase tracking-widest">
+                  <td colSpan="5" className="py-20 text-center text-xs font-black text-black uppercase tracking-widest">
                     No stats found. Add one above.
                   </td>
                 </tr>

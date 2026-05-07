@@ -170,24 +170,31 @@ const TestimonialManagement = () => {
   return (
     <div className="w-full space-y-8 animate-in fade-in duration-500">
       <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
-            Testimonial Management
-          </h3>
-          <p className="text-sm text-gray-500 font-medium uppercase tracking-widest">
-            Manage student and partner feedback
-          </p>
+        <div className="flex items-center space-x-3">
+          <div>
+            <h3 className="text-2xl font-normal text-[#013b6d] font-['DM_Serif_Display',serif] mb-1">
+              Testimonial Management
+            </h3>
+            <p className="text-sm text-black font-medium uppercase tracking-widest">
+              Manage student and partner feedback
+            </p>
+          </div>
+          <span className="bg-[#001e38] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm">
+            Total: {testimonials?.length || 0}
+          </span>
         </div>
         {!isModalOpen && (
           <div className="flex items-center space-x-4 flex-nowrap">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bd9143] transition-colors" size={16} />
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="text-black" size={16} />
+              </div>
               <input
                 type="text"
                 placeholder="Search testimonials..."
                 value={searchQuery}
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                className="pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-lg text-xs font-bold uppercase tracking-widest focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
+                className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest placeholder:text-black/40 focus:outline-none focus:border-[#bd9143] transition-all min-w-[250px] shadow-sm"
               />
             </div>
             <button
@@ -210,7 +217,7 @@ const TestimonialManagement = () => {
               </h3>
               <button
                 onClick={() => { resetForm(); setIsModalOpen(false); }}
-                className="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm"
+                className="text-black hover:text-red-600 transition-colors bg-white rounded-full p-2 shadow-sm"
               >
                 <X size={20} />
               </button>
@@ -355,7 +362,7 @@ const TestimonialManagement = () => {
                         )}
                       </div>
                       
-                      <p className="text-gray-600 italic text-base leading-relaxed mb-8 min-h-[100px]">
+                      <p className="text-black italic text-base leading-relaxed mb-8 min-h-[100px] font-medium">
                         "{formData.text || 'Testimonial text will appear here...'}"
                       </p>
                       
@@ -363,7 +370,7 @@ const TestimonialManagement = () => {
                         <h4 className="text-xl font-bold text-[#001e38] font-['DM_Serif_Display',serif]">
                           {formData.name || 'Name'}
                         </h4>
-                        <p className="text-sm font-medium text-gray-400 uppercase tracking-widest">
+                        <p className="text-sm font-bold text-black uppercase tracking-widest shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md inline-block">
                           {formData.role || 'Role'}
                         </p>
                       </div>
@@ -379,16 +386,16 @@ const TestimonialManagement = () => {
       {/* List Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/50">
-          <h4 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Existing Testimonials</h4>
+          <h4 className="text-xs font-black text-black uppercase tracking-widest shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md inline-block font-bold mb-4">Existing Testimonials</h4>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-50">
-                <th className="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Person</th>
-                <th className="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Message</th>
-                <th className="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Order</th>
-                <th className="py-4 px-6 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                <th className="py-4 px-6 text-[10px] font-black text-black uppercase tracking-widest shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md font-bold">Person</th>
+                <th className="py-4 px-6 text-[10px] font-black text-black uppercase tracking-widest shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md font-bold">Message</th>
+                <th className="py-4 px-6 text-[10px] font-black text-black uppercase tracking-widest shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md font-bold">Order</th>
+                <th className="py-4 px-6 text-[10px] font-black text-black uppercase tracking-widest shadow-sm bg-white border border-gray-100 px-2 py-1 rounded-md font-bold text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -408,10 +415,10 @@ const TestimonialManagement = () => {
                         </div>
                       </td>
                       <td className="py-4 px-6 max-w-xs">
-                        <p className="text-xs text-gray-500 line-clamp-2 italic">"{item.text}"</p>
+                        <p className="text-xs text-black line-clamp-2 italic font-medium">"{item.text}"</p>
                       </td>
                       <td className="py-4 px-6">
-                        <span className="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-md">{item.order}</span>
+                        <span className="text-[10px] font-bold text-black bg-white border border-gray-200 px-2 py-1 rounded-md shadow-sm">{item.order}</span>
                       </td>
                       <td className="py-4 px-6 text-right">
                         <div className="flex justify-end space-x-2">
